@@ -7,10 +7,6 @@ package Formas;
 import java.awt.Color;
 import java.awt.Graphics;
 
-/**
- *
- * @author leo_f
- */
 public class Formas_Dibujo extends javax.swing.JFrame {
 
     /**
