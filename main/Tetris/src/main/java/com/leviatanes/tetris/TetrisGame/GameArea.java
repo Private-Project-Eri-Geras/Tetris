@@ -92,7 +92,6 @@ public class GameArea extends JPanel {
      * bloque nuevo
      * 
      * @return boolean true si el juego termino
-     * @return boolean false si el juego no termino
      */
     public boolean isGameOver() {
         if (this.block == null)
@@ -117,14 +116,124 @@ public class GameArea extends JPanel {
      * Mueve el bloque para abajo
      * 
      * @return boolean true si se pudo mover
-     * @return boolean false si no se pudo mover
      */
     public boolean moveDown() {
-        if (this.block == null)
+        if (this.block == null | this.checkBottom()) {
             return false;
+        }
         this.block.moveDown();
         repaint();
         return true;
+    }
+
+    /**
+     * Verifica el borde inferior del bloque en 2 condiciones
+     * toco el borde del tablero o a otro bloque
+     * 
+     * @return boolean true si el bloque llego al fondo o toco otro bloque
+     */
+    public boolean checkBottom() {
+        if (this.block == null)
+            return true;
+        int shape[][] = this.block.getBlock();
+        int w = this.block.getWidth();
+        int h = this.block.getHeight();
+        int x, y;// se utilizaran para sacar el offsetverdadero y comparar correctamente
+        for (int row = 0; row < h; row++) {
+            for (int col = 0; col < w; col++) {
+                x = row + block.getX();
+                y = col + block.getY();
+                if (shape[col][row] == 1) {
+                    if (y + 1 >= this.rows | background[0][y + 1][x] != darkColor) {
+                        this.block = null;
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Mueve el bloque para la izquierda
+     * 
+     * @return boolean true si se pudo mover
+     */
+    public boolean moveLeft() {
+        if (this.block == null | this.checkLeft()) {
+            return false;
+        }
+        this.block.moveLeft();
+        repaint();
+        return true;
+    }
+
+    /**
+     * Verifica el borde izquierdo del bloque en 2 condiciones
+     * toco el borde del tablero o a otro bloque
+     * 
+     * @return boolean true si el bloque llego al borde o toco otro bloque
+     */
+    public boolean checkLeft() {
+        if (this.block == null)
+            return true;
+        int shape[][] = this.block.getBlock();
+        int w = this.block.getWidth();
+        int h = this.block.getHeight();
+        int x, y;// se utilizaran para sacar el offsetverdadero y comparar correctamente
+        for (int row = 0; row < h; row++) {
+            for (int col = 0; col < w; col++) {
+                x = row + block.getX();
+                y = col + block.getY();
+                if (shape[col][row] == 1) {
+                    if (x - 1 < 0 | background[0][y][x - 1] != darkColor) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Mueve el bloque para la derecha
+     * 
+     * @return boolean true si se pudo mover
+     */
+    public boolean moveRight() {
+        if (this.block == null | this.checkRight()) {
+            return false;
+        }
+        this.block.moveRight();
+        repaint();
+        return true;
+    }
+
+    /**
+     * Verifica el borde derecho del bloque en 2 condiciones
+     * toco el borde del tablero o a otro bloque
+     * 
+     * @return boolean true si el bloque llego al borde o toco otro bloque
+     */
+    public boolean checkRight() {
+        if (this.block == null)
+            return true;
+        int shape[][] = this.block.getBlock();
+        int w = this.block.getWidth();
+        int h = this.block.getHeight();
+        int x, y;// se utilizaran para sacar el offsetverdadero y comparar correctamente
+        for (int row = 0; row < h; row++) {
+            for (int col = 0; col < w; col++) {
+                x = row + block.getWidth();
+                y = col + block.getY();
+                if (shape[col][row] == 1) {
+                    if (x + 1 >= this.colums | background[0][y][x + 1] != darkColor) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -132,7 +241,6 @@ public class GameArea extends JPanel {
      * al fondo del tablero
      * 
      * @return boolean true si se pudo mover
-     * @return boolean false si no se pudo mover
      */
     public void moveBlockToBackGround() {
         if (block == null)
