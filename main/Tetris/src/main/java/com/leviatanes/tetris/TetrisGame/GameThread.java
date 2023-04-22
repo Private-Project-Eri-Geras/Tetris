@@ -32,7 +32,11 @@ public class GameThread {
                 Thread.sleep(waitingTime);
                 gameArea.moveDown();
                 Thread.sleep(waitingTime);
+                while (gameArea.moveDown()) {
+                    Thread.sleep(waitingTime);
+                }
             }
+
         } catch (InterruptedException ex) {
             Logger.getLogger(GameThread.class.getName()).log(Level.SEVERE, null, ex);
         }
