@@ -19,15 +19,17 @@ public class MainScreen extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        placeHolder.setBackground(new java.awt.Color(153, 153, 153));
+
         javax.swing.GroupLayout placeHolderLayout = new javax.swing.GroupLayout(placeHolder);
         placeHolder.setLayout(placeHolderLayout);
         placeHolderLayout.setHorizontalGroup(
             placeHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1080, Short.MAX_VALUE)
+            .addGap(0, 720, Short.MAX_VALUE)
         );
         placeHolderLayout.setVerticalGroup(
             placeHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 719, Short.MAX_VALUE)
+            .addGap(0, 600, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
