@@ -237,6 +237,47 @@ public class GameArea extends JPanel {
     }
 
     /**
+     * Gira el bloque
+     * 
+     * @return
+     */
+    public void rotate() {
+        if (this.block == null)
+            return;
+        this.block.rotate();
+        this.checkRotate();
+        repaint();
+    }
+
+    /**
+     * Verifica si la rotacion del bloque es valida
+     * no es valida si se solapa a otro bloque ya existente
+     * o si se sale de los limites del tablero
+     * si es valida se deja la rotacion
+     * si no es valida se regresa la rotacion anterior
+     * 
+     * @return true si la rotacion es invalida
+     */
+    private boolean checkRotate() {
+        int w = block.getWidth();
+        int h = block.getHeight();
+        int xi, yi;
+        for (int row = 0; row < h; row++) {
+            for (int col = 0; col < w; col++) {
+                if (block.getBlock()[row][col] == 1) {
+                    yi = row + block.getY();
+                    xi = col + block.getX();
+                    if (background[0][yi][xi] != darkColor) {
+                        return true;
+                    }
+                }
+
+            }
+        }
+        return false;
+    }
+
+    /**
      * Mueve el bloque activo
      * al fondo del tablero
      * 
