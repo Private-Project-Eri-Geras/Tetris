@@ -56,11 +56,15 @@ public class GameArea extends JPanel {
     public GameArea(JPanel placeHolder, int colums) {
         this.placeHolder = placeHolder;
         this.placeHolder.setVisible(false);
-        this.setBounds(placeHolder.getBounds(getBounds()));
+        this.setBounds(placeHolder.getBounds());
         this.setBorder(this.placeHolder.getBorder());
         this.colums = colums;
-        this.tileSize = this.getBounds().width / colums;
-        this.rows = this.getBounds().height / tileSize;
+        System.out.println("colums: " + this.colums);
+        System.out.println("PlaceHolderBounds: " + placeHolder.getBounds());
+        System.out.println("PlaceHolderBounds.width: " + placeHolder.getBounds().width);
+        System.out.println("PlaceHolderBounds.height: " + placeHolder.getBounds().height);
+        this.tileSize = placeHolder.getBounds().width / this.colums;
+        this.rows = placeHolder.getBounds().height / tileSize;
 
         this.drawOffset = (int) (tileSize * 0.15);
 
@@ -124,6 +128,17 @@ public class GameArea extends JPanel {
         this.block.moveDown();
         repaint();
         return true;
+    }
+
+    /**
+     * Suelta el bloque en la posicion mas baja posible
+     */
+    public void drop() {
+        if (this.block == null)
+            return;
+        while (!this.checkBottom()) {
+            this.block.moveDown();
+        }
     }
 
     /**
@@ -300,8 +315,6 @@ public class GameArea extends JPanel {
     /**
      * Mueve el bloque activo
      * al fondo del tablero
-     * 
-     * @return boolean true si se pudo mover
      */
     public void moveBlockToBackGround() {
         if (block == null)

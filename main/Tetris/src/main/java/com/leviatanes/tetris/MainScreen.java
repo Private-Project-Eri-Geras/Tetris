@@ -5,7 +5,8 @@ public class MainScreen extends javax.swing.JFrame {
 
     public MainScreen() {
         initComponents();
-        this.tetrisPanel = new TetrisPanel(this.placeHolder);
+        this.tetrisPanel = new TetrisPanel();
+        this.tetrisPanel.setSize(720,600);
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated
