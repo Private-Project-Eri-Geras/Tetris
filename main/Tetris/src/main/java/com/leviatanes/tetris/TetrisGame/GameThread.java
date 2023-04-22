@@ -31,18 +31,20 @@ public class GameThread extends Thread {
         try {
             while (true) {
                 gameArea.spawnBlock();
-                Thread.sleep(waitingTime);
-                gameArea.moveDown();
-                Thread.sleep(waitingTime);
+                if (gameArea.isGameOver())
+                    break;
+                gameArea.repaint();
+                waiting();
                 // si se pulsa la tecla pausa se pausa el juego
                 if (this.paused)
                     pause();
-
-                while (gameArea.moveDown()) {
-                    Thread.sleep(waitingTime);
-                    if (this.paused)
-                        pause();
-                }
+                if (gameArea.getBlock() != null)
+                    while (gameArea.moveDown()) {
+                        if (waiting() == true)
+                            break;
+                        if (this.paused)
+                            pause();
+                    }
 
                 if (gameArea.isGameOver()) {
                     break;
@@ -53,6 +55,23 @@ public class GameThread extends Thread {
         } catch (InterruptedException ex) {
             Logger.getLogger(GameThread.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    /**
+     * Funcion que hace esperar al hilo de ejecucion
+     * si el bloque dejo de moverse es necesario spawnear uno de inmediato
+     * 
+     * @throws InterruptedException
+     */
+    public boolean waiting() throws InterruptedException {
+        for (int i = 0; i < 100; i++) {
+            Thread.sleep(waitingTime / 100);
+            if (gameArea.getBlock() == null) {
+                Thread.sleep(100);
+                return true;
+            }
+        }
+        return false;
     }
 
     public void togglePause() {

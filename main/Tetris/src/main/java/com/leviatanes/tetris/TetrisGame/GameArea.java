@@ -10,9 +10,9 @@ import com.leviatanes.tetris.TetrisGame.Tetrinominos.*;
 
 public class GameArea extends JPanel {
     /** Columnas del tablero del juego */
-    private int colums;
+    private int colums;// se usa para x
     /** Filas del tablero del juego */
-    private int rows;
+    private int rows;// se usa para y
     /** Tamaño de la baldoza */
     private int tileSize;
     /** El place holder */
@@ -31,6 +31,7 @@ public class GameArea extends JPanel {
      * Offset del cuadrado interior a dibujar es un 15% del tamaño de balsoza
      */
     private int drawOffset;
+    private int drawOffset2;
 
     /** color oscuro @apiNote rgb = (20,20,20) */
     private static final Color darkColor = new Color(20, 20, 20);
@@ -66,7 +67,8 @@ public class GameArea extends JPanel {
         this.tileSize = placeHolder.getBounds().width / this.colums;
         this.rows = placeHolder.getBounds().height / tileSize;
 
-        this.drawOffset = (int) (tileSize * 0.15);
+        this.drawOffset = (int) (tileSize * 0.20);
+        this.drawOffset2 = -(2 * drawOffset) + 1;
 
         this.background = new Color[3][this.rows][this.colums];
         for (int i = 0; i < this.rows; i++) { // llenamos el fondo con los colores delimitados
@@ -100,16 +102,19 @@ public class GameArea extends JPanel {
     public boolean isGameOver() {
         if (this.block == null)
             return false;
+        int[][] shape = this.block.getBlock();
         int w = this.block.getWidth();
         int h = this.block.getHeight();
         int x, y;// se utilizaran para sacar el offsetverdadero y comparar correctamente
         for (int row = 0; row < h; row++) {
             for (int col = 0; col < w; col++) {
-                x = row + block.getX();
-                y = col + block.getY();
-                if (background[0][y][x] != darkColor) {
-                    this.block = null;
-                    return true;
+                if (shape[row][col] == 1) {
+                    x = col + block.getX();
+                    y = row + block.getY();
+                    if (background[0][y][x] != darkColor) {
+                        this.block = null;
+                        return true;
+                    }
                 }
             }
         }
@@ -139,6 +144,7 @@ public class GameArea extends JPanel {
         while (!this.checkBottom()) {
             this.block.moveDown();
         }
+        repaint();
     }
 
     /**
@@ -150,19 +156,42 @@ public class GameArea extends JPanel {
     public boolean checkBottom() {
         if (this.block == null)
             return true;
+        if (this.block.getBottomEdge() == this.rows) {
+            this.moveBlockToBackGround();
+            this.block = null;
+            return true;
+        }
         int shape[][] = this.block.getBlock();
         int w = this.block.getWidth();
         int h = this.block.getHeight();
         int x, y;// se utilizaran para sacar el offsetverdadero y comparar correctamente
-        for (int row = 0; row < h; row++) {
+        if (h != 1) {
             for (int col = 0; col < w; col++) {
-                x = row + block.getX();
-                y = col + block.getY();
-                if (shape[col][row] == 1) {
-                    if (y + 1 >= this.rows | background[0][y + 1][x] != darkColor) {
-                        this.block = null;
-                        return true;
+                for (int row = h - 1; row > 0; row--) {
+                    if (shape[row][col] == 1) {
+                        x = col + block.getX();
+                        y = row + block.getY() + 1;
+                        if (y < 0)
+                            break;
+                        if (background[0][y][x] != darkColor) {
+                            this.moveBlockToBackGround();
+                            this.block = null;
+                            return true;
+                        }
+                        break;
                     }
+                }
+            }
+        } else {
+            for (int col = 0; col < w; col++) {
+                x = col + block.getX();
+                y = block.getY() + 1;
+                if (y < 0)
+                    break;
+                if (background[0][y][x] != darkColor) {
+                    this.moveBlockToBackGround();
+                    this.block = null;
+                    return true;
                 }
             }
         }
@@ -192,18 +221,31 @@ public class GameArea extends JPanel {
     public boolean checkLeft() {
         if (this.block == null)
             return true;
+        if (this.block.getLeftEdge() == 0)
+            return true;
         int shape[][] = this.block.getBlock();
         int w = this.block.getWidth();
         int h = this.block.getHeight();
         int x, y;// se utilizaran para sacar el offsetverdadero y comparar correctamente
-        for (int row = 0; row < h; row++) {
-            for (int col = 0; col < w; col++) {
-                x = row + block.getX();
-                y = col + block.getY();
-                if (shape[col][row] == 1) {
-                    if (x - 1 < 0 | background[0][y][x - 1] != darkColor) {
-                        return true;
+        if (w != 1) {
+            for (int row = 0; row < h; row++) {
+                for (int col = 0; col < w; col++) {
+                    if (shape[row][col] == 1) {
+                        x = col + block.getX() - 1;
+                        y = row + block.getY();
+                        if (background[0][y][x] != darkColor) {
+                            return true;
+                        }
+                        break;
                     }
+                }
+            }
+        } else {
+            for (int row = 0; row < h; row++) {
+                x = block.getX() - 1;
+                y = row + block.getY();
+                if (background[0][y][x] != darkColor) {
+                    return true;
                 }
             }
         }
@@ -233,18 +275,35 @@ public class GameArea extends JPanel {
     public boolean checkRight() {
         if (this.block == null)
             return true;
+        if (this.block.getRightEdge() == this.colums)
+            return true;
         int shape[][] = this.block.getBlock();
         int w = this.block.getWidth();
         int h = this.block.getHeight();
         int x, y;// se utilizaran para sacar el offsetverdadero y comparar correctamente
-        for (int row = 0; row < h; row++) {
-            for (int col = 0; col < w; col++) {
-                x = row + block.getWidth();
-                y = col + block.getY();
-                if (shape[col][row] == 1) {
-                    if (x + 1 >= this.colums | background[0][y][x + 1] != darkColor) {
-                        return true;
+        if (w != 1) {
+            for (int row = 0; row < h; row++) {
+                for (int col = w - 1; col > 0; col--) {
+                    if (shape[row][col] == 1) {
+                        x = col + block.getX() + 1;
+                        y = row + block.getY();
+                        if (y < 0)
+                            break;
+                        if (background[0][y][x] != darkColor) {
+                            return true;
+                        }
+                        break;
                     }
+                }
+            }
+        } else {
+            for (int row = 0; row < h; row++) {
+                x = block.getX() + 1;
+                y = row + block.getY();
+                if (y < 0)
+                    break;
+                if (background[0][y][x] != darkColor) {
+                    return true;
                 }
             }
         }
@@ -262,9 +321,6 @@ public class GameArea extends JPanel {
         this.block.rotate();
         if (this.checkRotate())
             this.block.rotateBack();
-
-        this.offsetOutOfBounnds();
-
         repaint();
     }
 
@@ -278,12 +334,14 @@ public class GameArea extends JPanel {
      * @return true si la rotacion es invalida
      */
     private boolean checkRotate() {
+        this.offsetOutOfBounnds();
+        int[][] shape = block.getBlock();
         int w = block.getWidth();
         int h = block.getHeight();
         int xi, yi;
         for (int row = 0; row < h; row++) {
             for (int col = 0; col < w; col++) {
-                if (block.getBlock()[row][col] == 1) {
+                if (shape[row][col] == 1) {
                     yi = row + block.getY();
                     xi = col + block.getX();
                     if (background[0][yi][xi] != darkColor) {
@@ -402,7 +460,7 @@ public class GameArea extends JPanel {
         g.setColor(dColor);
         g.fillRect(Xi, Yi, tileSize, tileSize);
         g.setColor(lColor);
-        g.fillRect(Xi + drawOffset, Yi + drawOffset, tileSize - drawOffset, tileSize - drawOffset);
+        g.fillRect(Xi + drawOffset, Yi + drawOffset, tileSize + drawOffset2, tileSize + drawOffset2);
         g.setColor(bColor);
         g.drawRect(Xi, Yi, tileSize, tileSize);
     }

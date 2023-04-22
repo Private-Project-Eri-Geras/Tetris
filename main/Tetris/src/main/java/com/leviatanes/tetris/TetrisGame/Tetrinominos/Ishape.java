@@ -53,14 +53,24 @@ public class Ishape extends TetrisBlock {
         @Override
         public void rotate() {
                 super.rotate();
-                super.setX(super.getX() + 1);
-                super.setY(super.getY() - 1);
+                if (super.getCurrentRotation() == 1 || super.getCurrentRotation() == 3) {
+                        super.setX(super.getX() + 1);
+                        super.setY(super.getY() - 1);
+                } else {
+                        super.setX(super.getX() - 1);
+                        super.setY(super.getY() + 1);
+                }
         }
 
         @Override
         public void rotateBack() {
                 super.rotateBack();
-                super.setX(super.getX() - 1);
-                super.setY(super.getY() + 1);
+                if (super.getCurrentRotation() == 1 || super.getCurrentRotation() == 3) {
+                        super.setX(super.getX() + 1);
+                        super.setY(super.getY() - 1);
+                } else {
+                        super.setX(super.getX() - 1);
+                        super.setY(super.getY() + 1);
+                }
         }
 }

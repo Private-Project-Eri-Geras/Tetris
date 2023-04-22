@@ -4,12 +4,23 @@ import com.leviatanes.tetris.TetrisGame.*;
 
 public class TetrisPanel extends javax.swing.JPanel {
     private GameArea gameArea;
+    private GameControls gameControls;
+    private GameThread gameThread;
 
     public TetrisPanel() {
         initComponents();
         this.gameHolder.setBounds(240, 12, 240, 576);
         this.gameArea = new GameArea(this.gameHolder, 10);
+        this.gameThread = new GameThread(this.gameArea, this);
+        this.gameControls = new GameControls(this.gameArea, this.gameThread);
         this.add(gameArea);
+
+        this.gameThread.start();
+
+    }
+
+    public GameControls getGameControls() {
+        return this.gameControls;
     }
 
     /**
