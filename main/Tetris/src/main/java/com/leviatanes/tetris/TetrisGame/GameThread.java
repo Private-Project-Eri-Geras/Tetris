@@ -35,6 +35,11 @@ public class GameThread {
                 while (gameArea.moveDown()) {
                     Thread.sleep(waitingTime);
                 }
+
+                if (gameArea.isGameOver()) {
+                    break;
+                }
+
             }
 
         } catch (InterruptedException ex) {
