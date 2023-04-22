@@ -245,7 +245,11 @@ public class GameArea extends JPanel {
         if (this.block == null)
             return;
         this.block.rotate();
-        this.checkRotate();
+        if (this.checkRotate())
+            this.block.rotateBack();
+
+        this.offsetOutOfBounnds();
+
         repaint();
     }
 
@@ -275,6 +279,22 @@ public class GameArea extends JPanel {
             }
         }
         return false;
+    }
+
+    /**
+     * Verifica si el bloque esta fuera de los limites del tablero
+     * 
+     */
+    private void offsetOutOfBounnds() {
+        if (block.getLeftEdge() < 0) {
+            block.setX(0);
+        }
+        if (block.getRightEdge() > this.colums) {
+            block.setX(this.colums - block.getWidth());
+        }
+        if (block.getBottomEdge() > this.rows) {
+            block.setY(this.rows - block.getHeight());
+        }
     }
 
     /**
