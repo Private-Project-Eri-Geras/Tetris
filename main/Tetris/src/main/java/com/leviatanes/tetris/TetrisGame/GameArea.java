@@ -33,7 +33,6 @@ public class GameArea extends JPanel {
      */
     private int drawOffset;
     private int drawOffset2;
-
     /** color oscuro @apiNote rgb = (20,20,20) */
     private static final Color darkColor = new Color(20, 20, 20);
     /** color brillante @apiNote rgb = (30,30,30) */
@@ -86,10 +85,15 @@ public class GameArea extends JPanel {
         return this.block;
     }
 
+    private int shapeCont = 0;
+
     /** Spawnea un bloque aleatorio entre I, O, T, J, L, S, Z */
     public void spawnBlock() {
-        Random random = new Random();
-        this.block = blocks[random.nextInt(blocks.length)];
+        // Random random = new Random();
+        // this.block = blocks[random.nextInt(blocks.length)];
+        // testing figures
+        block = blocks[shapeCont];
+        shapeCont = (shapeCont + 1) % blocks.length;
         block.spawn(this.colums);
     }
 
