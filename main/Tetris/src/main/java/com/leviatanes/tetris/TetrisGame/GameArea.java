@@ -85,15 +85,10 @@ public class GameArea extends JPanel {
         return this.block;
     }
 
-    private int shapeCont = 0;
-
     /** Spawnea un bloque aleatorio entre I, O, T, J, L, S, Z */
     public void spawnBlock() {
-        // Random random = new Random();
-        // this.block = blocks[random.nextInt(blocks.length)];
-        // testing figures
-        block = blocks[shapeCont];
-        shapeCont = (shapeCont + 1) % blocks.length;
+        Random random = new Random();
+        this.block = blocks[random.nextInt(blocks.length)];
         block.spawn(this.colums);
     }
 
