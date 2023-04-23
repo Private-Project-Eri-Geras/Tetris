@@ -169,12 +169,10 @@ public class GameArea extends JPanel {
         int x, y;// se utilizaran para sacar el offsetverdadero y comparar correctamente
         if (h != 1) {
             for (int col = 0; col < w; col++) {
-                for (int row = h - 1; row > 0; row--) {
-                    if (shape[row][col] == 1) {
+                for (int row = h - 1; row >= 0; row--) {
+                    if (shape[row][col] != 0) {
                         x = col + block.getX();
                         y = row + block.getY() + 1;
-                        if (y < 0)
-                            break;
                         if (background[0][y][x] != darkColor) {
                             this.moveBlockToBackGround();
                             this.block = null;
