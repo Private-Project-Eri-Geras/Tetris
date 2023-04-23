@@ -3,6 +3,7 @@ package com.leviatanes.tetris.TetrisGame;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
+import java.util.Scanner;
 
 import javax.swing.JPanel;
 
@@ -127,9 +128,10 @@ public class GameArea extends JPanel {
      * @return boolean true si se pudo mover
      */
     public boolean moveDown() {
-        if (this.block == null | this.checkBottom()) {
+        if (this.block == null)
             return false;
-        }
+        if (this.checkBottom())
+            return false;
         this.block.moveDown();
         repaint();
         return true;
@@ -367,6 +369,67 @@ public class GameArea extends JPanel {
         }
         if (block.getBottomEdge() > this.rows) {
             block.setY(this.rows - block.getHeight());
+        }
+    }
+
+    /**
+     * Se encarba de eliminar las lineas completadas
+     * y mover las lineas superiores hacia abajo los espacios que se crearon
+     * 
+     * @return lineas completadas
+     */
+    public int clearLines() {
+        int linesCleared = 0;
+        boolean fillLine = true;
+        for (int row = this.rows - 1; row >= 0; row--) {
+            fillLine = true;
+            for (int col = 0; col < this.colums; col++) {
+                if (background[0][row][col] == darkColor) {
+                    fillLine = false;
+                    break;
+                }
+            }
+            if (fillLine == true) {
+                this.clearLine(row);
+                this.shiftDown(row);
+                row++;
+                linesCleared++;
+                repaint();
+            }
+        }
+        return linesCleared;
+    }
+
+    /**
+     * Elimina la linea indicada
+     * 
+     * @param r linea a eliminar
+     */
+    public void clearLine(int r) {
+        for (int col = 0; col < this.colums; col++) {
+            background[0][r][col] = darkColor;
+            background[1][r][col] = lightColor;
+            background[2][r][col] = borderColor;
+        }
+    }
+
+    /**
+     * Mueve las lineas superiores de la
+     * linea eliminada hacia abajo
+     * 
+     * @param r linea eliminada
+     */
+    public void shiftDown(int r) {
+        for (int row = r; row >= 0; row--) {
+            for (int col = 0; col < this.colums; col++) {
+                if (row == 0) {
+                    clearLine(0);
+                    break;
+                }
+                background[0][row][col] = background[0][row - 1][col];
+                background[1][row][col] = background[1][row - 1][col];
+                background[2][row][col] = background[2][row - 1][col];
+            }
         }
     }
 

@@ -49,7 +49,7 @@ public class GameThread extends Thread {
                 if (gameArea.isGameOver()) {
                     break;
                 }
-
+                gameArea.clearLines();
             }
 
         } catch (InterruptedException ex) {
