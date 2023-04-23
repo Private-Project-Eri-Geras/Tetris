@@ -1,6 +1,7 @@
 package com.leviatanes.tetris.TetrisGame;
 
 import java.util.logging.Logger;
+import java.nio.channels.Pipe;
 import java.util.logging.Level;
 
 import com.leviatanes.tetris.TetrisPanel;
@@ -15,6 +16,7 @@ public class GameThread extends Thread {
     private int rotationCount;
     /** tiempo de inicio */
     private long startTime;
+    private long startSettleTime;
     /** tiempo de fin */
     private long endTime;
     /** tiempo transcurrido */
@@ -38,31 +40,31 @@ public class GameThread extends Thread {
     }
 
     public void run() {
-        try {
-            while (true) {
-                Thread.sleep(100);
+        while (true) {
+            if (gameArea.getBlock() == null) {
+                startTime = System.currentTimeMillis();
+                while (getElapsedTime() < 500)
+                    ;
                 gameArea.spawnBlock();
                 if (gameArea.isGameOver())
                     break;
                 gameArea.repaint();
                 waiting();
-                // si se pulsa la tecla pausa se pausa el juego
+            }
+            // si se pulsa la tecla pausa se pausa el juego
 
-                if (gameArea.isBlockDropped() == false)
-                    while (gameArea.moveDown()) {
-                        if (waiting() == true)
-                            break;
-                        if (this.paused)
-                            pause();
-                    }
-                settleBlock();
-
-                gameArea.clearLines();
+            while (gameArea.moveDown()) {
+                if (waiting() == true)
+                    break;
+                if (this.paused)
+                    pause();
             }
 
-        } catch (InterruptedException ex) {
-            Logger.getLogger(GameThread.class.getName()).log(Level.SEVERE, null, ex);
+            settleBlock();
+
+            gameArea.clearLines();
         }
+
     }
 
     /**
@@ -70,15 +72,15 @@ public class GameThread extends Thread {
      * si el bloque dejo de moverse es necesario spawnear uno de inmediato
      * 
      * @return true si el bloque dejo de moverse, false si no
-     * @throws InterruptedException
      */
-    public boolean waiting() throws InterruptedException {
+    public boolean waiting() {
         startTime = System.currentTimeMillis();
         while (getElapsedTime() < actualSpeed) {
             if (this.paused)
                 this.pause();
             if (gameArea.isBlockDropped())
                 return true;
+
             if (gameArea.checkBottom())
                 return true;
         }
@@ -90,23 +92,38 @@ public class GameThread extends Thread {
 
     }
 
-    public void pause() throws InterruptedException {
+    public void pause() {
         TetrisBlock block = gameArea.getBlock();
         gameArea.setBlock(null);
         while (this.paused) {
-            Thread.sleep(100);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         gameArea.setBlock(block);
     }
 
-    public void settleBlock() throws InterruptedException {
-        startTime = System.currentTimeMillis();
-        while (getElapsedTime() < 500 && rotationCount < maxRotations) {
-            if (this.paused)
+    public void settleBlock() {
+        startSettleTime = System.currentTimeMillis();
+        rotationCount = 0;
+        while (getSettleTime() < 500) {
+            System.out.println(getSettleTime());
+            if (rotationCount >= maxRotations)
+                break;
+            if (this.paused) {
                 this.pause();
+                startTime = System.currentTimeMillis();
+            }
         }
-        gameArea.moveBlockToBackGround();
-        gameArea.setBlock(null);
+        if (gameArea.dropPiece() == true) {
+            while (gameArea.moveDown())
+                ;
+            gameArea.moveBlockToBackGround();
+            gameArea.setBlock(null);
+        }
+        gameArea.disableBlockDropped();
         rotationCount = 0;
     }
 
@@ -136,9 +153,15 @@ public class GameThread extends Thread {
     /**
      * Resetea el tiempo de inicio
      */
-    public void resetTime() {
+    public void resetSettleTime() {
         this.rotationCount++;
-        startTime = System.currentTimeMillis();
+        startSettleTime = System.currentTimeMillis();
+    }
+
+    private long getSettleTime() {
+        endTime = System.currentTimeMillis();
+        elapsedTime = endTime - startSettleTime;
+        return elapsedTime;
     }
 
     /**

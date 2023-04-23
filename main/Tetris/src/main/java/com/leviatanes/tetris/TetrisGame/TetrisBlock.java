@@ -102,6 +102,15 @@ public class TetrisBlock {
     }
 
     /**
+     * Devuelve el tipo de bloque
+     * 
+     * @return char
+     */
+    public char getType() {
+        return this.blockType;
+    }
+
+    /**
      * Devuelve el ancho del bloque
      * 
      * @return int

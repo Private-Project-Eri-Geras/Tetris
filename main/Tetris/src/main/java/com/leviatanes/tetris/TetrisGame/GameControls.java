@@ -80,7 +80,7 @@ public class GameControls implements KeyListener {
         switch (key.getKeyCode()) {
             case rotate:
                 gameArea.rotate();
-                gameThread.resetTime(); // se resetea el tiempo para bloquear el bloque en el fondo
+                gameThread.resetSettleTime(); // se resetea el tiempo para bloquear el bloque en el fondo
                 break;
             case left:
                 gameArea.moveLeft();
@@ -99,7 +99,7 @@ public class GameControls implements KeyListener {
                 break;
             case counterRotate:
                 gameArea.rotateBack();
-                gameThread.resetTime(); // se resetea el tiempo para bloquear el bloque en el fondo
+                gameThread.resetSettleTime(); // se resetea el tiempo para bloquear el bloque en el fondo
             default:
                 break;
         }

@@ -18,6 +18,12 @@ public class GameArea extends JPanel {
     private int tileSize;
     /** El place holder */
     private JPanel placeHolder;
+
+    // ===========[ BANDERAS DE SECCIONES CRITICAS ]================//
+    /** Bandera de rotacion */
+    private boolean rotateFlag = false;
+    /** Bandera de movimiento abajo */
+    private boolean moveDownFlag = false;
     /**
      * matriz del color de fondo
      * 
@@ -101,7 +107,17 @@ public class GameArea extends JPanel {
         return this.blockDropped;
     }
 
-    private int blockCounter = 6;
+    /** deshabilita la bandera del bloque dropeado */
+    public void disableBlockDropped() {
+        this.blockDropped = false;
+    }
+
+    /** @return bandera de seccion critica */
+    public boolean getRotateFlag() {
+        return this.rotateFlag;
+    }
+
+    private int blockCounter = 0;
 
     /** Spawnea un bloque aleatorio entre I, J, L, O, S, T, Z */
     public void spawnBlock() {
@@ -154,6 +170,7 @@ public class GameArea extends JPanel {
             return false;
         if (this.checkBottom())
             return false;
+
         this.block.moveDown();
         repaint();
         return true;
@@ -168,6 +185,7 @@ public class GameArea extends JPanel {
         while (!this.checkBottom()) {
             this.block.moveDown();
         }
+
         this.blockDropped = true;
         repaint();
     }
@@ -178,23 +196,30 @@ public class GameArea extends JPanel {
      * 
      * @return boolean true si el bloque llego al fondo o toco otro bloque
      */
-    public boolean checkBottom() {
-        if (this.block == null)
+    public boolean checkBottom() throws ArrayIndexOutOfBoundsException {
+        while (this.getRotateFlag())
+            ;
+        this.moveDownFlag = true;
+        if (this.block == null) {
+            this.moveDownFlag = false;
             return true;
+        }
         if (this.block.getBottomEdge() == this.rows) {
+            this.moveDownFlag = false;
             return true;
         }
         int shape[][] = this.block.getBlock();
         int w = this.block.getWidth();
         int h = this.block.getHeight();
         int x, y;// se utilizaran para sacar el offsetverdadero y comparar correctamente
-        if (h != 1) {
+        if (block.getHeight() != 1) {
             for (int col = 0; col < w; col++) {
                 for (int row = h - 1; row >= 0; row--) {
                     if (shape[row][col] != 0) {
                         x = col + block.getX();
                         y = row + block.getY() + 1;
                         if (background[0][y][x] != darkColor) {
+                            this.moveDownFlag = false;
                             return true;
                         }
                         break;
@@ -208,10 +233,77 @@ public class GameArea extends JPanel {
                 if (y < 0)
                     break;
                 if (background[0][y][x] != darkColor) {
+                    this.moveDownFlag = false;
                     return true;
                 }
             }
         }
+        this.moveDownFlag = false;
+        return false;
+    }
+
+    /**
+     * Checa se hay mas de 2 espacios en blanco bajo la pieza
+     * si es asi la pieza se no se dropea
+     * en caso contrario lo hace
+     * Con exepcion de la pieza I
+     * en esta se checan 3 espacios
+     * 
+     * @return true si se tiene que dropear
+     */
+    public boolean dropPiece() {
+        while (this.getRotateFlag())
+            ;
+        this.moveDownFlag = true;
+        if (this.block == null) {
+            this.moveDownFlag = false;
+            return false;
+        }
+        if (block.getType() == 'I') {
+            if (this.block.getBottomEdge() + 2 >= this.rows) {
+                this.moveDownFlag = false;
+                return true;
+            }
+        } else {
+            if (this.block.getBottomEdge() + 1 >= this.rows) {
+                this.moveDownFlag = false;
+                return true;
+            }
+        }
+        int shape[][] = this.block.getBlock();
+        int w = this.block.getWidth();
+        int h = this.block.getHeight();
+        int x, y;// se utilizaran para sacar el offsetverdadero y comparar correctamente
+        if (this.checkBottom())
+            return true;
+        if (block.getType() != 'I') {
+            for (int col = 0; col < w; col++) {
+                for (int row = h - 1; row >= 0; row--) {
+                    if (shape[row][col] != 0) {
+                        x = col + block.getX();
+                        y = row + block.getY() + 1;
+                        if (background[0][y][x] != darkColor || background[0][y + 1][x] != darkColor) {
+                            this.moveDownFlag = false;
+                            return true;
+                        }
+                        break;
+                    }
+                }
+            }
+        } else {
+            for (int col = 0; col < w; col++) {
+                x = col + block.getX();
+                y = block.getY() + 1;
+                if (y < 0)
+                    break;
+                if (background[0][y][x] != darkColor || background[0][y + 1][x] != darkColor
+                        || background[0][y + 2][x] != darkColor) {
+                    this.moveDownFlag = false;
+                    return true;
+                }
+            }
+        }
+        this.moveDownFlag = false;
         return false;
     }
 
@@ -300,7 +392,7 @@ public class GameArea extends JPanel {
         int x, y;// se utilizaran para sacar el offsetverdadero y comparar correctamente
         if (w != 1) {
             for (int row = 0; row < h; row++) {
-                for (int col = w - 1; col > 0; col--) {
+                for (int col = w - 1; col >= 0; col--) {
                     if (shape[row][col] == 1) {
                         x = col + block.getX() + 1;
                         y = row + block.getY();
@@ -329,11 +421,16 @@ public class GameArea extends JPanel {
 
     /** Gira el bloque */
     public void rotate() {
+        while (this.rotateFlag)
+            ;
         if (this.block == null)
             return;
+        this.rotateFlag = true;
         this.block.rotate();
+        this.offsetOutOfBounnds();
         if (this.checkRotate())
             this.block.rotateBack();
+        this.rotateFlag = false;
         repaint();
     }
 
@@ -347,7 +444,6 @@ public class GameArea extends JPanel {
      * @return true si la rotacion es invalida
      */
     private boolean checkRotate() {
-        this.offsetOutOfBounnds();
         int[][] shape = block.getBlock();
         int w = block.getWidth();
         int h = block.getHeight();
@@ -369,11 +465,16 @@ public class GameArea extends JPanel {
 
     /** Gira el bloque en contra de las manecillas del reloj */
     public void rotateBack() {
+        while (this.rotateFlag)
+            ;
         if (this.block == null)
             return;
+        this.rotateFlag = true;
         this.block.rotateBack();
+        this.offsetOutOfBounnds();
         if (this.checkRotateBack())
             this.block.rotate();
+        this.rotateFlag = false;
         repaint();
     }
 
@@ -387,7 +488,6 @@ public class GameArea extends JPanel {
      * @return true si la rotacion es invalida
      */
     private boolean checkRotateBack() {
-        this.offsetOutOfBounnds();
         int[][] shape = block.getBlock();
         int w = block.getWidth();
         int h = block.getHeight();
@@ -415,12 +515,16 @@ public class GameArea extends JPanel {
         if (block.getLeftEdge() < 0) {
             block.setX(0);
         }
+        if (block.getTopEdge() < 0) {
+            block.setY(0);
+        }
         if (block.getRightEdge() > this.colums) {
             block.setX(this.colums - block.getWidth());
         }
         if (block.getBottomEdge() > this.rows) {
             block.setY(this.rows - block.getHeight());
         }
+
     }
 
     /**
