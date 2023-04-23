@@ -31,6 +31,6 @@ public class Oshape extends TetrisBlock {
         private static final Color lightColor = new Color(241, 196, 15);
 
         public Oshape() {
-                super(block, blockRotations, darkColor, lightColor);
+                super(block, blockRotations, 'O', darkColor, lightColor);
         }
 }

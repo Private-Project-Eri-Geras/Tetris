@@ -6,6 +6,7 @@ public class TetrisBlock {
     // Informacion del bloque
     private int[][] block; // Bloque actual
     private int[][][] blockRotations; // Rotaciones del bloque
+    private char blockType; // Tipo de bloque
     // Colores del bloque
     private Color darkColor;
     private Color lightColor;
@@ -24,9 +25,10 @@ public class TetrisBlock {
      * @param lightColor     Color claro del bloque
      * @param borderColor    Color del borde
      */
-    public TetrisBlock(int[][] block, int[][][] blockRotations, Color darkColor, Color lightColor) {
+    public TetrisBlock(int[][] block, int[][][] blockRotations, char blockType, Color darkColor, Color lightColor) {
         this.block = block;
         this.blockRotations = blockRotations;
+        this.blockType = blockType;
         this.darkColor = darkColor;
         this.lightColor = lightColor;
         this.borderColor = new Color(42, 42, 42);

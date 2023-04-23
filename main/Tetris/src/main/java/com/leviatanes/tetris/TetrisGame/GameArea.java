@@ -33,6 +33,8 @@ public class GameArea extends JPanel {
      */
     private int drawOffset;
     private int drawOffset2;
+    /** Bandera si el bloque fue "Dropeado" */
+    private boolean blockDropped;
     /** color oscuro @apiNote rgb = (20,20,20) */
     private static final Color darkColor = new Color(20, 20, 20);
     /** color brillante @apiNote rgb = (30,30,30) */
@@ -85,10 +87,31 @@ public class GameArea extends JPanel {
         return this.block;
     }
 
-    /** Spawnea un bloque aleatorio entre I, O, T, J, L, S, Z */
+    /** @param block TetrisBlock */
+    public void setBlock(TetrisBlock block) {
+        this.block = block;
+    }
+
+    /**
+     * retorna la bandera del bloque dropeado
+     * 
+     * @return true si fue dropeado
+     */
+    public boolean isBlockDropped() {
+        return this.blockDropped;
+    }
+
+    private int blockCounter = 6;
+
+    /** Spawnea un bloque aleatorio entre I, J, L, O, S, T, Z */
     public void spawnBlock() {
-        Random random = new Random();
-        this.block = blocks[random.nextInt(blocks.length)];
+        // Random random = new Random();
+        // this.block = blocks[random.nextInt(blocks.length)];
+
+        // == TESTING ==//
+        this.blockDropped = false;
+        this.block = blocks[blockCounter];
+        blockCounter = (blockCounter + 1) % blocks.length;
         block.spawn(this.colums);
     }
 
@@ -145,6 +168,7 @@ public class GameArea extends JPanel {
         while (!this.checkBottom()) {
             this.block.moveDown();
         }
+        this.blockDropped = true;
         repaint();
     }
 
@@ -158,8 +182,6 @@ public class GameArea extends JPanel {
         if (this.block == null)
             return true;
         if (this.block.getBottomEdge() == this.rows) {
-            this.moveBlockToBackGround();
-            this.block = null;
             return true;
         }
         int shape[][] = this.block.getBlock();
@@ -173,8 +195,6 @@ public class GameArea extends JPanel {
                         x = col + block.getX();
                         y = row + block.getY() + 1;
                         if (background[0][y][x] != darkColor) {
-                            this.moveBlockToBackGround();
-                            this.block = null;
                             return true;
                         }
                         break;
@@ -188,8 +208,6 @@ public class GameArea extends JPanel {
                 if (y < 0)
                     break;
                 if (background[0][y][x] != darkColor) {
-                    this.moveBlockToBackGround();
-                    this.block = null;
                     return true;
                 }
             }
@@ -309,11 +327,7 @@ public class GameArea extends JPanel {
         return false;
     }
 
-    /**
-     * Gira el bloque
-     * 
-     * @return
-     */
+    /** Gira el bloque */
     public void rotate() {
         if (this.block == null)
             return;
@@ -340,6 +354,46 @@ public class GameArea extends JPanel {
         int xi, yi;
         for (int row = 0; row < h; row++) {
             for (int col = 0; col < w; col++) {
+                if (shape[row][col] == 1) {
+                    yi = row + block.getY();
+                    xi = col + block.getX();
+                    if (background[0][yi][xi] != darkColor) {
+                        return true;
+                    }
+                }
+
+            }
+        }
+        return false;
+    }
+
+    /** Gira el bloque en contra de las manecillas del reloj */
+    public void rotateBack() {
+        if (this.block == null)
+            return;
+        this.block.rotateBack();
+        if (this.checkRotateBack())
+            this.block.rotate();
+        repaint();
+    }
+
+    /**
+     * Verifica si la rotacion del bloque es valida
+     * no es valida si se solapa a otro bloque ya existente
+     * o si se sale de los limites del tablero
+     * si es valida se deja la rotacion
+     * si no es valida se regresa la rotacion anterior
+     * 
+     * @return true si la rotacion es invalida
+     */
+    private boolean checkRotateBack() {
+        this.offsetOutOfBounnds();
+        int[][] shape = block.getBlock();
+        int w = block.getWidth();
+        int h = block.getHeight();
+        int xi, yi;
+        for (int row = 0; row < h; row++) {
+            for (int col = w - 1; col >= 0; col--) {
                 if (shape[row][col] == 1) {
                     yi = row + block.getY();
                     xi = col + block.getX();

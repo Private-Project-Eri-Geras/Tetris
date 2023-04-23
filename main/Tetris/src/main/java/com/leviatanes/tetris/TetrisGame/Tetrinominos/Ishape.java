@@ -35,7 +35,7 @@ public class Ishape extends TetrisBlock {
         private static final Color lightColor = new Color(15, 149, 195);
 
         public Ishape() {
-                super(block, blockRotations, darkColor, lightColor);
+                super(block, blockRotations, 'I', darkColor, lightColor);
         }
 
         @Override
@@ -55,24 +55,46 @@ public class Ishape extends TetrisBlock {
         @Override
         public void rotate() {
                 super.rotate();
-                if (super.getCurrentRotation() == 1 || super.getCurrentRotation() == 3) {
-                        super.setX(super.getX() + 1);
-                        super.setY(super.getY() - 1);
-                } else {
-                        super.setX(super.getX() - 1);
-                        super.setY(super.getY() + 1);
+                switch (super.getCurrentRotation()) {
+                        case 0:
+                                super.setX(super.getX() - 1);
+                                super.setY(super.getY() + 1);
+                                break;
+                        case 1:
+                                super.setX(super.getX() + 2);
+                                super.setY(super.getY() - 1);
+                                break;
+                        case 2:
+                                super.setX(super.getX() - 2);
+                                super.setY(super.getY() + 2);
+                                break;
+                        case 3:
+                                super.setX(super.getX() + 1);
+                                super.setY(super.getY() - 2);
+                                break;
                 }
         }
 
         @Override
         public void rotateBack() {
                 super.rotateBack();
-                if (super.getCurrentRotation() == 1 || super.getCurrentRotation() == 3) {
-                        super.setX(super.getX() + 1);
-                        super.setY(super.getY() - 1);
-                } else {
-                        super.setX(super.getX() - 1);
-                        super.setY(super.getY() + 1);
+                switch (super.getCurrentRotation()) {
+                        case 0:
+                                super.setX(super.getX() - 2);
+                                super.setY(super.getY() + 1);
+                                break;
+                        case 1:
+                                super.setX(super.getX() + 2);
+                                super.setY(super.getY() - 2);
+                                break;
+                        case 2:
+                                super.setX(super.getX() - 1);
+                                super.setY(super.getY() + 2);
+                                break;
+                        case 3:
+                                super.setX(super.getX() + 1);
+                                super.setY(super.getY() - 1);
+                                break;
                 }
         }
 }

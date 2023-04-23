@@ -33,6 +33,45 @@ public class Jshape extends TetrisBlock {
         private static final Color lightColor = new Color(45, 85, 194);
 
         public Jshape() {
-                super(block, blockRotations, darkColor, lightColor);
+                super(block, blockRotations, 'J', darkColor, lightColor);
+        }
+
+        @Override
+        public void rotate() {
+                super.rotate();
+                switch (super.getCurrentRotation()) {
+                        case 0:
+                                break;
+                        case 1:
+                                super.setX(super.getX() + 1);
+                                break;
+                        case 2:
+                                super.setX(super.getX() - 1);
+                                super.setY(super.getY() + 1);
+                                break;
+                        case 3:
+                                super.setY(super.getY() - 1);
+                                break;
+                }
+
+        }
+
+        @Override
+        public void rotateBack() {
+                super.rotateBack();
+                switch (super.getCurrentRotation()) {
+                        case 0:
+                                super.setX(super.getX() - 1);
+                                break;
+                        case 1:
+                                super.setX(super.getX() + 1);
+                                super.setY(super.getY() - 1);
+                                break;
+                        case 2:
+                                super.setY(super.getY() + 1);
+                                break;
+                        case 3:
+                                break;
+                }
         }
 }

@@ -33,6 +33,46 @@ public class Lshape extends TetrisBlock {
         private static final Color lightColor = new Color(230, 126, 34);
 
         public Lshape() {
-                super(block, blockRotations, darkColor, lightColor);
+                super(block, blockRotations, 'L', darkColor, lightColor);
         }
+
+        @Override
+        public void rotate() {
+                super.rotate();
+                switch (super.getCurrentRotation()) {
+                        case 0:
+                                break;
+                        case 1:
+                                super.setX(super.getX() + 1);
+                                break;
+                        case 2:
+                                super.setX(super.getX() - 1);
+                                super.setY(super.getY() + 1);
+                                break;
+                        case 3:
+                                super.setY(super.getY() - 1);
+                                break;
+                }
+
+        }
+
+        @Override
+        public void rotateBack() {
+                super.rotateBack();
+                switch (super.getCurrentRotation()) {
+                        case 0:
+                                super.setX(super.getX() - 1);
+                                break;
+                        case 1:
+                                super.setX(super.getX() + 1);
+                                super.setY(super.getY() - 1);
+                                break;
+                        case 2:
+                                super.setY(super.getY() + 1);
+                                break;
+                        case 3:
+                                break;
+                }
+        }
+
 }
