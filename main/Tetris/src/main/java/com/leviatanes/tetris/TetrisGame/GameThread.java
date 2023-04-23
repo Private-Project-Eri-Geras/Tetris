@@ -41,6 +41,7 @@ public class GameThread extends Thread {
 
     public void run() {
         while (true) {
+            System.out.println("run");
             if (gameArea.getBlock() == null) {
                 startTime = System.currentTimeMillis();
                 while (getElapsedTime() < 500)
@@ -74,6 +75,7 @@ public class GameThread extends Thread {
      * @return true si el bloque dejo de moverse, false si no
      */
     public boolean waiting() {
+        System.out.println("waiting");
         startTime = System.currentTimeMillis();
         while (getElapsedTime() < actualSpeed) {
             if (this.paused)
@@ -106,6 +108,7 @@ public class GameThread extends Thread {
     }
 
     public void settleBlock() {
+        System.out.println("settleBlock");
         startSettleTime = System.currentTimeMillis();
         rotationCount = 0;
         while (getSettleTime() < 500) {
@@ -117,7 +120,9 @@ public class GameThread extends Thread {
                 startTime = System.currentTimeMillis();
             }
         }
-        if (gameArea.dropPiece() == true) {
+        System.out.println("bef checkToDrop");
+        if (gameArea.checkToDrop() == true) {
+            System.out.println("aft checkToDrop en settleBlock");
             while (gameArea.moveDown())
                 ;
             gameArea.moveBlockToBackGround();
@@ -158,6 +163,11 @@ public class GameThread extends Thread {
         startSettleTime = System.currentTimeMillis();
     }
 
+    /**
+     * Devuelve el tiempo transcurrido
+     * 
+     * @return long el tiempo transcurrido
+     */
     private long getSettleTime() {
         endTime = System.currentTimeMillis();
         elapsedTime = endTime - startSettleTime;
@@ -167,7 +177,7 @@ public class GameThread extends Thread {
     /**
      * Devuelve el tiempo transcurrido
      * 
-     * @return
+     * @return long el tiempo transcurrido
      */
     private long getElapsedTime() {
         endTime = System.currentTimeMillis();
