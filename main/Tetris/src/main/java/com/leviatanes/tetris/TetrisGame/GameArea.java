@@ -3,7 +3,6 @@ package com.leviatanes.tetris.TetrisGame;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
-import java.util.Scanner;
 
 import javax.swing.JPanel;
 
@@ -24,6 +23,8 @@ public class GameArea extends JPanel {
     private boolean rotateFlag = false;
     /** Bandera de movimiento abajo */
     private boolean moveDownFlag = false;
+    /** Bandera de movimiento izquierda derecha */
+    private boolean moveFlag = false;
     /**
      * matriz del color de fondo
      * 
@@ -118,6 +119,8 @@ public class GameArea extends JPanel {
     }
 
     private int blockCounter = 0;
+    private TetrisBlock[] testBlocks = { new Ishape(), new Jshape(), new Lshape(), new Oshape(), new Sshape(),
+            new Tshape(), new Zshape() };
 
     /** Spawnea un bloque aleatorio entre I, J, L, O, S, T, Z */
     public void spawnBlock() {
@@ -126,8 +129,9 @@ public class GameArea extends JPanel {
 
         // == TESTING ==//
         this.blockDropped = false;
-        this.block = blocks[blockCounter];
-        blockCounter = (blockCounter + 1) % blocks.length;
+        this.block = testBlocks[blockCounter];
+        blockCounter = (blockCounter + 1) % testBlocks.length;
+        // == TESTING ==//
         block.spawn(this.colums);
     }
 
@@ -166,13 +170,19 @@ public class GameArea extends JPanel {
      * @return boolean true si se pudo mover
      */
     public boolean moveDown() {
+        while (this.rotateFlag || this.moveDownFlag)
+            ;
         if (this.block == null)
             return false;
-        if (this.checkBottom())
+        this.moveDownFlag = true;
+        if (this.checkBottom()) {
+            this.moveDownFlag = false;
             return false;
+        }
 
         this.block.moveDown();
         repaint();
+        this.moveDownFlag = false;
         return true;
     }
 
@@ -185,7 +195,6 @@ public class GameArea extends JPanel {
         while (!this.checkBottom()) {
             this.block.moveDown();
         }
-
         this.blockDropped = true;
         repaint();
     }
@@ -252,7 +261,7 @@ public class GameArea extends JPanel {
      * @return true si se tiene que dropear
      */
     public boolean dropPiece() {
-        while (this.getRotateFlag())
+        while (this.rotateFlag)
             ;
         this.moveDownFlag = true;
         if (this.block == null) {
@@ -313,11 +322,18 @@ public class GameArea extends JPanel {
      * @return boolean true si se pudo mover
      */
     public boolean moveLeft() {
-        if (this.block == null | this.checkLeft()) {
+        while (this.rotateFlag || this.moveDownFlag)
+            ;
+        if (this.block == null)
+            return false;
+        this.moveFlag = true;
+        if (this.checkLeft()) {
+            this.moveFlag = false;
             return false;
         }
         this.block.moveLeft();
         repaint();
+        this.moveFlag = false;
         return true;
     }
 
@@ -367,11 +383,18 @@ public class GameArea extends JPanel {
      * @return boolean true si se pudo mover
      */
     public boolean moveRight() {
-        if (this.block == null | this.checkRight()) {
+        while (this.rotateFlag || this.moveDownFlag)
+            ;
+        if (this.block == null)
+            return false;
+        this.moveFlag = true;
+        if (this.checkRight()) {
+            this.moveFlag = false;
             return false;
         }
         this.block.moveRight();
         repaint();
+        this.moveFlag = false;
         return true;
     }
 
@@ -421,7 +444,7 @@ public class GameArea extends JPanel {
 
     /** Gira el bloque */
     public void rotate() {
-        while (this.rotateFlag)
+        while (this.moveDownFlag || this.moveFlag)
             ;
         if (this.block == null)
             return;
@@ -465,7 +488,7 @@ public class GameArea extends JPanel {
 
     /** Gira el bloque en contra de las manecillas del reloj */
     public void rotateBack() {
-        while (this.rotateFlag)
+        while (this.moveDownFlag)
             ;
         if (this.block == null)
             return;
