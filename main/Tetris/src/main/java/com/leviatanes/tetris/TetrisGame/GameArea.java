@@ -211,7 +211,7 @@ public class GameArea extends JPanel {
             ;
         System.out.println("drop");
         if (this.block == null) {
-            System.out.println("exit drop");
+            System.out.println("exit drop null");
             return;
         }
         this.dropedFalg = true; // !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
@@ -233,16 +233,13 @@ public class GameArea extends JPanel {
         // espera a que se termine la seccion critica
         while (rotateFlag || moveFlag || clearLinesFlag || moveBlockToBottomFlag)
             ;
-        System.out.println("checkBottom");
         this.moveDownFlag = true;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         if (this.block == null) {
             this.moveDownFlag = false;
-            System.out.println("exit checkBottom block null");
             return true;
         }
         if (this.block.getBottomEdge() == this.rows) {
             this.moveDownFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
-            System.out.println("exit checkBottom bottom edge");
             return true;
         }
         // obtencion de datos del bloque
@@ -258,7 +255,6 @@ public class GameArea extends JPanel {
                         y = row + block.getY() + 1;
                         if (background[0][y][x] != darkColor) {
                             this.moveDownFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
-                            System.out.println("exit checkBottom while not I");
                             return true;
                         }
                         break;
@@ -273,13 +269,11 @@ public class GameArea extends JPanel {
                     break;
                 if (background[0][y][x] != darkColor) {
                     this.moveDownFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
-                    System.out.println("exit checkBottom while I");
                     return true;
                 }
             }
         }
         this.moveDownFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
-        System.out.println("exit checkBottom");
         return false;
     }
 

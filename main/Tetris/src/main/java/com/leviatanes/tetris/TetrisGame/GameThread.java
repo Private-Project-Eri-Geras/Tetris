@@ -41,11 +41,8 @@ public class GameThread extends Thread {
 
     public void run() {
         while (true) {
-            System.out.println("run");
+            System.out.println("    run");
             if (gameArea.getBlock() == null) {
-                startTime = System.currentTimeMillis();
-                while (getElapsedTime() < 500)
-                    ;
                 gameArea.spawnBlock();
                 if (gameArea.isGameOver())
                     break;
@@ -53,17 +50,19 @@ public class GameThread extends Thread {
                 waiting();
             }
             // si se pulsa la tecla pausa se pausa el juego
-
+            System.out.println("    bef while moveDown");
             while (gameArea.moveDown()) {
                 if (waiting() == true)
                     break;
                 if (this.paused)
                     pause();
             }
-
+            System.out.println("    aft while moveDown");
             settleBlock();
 
             gameArea.clearLines();
+            gameArea.repaint();
+            System.out.println("    reset run");
         }
 
     }
@@ -75,15 +74,12 @@ public class GameThread extends Thread {
      * @return true si el bloque dejo de moverse, false si no
      */
     public boolean waiting() {
-        System.out.println("waiting");
+        System.out.println("    waiting");
         startTime = System.currentTimeMillis();
         while (getElapsedTime() < actualSpeed) {
             if (this.paused)
                 this.pause();
             if (gameArea.isBlockDropped())
-                return true;
-
-            if (gameArea.checkBottom())
                 return true;
         }
         return false;
@@ -108,11 +104,10 @@ public class GameThread extends Thread {
     }
 
     public void settleBlock() {
-        System.out.println("settleBlock");
+        System.out.println("    settleBlock");
         startSettleTime = System.currentTimeMillis();
         rotationCount = 0;
         while (getSettleTime() < 500) {
-            System.out.println(getSettleTime());
             if (rotationCount >= maxRotations)
                 break;
             if (this.paused) {
@@ -120,9 +115,9 @@ public class GameThread extends Thread {
                 startTime = System.currentTimeMillis();
             }
         }
-        System.out.println("bef checkToDrop");
+        System.out.println("    bef checkToDrop");
         if (gameArea.checkToDrop() == true) {
-            System.out.println("aft checkToDrop en settleBlock");
+            System.out.println("    aft checkToDrop en settleBlock");
             while (gameArea.moveDown())
                 ;
             gameArea.moveBlockToBackGround();
