@@ -181,12 +181,16 @@ public class GameArea extends JPanel {
         // espera a que se termine la seccion critica
         while (rotateFlag || moveFlag || checkToDropFlag || clearLinesFlag || moveBlockToBottomFlag)
             ;
-        if (this.block == null)
+        System.out.println("moveDown");
+        if (this.block == null) {
+            System.out.println("exit moveDown");
             return false;
+        }
         // bansera critica
         this.moveDownFlag = true; // !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         if (this.checkBottom()) {
             this.moveDownFlag = false; // !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
+            System.out.println("exit moveDown");
             return false;
         }
 
@@ -194,6 +198,7 @@ public class GameArea extends JPanel {
         repaint();
         // bansera critica
         this.moveDownFlag = false; // !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
+        System.out.println("exit moveDown");
         return true;
     }
 
@@ -204,14 +209,18 @@ public class GameArea extends JPanel {
         // espera a que se termine la seccion critica
         while (rotateFlag || moveFlag || checkToDropFlag || clearLinesFlag || moveBlockToBottomFlag)
             ;
-        if (this.block == null)
+        System.out.println("drop");
+        if (this.block == null) {
+            System.out.println("exit drop");
             return;
+        }
         this.dropedFalg = true; // !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         while (this.moveDown())
             ;
         this.blockDropped = true;
         this.dropedFalg = false; // !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         repaint();
+        System.out.println("exit drop");
     }
 
     /**
@@ -224,13 +233,16 @@ public class GameArea extends JPanel {
         // espera a que se termine la seccion critica
         while (rotateFlag || moveFlag || clearLinesFlag || moveBlockToBottomFlag)
             ;
+        System.out.println("checkBottom");
         this.moveDownFlag = true;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         if (this.block == null) {
             this.moveDownFlag = false;
+            System.out.println("exit checkBottom block null");
             return true;
         }
         if (this.block.getBottomEdge() == this.rows) {
             this.moveDownFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
+            System.out.println("exit checkBottom bottom edge");
             return true;
         }
         // obtencion de datos del bloque
@@ -246,6 +258,7 @@ public class GameArea extends JPanel {
                         y = row + block.getY() + 1;
                         if (background[0][y][x] != darkColor) {
                             this.moveDownFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
+                            System.out.println("exit checkBottom while not I");
                             return true;
                         }
                         break;
@@ -260,11 +273,13 @@ public class GameArea extends JPanel {
                     break;
                 if (background[0][y][x] != darkColor) {
                     this.moveDownFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
+                    System.out.println("exit checkBottom while I");
                     return true;
                 }
             }
         }
         this.moveDownFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
+        System.out.println("exit checkBottom");
         return false;
     }
 
@@ -281,18 +296,22 @@ public class GameArea extends JPanel {
         // espera a que se termine la seccion critica
         while (rotateFlag || moveFlag || moveDownFlag || dropedFalg || clearLinesFlag || moveBlockToBottomFlag)
             ;
+        System.out.println("checkToDrop");
         if (this.block == null) {
+            System.out.println("exit checkToDrop");
             return false;
         }
         this.checkToDropFlag = true;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         if (block.getType() == 'I') {
             if (this.block.getBottomEdge() + 2 >= this.rows) {
                 this.checkToDropFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
+                System.out.println("exit checkToDrop Bottmo edge not I");
                 return true;
             }
         } else {
             if (this.block.getBottomEdge() + 1 >= this.rows) {
                 this.checkToDropFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
+                System.out.println("exit checkToDrop Bottmo edge");
                 return true;
             }
         }
@@ -302,6 +321,7 @@ public class GameArea extends JPanel {
         int x, y;// se utilizaran para sacar el offsetverdadero y comparar correctamente
         if (this.checkBottom()) {
             this.checkToDropFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
+            System.out.println("exit checkToDrop checkBottom");
             return true;
         }
         if (block.getType() != 'I') {
@@ -312,6 +332,7 @@ public class GameArea extends JPanel {
                         y = row + block.getY() + 1;
                         if (background[0][y][x] != darkColor || background[0][y + 1][x] != darkColor) {
                             this.checkToDropFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
+                            System.out.println("exit checkToDrop while not I");
                             return true;
                         }
                         break;
@@ -327,11 +348,13 @@ public class GameArea extends JPanel {
                 if (background[0][y][x] != darkColor || background[0][y + 1][x] != darkColor
                         || background[0][y + 2][x] != darkColor) {
                     this.checkToDropFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
+                    System.out.println("exit checkToDrop while I");
                     return true;
                 }
             }
         }
         this.checkToDropFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
+        System.out.println("exit checkToDrop");
         return false;
     }
 
@@ -345,16 +368,21 @@ public class GameArea extends JPanel {
         while (rotateFlag || moveDownFlag || checkToDropFlag || dropedFalg || moveFlag || clearLinesFlag
                 || moveBlockToBottomFlag)
             ;
-        if (this.block == null)
+        System.out.println("moveLeft");
+        if (this.block == null) {
+            System.out.println("exit moveLeft block null");
             return false;
+        }
         this.moveFlag = true;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         if (this.checkLeft()) {
             this.moveFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
+            System.out.println("exit moveLeft checkLeft");
             return false;
         }
         this.block.moveLeft();
         repaint();
         this.moveFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
+        System.out.println("exit moveLeft");
         return true;
     }
 
@@ -408,16 +436,21 @@ public class GameArea extends JPanel {
         while (rotateFlag || moveDownFlag || checkToDropFlag || dropedFalg || moveFlag || clearLinesFlag
                 || moveBlockToBottomFlag)
             ;
-        if (this.block == null)
+        System.out.println("moveRight");
+        if (this.block == null) {
+            System.out.println("exit moveRight block null");
             return false;
+        }
         this.moveFlag = true;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         if (this.checkRight()) {
             this.moveFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
+            System.out.println("exit moveRight checkRight");
             return false;
         }
         this.block.moveRight();
         repaint();
         this.moveFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
+        System.out.println("exit moveRight");
         return true;
     }
 
@@ -470,8 +503,11 @@ public class GameArea extends JPanel {
         // esperar a secciones criticas
         while (moveDownFlag || moveFlag || checkToDropFlag || clearLinesFlag || moveBlockToBottomFlag)
             ;
-        if (this.block == null)
+        System.out.println("rotate");
+        if (this.block == null) {
+            System.out.println("exit rotate block null");
             return;
+        }
         this.rotateFlag = true;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         this.block.rotate();
         this.offsetOutOfBounnds();
@@ -479,6 +515,7 @@ public class GameArea extends JPanel {
             this.rotateBack();
         this.rotateFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         repaint();
+        System.out.println("exit rotate");
     }
 
     /**
@@ -515,8 +552,11 @@ public class GameArea extends JPanel {
         // esperar a secciones criticas
         while (moveDownFlag || moveFlag || checkToDropFlag || clearLinesFlag)
             ;
-        if (this.block == null)
+        System.out.println("rotateBack");
+        if (this.block == null) {
+            System.out.println("exit rotateBack block null");
             return;
+        }
         this.rotateFlag = true;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         this.block.rotateBack();
         this.offsetOutOfBounnds();
@@ -524,6 +564,7 @@ public class GameArea extends JPanel {
             this.rotate();
         this.rotateFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         repaint();
+        System.out.println("exit rotateBack");
     }
 
     /**
@@ -585,6 +626,7 @@ public class GameArea extends JPanel {
         // esperar a secciones criticas
         while (moveDownFlag || moveFlag || rotateFlag || checkToDropFlag || moveBlockToBottomFlag)
             ;
+        System.out.println("clearLines");
         this.clearLinesFlag = true;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         int linesCleared = 0;
         boolean fillLine = true;
@@ -605,6 +647,7 @@ public class GameArea extends JPanel {
             }
         }
         this.clearLinesFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
+        System.out.println("exit clearLines");
         return linesCleared;
     }
 
@@ -649,8 +692,11 @@ public class GameArea extends JPanel {
         // esperar a secciones criticas
         while (this.moveDownFlag || this.moveFlag || this.rotateFlag || this.checkToDropFlag || this.clearLinesFlag)
             ;
-        if (block == null)
+        System.out.println("moveBlockToBackGround");
+        if (block == null) {
+            System.out.println("exit moveBlockToBackGround block null");
             return;
+        }
         int[][] shape = block.getBlock();
         int h = block.getHeight();
         int w = block.getWidth();
@@ -668,6 +714,7 @@ public class GameArea extends JPanel {
                 }
             }
         }
+        System.out.println("exit moveBlockToBackGround");
     }
 
     /**
