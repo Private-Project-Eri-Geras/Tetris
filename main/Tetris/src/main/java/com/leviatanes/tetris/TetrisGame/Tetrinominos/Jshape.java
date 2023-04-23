@@ -29,11 +29,10 @@ public class Jshape extends TetrisBlock {
                                         { 1, 1 }
                         }
         };
-        private static final Color darkColor = new Color(186, 74, 0);
-        private static final Color lightColor = new Color(243, 156, 18);
-        private static final Color borderColor = new Color(110, 44, 0);
+        private static final Color darkColor = new Color(0, 0, 164);
+        private static final Color lightColor = new Color(45, 85, 194);
 
         public Jshape() {
-                super(block, blockRotations, darkColor, lightColor, borderColor);
+                super(block, blockRotations, darkColor, lightColor);
         }
 }

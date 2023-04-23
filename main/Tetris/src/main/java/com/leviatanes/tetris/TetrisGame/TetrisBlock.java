@@ -24,12 +24,12 @@ public class TetrisBlock {
      * @param lightColor     Color claro del bloque
      * @param borderColor    Color del borde
      */
-    public TetrisBlock(int[][] block, int[][][] blockRotations, Color darkColor, Color lightColor, Color borderColor) {
+    public TetrisBlock(int[][] block, int[][][] blockRotations, Color darkColor, Color lightColor) {
         this.block = block;
         this.blockRotations = blockRotations;
         this.darkColor = darkColor;
         this.lightColor = lightColor;
-        this.borderColor = borderColor;
+        this.borderColor = new Color(42, 42, 42);
         this.x = 0;
         this.y = 0;
         this.currentRotation = 0;

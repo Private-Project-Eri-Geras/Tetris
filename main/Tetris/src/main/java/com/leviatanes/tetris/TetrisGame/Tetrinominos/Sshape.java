@@ -29,11 +29,10 @@ public class Sshape extends TetrisBlock {
                                         { 0, 1 }
                         }
         };
-        private static final Color darkColor = new Color(38, 163, 32);
-        private static final Color lightColor = new Color(48, 211, 40);
-        private static final Color borderColor = new Color(29, 117, 25);
+        private static final Color darkColor = new Color(35, 144, 27);
+        private static final Color lightColor = new Color(54, 185, 44);
 
         public Sshape() {
-                super(block, blockRotations, darkColor, lightColor, borderColor);
+                super(block, blockRotations, darkColor, lightColor);
         }
 }

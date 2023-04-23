@@ -30,10 +30,9 @@ public class Lshape extends TetrisBlock {
                         }
         };
         private static final Color darkColor = new Color(186, 74, 0);
-        private static final Color lightColor = new Color(243, 156, 18);
-        private static final Color borderColor = new Color(110, 44, 0);
+        private static final Color lightColor = new Color(230, 126, 34);
 
         public Lshape() {
-                super(block, blockRotations, darkColor, lightColor, borderColor);
+                super(block, blockRotations, darkColor, lightColor);
         }
 }

@@ -27,11 +27,10 @@ public class Oshape extends TetrisBlock {
                                         { 1, 1 }
                         }
         };
-        private static final Color darkColor = new Color(212, 172, 13);
-        private static final Color lightColor = new Color(244, 208, 63);
-        private static final Color borderColor = new Color(156, 100, 12);
+        private static final Color darkColor = new Color(183, 149, 11);
+        private static final Color lightColor = new Color(241, 196, 15);
 
         public Oshape() {
-                super(block, blockRotations, darkColor, lightColor, borderColor);
+                super(block, blockRotations, darkColor, lightColor);
         }
 }
