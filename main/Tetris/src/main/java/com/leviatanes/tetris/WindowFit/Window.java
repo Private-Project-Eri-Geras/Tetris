@@ -12,24 +12,25 @@ public class Window {
         final int MATRIX_ROWS = 28;
         final int MATRIX_COLUMNS = 2;
 
-        //  Variables
+        // Variables
         int width = 0;
         int height = 0;
+        int multiplier = 1;
 
         // Get screen resolution
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = (int) screenSize.getHeight();
-        
+
         // Create matrix with 28 different resolutions
         int[][] resolution = new int[MATRIX_ROWS][MATRIX_COLUMNS];
         resolution[0][0] = BASE_WIDTH;
         resolution[0][1] = BASE_HEIGHT;
-        
-        for (int i = 1; i < MATRIX_ROWS && resolution[i-1][1] < screenHeight; i++) {
-            resolution[i][0] = resolution[0][0] * (i + 1);
-            resolution[i][1] = resolution[0][1] * (i + 1);
-            width = resolution[i-1][0];
-            height = resolution[i-1][1];
+
+        for (multiplier = 1; multiplier < MATRIX_ROWS && resolution[multiplier - 1][1] < screenHeight; multiplier++) {
+            resolution[multiplier][0] = resolution[0][0] * (multiplier + 1);
+            resolution[multiplier][1] = resolution[0][1] * (multiplier + 1);
+            width = resolution[multiplier - 1][0];
+            height = resolution[multiplier - 1][1];
         }
 
         JFrame jframe = new JFrame("JFrame Vacio");
