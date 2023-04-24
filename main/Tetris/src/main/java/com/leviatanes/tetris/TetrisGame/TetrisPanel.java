@@ -1,6 +1,4 @@
-package com.leviatanes.tetris;
-
-import com.leviatanes.tetris.TetrisGame.*;
+package com.leviatanes.tetris.TetrisGame;
 
 public class TetrisPanel extends javax.swing.JPanel {
     /** lleva el control del juego */
@@ -50,25 +48,33 @@ public class TetrisPanel extends javax.swing.JPanel {
                 controlsHolderWidth * multiplier, controlsHolderHeight * multiplier);
         System.out.println("GameHolder coords: " + gameHolder.getX() + " " + gameHolder.getY() + "\n"
                 + "GameHolder size: "
-                + gameHolder.getWidth() + " " + gameHolder.getHeight() + "\n" + "GameHolder full coords: "
-                + gameHolder.getX() + " " + gameHolder.getY() + " " + (gameHolder.getX() + gameHolder.getWidth()) + " "
+                + gameHolder.getWidth() + " " + gameHolder.getHeight() + "\n"
+                + "GameHolder full coords: "
+                + gameHolder.getX() + " " + gameHolder.getY() + " "
+                + (gameHolder.getX() + gameHolder.getWidth()) + " "
                 + (gameHolder.getY() + gameHolder.getHeight()));
         System.out.println(
-                "StatsHolder coords: " + statsHolder.getX() + " " + statsHolder.getY() + "\n" + "StatsHolder size: "
-                        + statsHolder.getWidth() + " " + statsHolder.getHeight() + "\n" + "StatsHolder full coords: "
+                "StatsHolder coords: " + statsHolder.getX() + " " + statsHolder.getY() + "\n"
+                        + "StatsHolder size: "
+                        + statsHolder.getWidth() + " " + statsHolder.getHeight() + "\n"
+                        + "StatsHolder full coords: "
                         + statsHolder.getX() + " " + statsHolder.getY() + " "
                         + (statsHolder.getX() + statsHolder.getWidth()) + " "
                         + (statsHolder.getY() + statsHolder.getHeight()));
-        System.out.println("NextShape coords: " + nextShape.getX() + " " + nextShape.getY() + "\n" + "NextShape size: "
+        System.out.println("NextShape coords: " + nextShape.getX() + " " + nextShape.getY() + "\n"
+                + "NextShape size: "
                 + nextShape.getWidth() + " " + nextShape.getHeight() + "\n" + "NextShape full coords: "
-                + nextShape.getX() + " " + nextShape.getY() + " " + (nextShape.getX() + nextShape.getWidth()) + " "
+                + nextShape.getX() + " " + nextShape.getY() + " "
+                + (nextShape.getX() + nextShape.getWidth()) + " "
                 + (nextShape.getY() + nextShape.getHeight()));
-        System.out.println("ControlsHolder coords: " + controlsHolder.getX() + " " + controlsHolder.getY() + "\n"
-                + "ControlsHolder size: "
-                + controlsHolder.getWidth() + " " + controlsHolder.getHeight() + "\n" + "ControlsHolder full coords: "
-                + controlsHolder.getX() + " " + controlsHolder.getY() + " "
-                + (controlsHolder.getX() + controlsHolder.getWidth()) + " "
-                + (controlsHolder.getY() + controlsHolder.getHeight()));
+        System.out.println(
+                "ControlsHolder coords: " + controlsHolder.getX() + " " + controlsHolder.getY() + "\n"
+                        + "ControlsHolder size: "
+                        + controlsHolder.getWidth() + " " + controlsHolder.getHeight() + "\n"
+                        + "ControlsHolder full coords: "
+                        + controlsHolder.getX() + " " + controlsHolder.getY() + " "
+                        + (controlsHolder.getX() + controlsHolder.getWidth()) + " "
+                        + (controlsHolder.getY() + controlsHolder.getHeight()));
         this.setSize(width, height);
         this.setVisible(true);
         this.gameArea = new GameArea(this.gameHolder, 10);

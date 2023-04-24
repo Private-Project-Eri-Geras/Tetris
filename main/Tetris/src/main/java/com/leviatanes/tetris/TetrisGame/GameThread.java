@@ -4,8 +4,6 @@ import java.util.logging.Logger;
 import java.nio.channels.Pipe;
 import java.util.logging.Level;
 
-import com.leviatanes.tetris.TetrisPanel;
-
 public class GameThread extends Thread {
     private boolean paused;
     private int waitingTime;

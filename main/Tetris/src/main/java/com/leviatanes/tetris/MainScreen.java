@@ -11,6 +11,8 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.leviatanes.tetris.TetrisGame.TetrisPanel;
+
 public class MainScreen extends javax.swing.JFrame {
     private TetrisPanel tetrisPanel;
 
