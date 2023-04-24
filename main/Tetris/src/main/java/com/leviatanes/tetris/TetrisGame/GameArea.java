@@ -15,8 +15,6 @@ public class GameArea extends JPanel {
     private int rows;// se usa para y
     /** Tamaño de la baldoza */
     private int tileSize;
-    /** El place holder */
-    private JPanel placeHolder;
 
     // ===========[ BANDERAS DE SECCIONES CRITICAS ]================//
     /** Bandera de rotacion */
@@ -72,10 +70,19 @@ public class GameArea extends JPanel {
      * @param colums      int columnas del tablero
      */
     public GameArea(JPanel placeHolder, int colums) {
-        this.placeHolder = placeHolder;
-        this.placeHolder.setVisible(false);
+        this.initGame(placeHolder, colums);
+    }
+
+    /**
+     * Constructor de la clase inicializa lo necesario para arrancar el juego
+     * 
+     * @param placeHolder
+     * @param colums
+     */
+    private void initGame(JPanel placeHolder, int colums) {
+        placeHolder.setVisible(false);
         this.setBounds(placeHolder.getBounds());
-        this.setBorder(this.placeHolder.getBorder());
+        this.setBorder(placeHolder.getBorder());
         this.colums = colums;
         System.out.println("colums: " + this.colums);
         System.out.println("PlaceHolderBounds: " + placeHolder.getBounds());

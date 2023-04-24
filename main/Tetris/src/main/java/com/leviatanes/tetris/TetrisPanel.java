@@ -3,21 +3,79 @@ package com.leviatanes.tetris;
 import com.leviatanes.tetris.TetrisGame.*;
 
 public class TetrisPanel extends javax.swing.JPanel {
+    /** lleva el control del juego */
     private GameArea gameArea;
+    /** lleva el control de los controles */
     private GameControls gameControls;
+    /** lleva el control del hilo del juego */
     private GameThread gameThread;
 
-    public TetrisPanel() {
+    // constantes para calculos de offset
+    // offset para el panel de estadisticas
+    private final int statsHolderYoffset = 12;
+    private final int statsHolderXoffset = 3;
+    private final int statsHolderWidth = 24;
+    private final int statsHolderHeight = 56;
+    // offset para el panel del juego
+    private final int gameHolderYoffset = 4;
+    private final int gameHolderXoffset = 30;
+    private final int gameHolderWidth = 30;
+    private final int gameHolderHeight = 72;
+    // offset para el panel de pieza siguiente
+    private final int nextShapeYoffset = 12;
+    private final int nextShapeXoffset = 65;
+    private final int nextShapeWidth = 20;
+    private final int nextShapeHeight = 20;
+    // offset para el panel de controles
+    private final int controlsHolderYoffset = 36;
+    private final int controlsHolderXoffset = 65;
+    private final int controlsHolderWidth = 20;
+    private final int controlsHolderHeight = 32;
+
+    public TetrisPanel(int width, int height, int multiplier) {
         initComponents();
+        // inicializar componentes del juego
+        this.initGameComponents(width, height, multiplier);
+
+    }
+
+    private void initGameComponents(int width, int height, int multiplier) {
+        gameHolder.setBounds(gameHolderXoffset * multiplier, gameHolderYoffset * multiplier,
+                gameHolderWidth * multiplier, gameHolderHeight * multiplier);
+        statsHolder.setBounds(statsHolderXoffset * multiplier, statsHolderYoffset * multiplier,
+                statsHolderWidth * multiplier, statsHolderHeight * multiplier);
+        nextShape.setBounds(nextShapeXoffset * multiplier, nextShapeYoffset * multiplier,
+                nextShapeWidth * multiplier, nextShapeHeight * multiplier);
+        controlsHolder.setBounds(controlsHolderXoffset * multiplier, controlsHolderYoffset * multiplier,
+                controlsHolderWidth * multiplier, controlsHolderHeight * multiplier);
+        System.out.println("GameHolder coords: " + gameHolder.getX() + " " + gameHolder.getY() + "\n"
+                + "GameHolder size: "
+                + gameHolder.getWidth() + " " + gameHolder.getHeight() + "\n" + "GameHolder full coords: "
+                + gameHolder.getX() + " " + gameHolder.getY() + " " + (gameHolder.getX() + gameHolder.getWidth()) + " "
+                + (gameHolder.getY() + gameHolder.getHeight()));
+        System.out.println(
+                "StatsHolder coords: " + statsHolder.getX() + " " + statsHolder.getY() + "\n" + "StatsHolder size: "
+                        + statsHolder.getWidth() + " " + statsHolder.getHeight() + "\n" + "StatsHolder full coords: "
+                        + statsHolder.getX() + " " + statsHolder.getY() + " "
+                        + (statsHolder.getX() + statsHolder.getWidth()) + " "
+                        + (statsHolder.getY() + statsHolder.getHeight()));
+        System.out.println("NextShape coords: " + nextShape.getX() + " " + nextShape.getY() + "\n" + "NextShape size: "
+                + nextShape.getWidth() + " " + nextShape.getHeight() + "\n" + "NextShape full coords: "
+                + nextShape.getX() + " " + nextShape.getY() + " " + (nextShape.getX() + nextShape.getWidth()) + " "
+                + (nextShape.getY() + nextShape.getHeight()));
+        System.out.println("ControlsHolder coords: " + controlsHolder.getX() + " " + controlsHolder.getY() + "\n"
+                + "ControlsHolder size: "
+                + controlsHolder.getWidth() + " " + controlsHolder.getHeight() + "\n" + "ControlsHolder full coords: "
+                + controlsHolder.getX() + " " + controlsHolder.getY() + " "
+                + (controlsHolder.getX() + controlsHolder.getWidth()) + " "
+                + (controlsHolder.getY() + controlsHolder.getHeight()));
+        this.setSize(width, height);
         this.setVisible(true);
-        this.gameHolder.setBounds(240, 12, 240, 576);
         this.gameArea = new GameArea(this.gameHolder, 10);
         this.gameThread = new GameThread(this.gameArea, this);
         this.gameControls = new GameControls(this.gameArea, this.gameThread);
         this.add(gameArea);
-
         this.gameThread.start();
-
     }
 
     public GameControls getGameControls() {
@@ -92,28 +150,37 @@ public class TetrisPanel extends javax.swing.JPanel {
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                                 .addGap(24, 24, 24)
-                                .addComponent(statsHolder, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(statsHolder,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(24, 24, 24)
-                                .addComponent(gameHolder, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(gameHolder,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(40, 40, 40)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(controlsHolder, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                .addGroup(layout.createParallelGroup(
+                                        javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(controlsHolder,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(nextShape, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        .addComponent(nextShape,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap(40, Short.MAX_VALUE)));
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(
+                                        javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(layout.createSequentialGroup()
                                                 .addGap(96, 96, 96)
                                                 .addGroup(layout
-                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .createParallelGroup(
+                                                                javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addGroup(layout.createSequentialGroup()
                                                                 .addComponent(nextShape,
                                                                         javax.swing.GroupLayout.PREFERRED_SIZE,
@@ -130,7 +197,8 @@ public class TetrisPanel extends javax.swing.JPanel {
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addGroup(layout.createSequentialGroup()
                                                 .addGap(32, 32, 32)
-                                                .addComponent(gameHolder, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                .addComponent(gameHolder,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
                                                         javax.swing.GroupLayout.DEFAULT_SIZE,
                                                         javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addContainerGap(32, Short.MAX_VALUE)));
