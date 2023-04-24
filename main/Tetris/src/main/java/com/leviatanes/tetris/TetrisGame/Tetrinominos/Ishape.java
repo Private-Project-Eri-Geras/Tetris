@@ -28,11 +28,8 @@ public class Ishape extends TetrisBlock {
                                         { 1 }
                         }
         };
-        // private static final Color darkColor = new Color(0, 143, 150);
-        // private static final Color lightColor = new Color(40, 185, 192);
-
-        private static final Color darkColor = new Color(19, 105, 192);
-        private static final Color lightColor = new Color(15, 149, 195);
+        private static final Color darkColor = new Color(0, 143, 150);
+        private static final Color lightColor = new Color(40, 185, 192);
 
         public Ishape() {
                 super(block, blockRotations, 'I', darkColor, lightColor);
