@@ -9,6 +9,7 @@ public class TetrisPanel extends javax.swing.JPanel {
 
     public TetrisPanel() {
         initComponents();
+        this.setVisible(true);
         this.gameHolder.setBounds(240, 12, 240, 576);
         this.gameArea = new GameArea(this.gameHolder, 10);
         this.gameThread = new GameThread(this.gameArea, this);
@@ -31,10 +32,25 @@ public class TetrisPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        nextShape = new javax.swing.JPanel();
         gameHolder = new javax.swing.JPanel();
+        controlsHolder = new javax.swing.JPanel();
+        statsHolder = new javax.swing.JPanel();
+
+        nextShape.setBackground(new java.awt.Color(255, 255, 0));
+
+        javax.swing.GroupLayout nextShapeLayout = new javax.swing.GroupLayout(nextShape);
+        nextShape.setLayout(nextShapeLayout);
+        nextShapeLayout.setHorizontalGroup(
+                nextShapeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 160, Short.MAX_VALUE));
+        nextShapeLayout.setVerticalGroup(
+                nextShapeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 160, Short.MAX_VALUE));
 
         gameHolder.setBackground(new java.awt.Color(255, 255, 255));
         gameHolder.setMaximumSize(new java.awt.Dimension(240, 576));
@@ -48,25 +64,82 @@ public class TetrisPanel extends javax.swing.JPanel {
                 gameHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGap(0, 576, Short.MAX_VALUE));
 
+        controlsHolder.setBackground(new java.awt.Color(0, 153, 153));
+
+        javax.swing.GroupLayout controlsHolderLayout = new javax.swing.GroupLayout(controlsHolder);
+        controlsHolder.setLayout(controlsHolderLayout);
+        controlsHolderLayout.setHorizontalGroup(
+                controlsHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 160, Short.MAX_VALUE));
+        controlsHolderLayout.setVerticalGroup(
+                controlsHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 256, Short.MAX_VALUE));
+
+        statsHolder.setBackground(new java.awt.Color(102, 255, 102));
+
+        javax.swing.GroupLayout statsHolderLayout = new javax.swing.GroupLayout(statsHolder);
+        statsHolder.setLayout(statsHolderLayout);
+        statsHolderLayout.setHorizontalGroup(
+                statsHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 192, Short.MAX_VALUE));
+        statsHolderLayout.setVerticalGroup(
+                statsHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 448, Short.MAX_VALUE));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addGap(205, 205, 205)
+                                .addGap(24, 24, 24)
+                                .addComponent(statsHolder, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(24, 24, 24)
                                 .addComponent(gameHolder, javax.swing.GroupLayout.PREFERRED_SIZE,
                                         javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(275, Short.MAX_VALUE)));
+                                .addGap(40, 40, 40)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(controlsHolder, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(nextShape, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(40, Short.MAX_VALUE)));
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(gameHolder, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(12, Short.MAX_VALUE)));
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(96, 96, 96)
+                                                .addGroup(layout
+                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addComponent(nextShape,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(32, 32, 32)
+                                                                .addComponent(controlsHolder,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addComponent(statsHolder,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(32, 32, 32)
+                                                .addComponent(gameHolder, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addContainerGap(32, Short.MAX_VALUE)));
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel controlsHolder;
     private javax.swing.JPanel gameHolder;
+    private javax.swing.JPanel nextShape;
+    private javax.swing.JPanel statsHolder;
     // End of variables declaration//GEN-END:variables
 }
