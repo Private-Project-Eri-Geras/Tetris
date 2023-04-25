@@ -133,10 +133,10 @@ public class GameArea extends JPanel {
         return this.rotateFlag;
     }
 
-    private int blockCounter = 0;
-    private TetrisBlock[] testBlocks = { new Jshape(), new Lshape(), new Ishape(), new Oshape(),
-            new Sshape(),
-            new Tshape(), new Zshape() };
+    // private int blockCounter = 0;
+    // private TetrisBlock[] testBlocks = { new Jshape(), new Lshape(), new Ishape(), new Oshape(),
+    //         new Sshape(),
+    //         new Tshape(), new Zshape() };
 
     /** Spawnea un bloque aleatorio entre I, J, L, O, S, T, Z */
     public void spawnBlock() {
