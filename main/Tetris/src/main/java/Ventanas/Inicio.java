@@ -17,6 +17,7 @@ public class Inicio extends javax.swing.JPanel {
     int mouseX, mouseY;
     private ImageIcon imagen;
     private Icon icono;
+    Escalar escal= new Escalar();
     
     //Offset para el fondo1
     private final int fondo1HolderYoffset=30;
@@ -33,34 +34,81 @@ public class Inicio extends javax.swing.JPanel {
     private final int tituloHolderXoffset=210;
     private final int tituloHolderWidth=300;
     private final int tituloHolderHeight=100;
-    //offset para el fondo2
-    private final int fondo2HolderYoffset=30;
-    private final int fondo2HolderXoffset=540;
-    private final int fondo2HolderWidth=150;
-    private final int fondo2HolderHeight=580;
+    //offset para el playP
+    private final int playPHolderYoffset=225;
+    private final int playPHolderXoffset=260;
+    private final int playPHolderWidth=200;
+    private final int playPHolderHeight=60;
+    /*//offset para el playBtn
+    private final int playBtnHolderYoffset=225;
+    private final int playBtnHolderXoffset=260;
+    private final int playBtnHolderWidth=200;
+    private final int playBtnHolderHeight=60;*/
+    //offset para el scoreP
+    private final int scorePHolderYoffset=315;
+    private final int scorePHolderXoffset=260;
+    private final int scorePHolderWidth=200;
+    private final int scorePHolderHeight=60;
+   /* //offset para el scoreBtn
+    private final int scoreBtnHolderYoffset=315;
+    private final int scoreBtnHolderXoffset=260;
+    private final int scoreBtnHolderWidth=200;
+    private final int scoreBtnHolderHeight=60;*/
+    //offset para el configP
+    private final int configPHolderYoffset=405;
+    private final int configPHolderXoffset=260;
+    private final int configPHolderWidth=200;
+    private final int configPHolderHeight=60;
+    /*//offset para el configBtn
+    private final int configBtnHolderYoffset=405;
+    private final int configBtnHolderXoffset=260;
+    private final int configBtnHolderWidth=200;
+    private final int configBtnHolderHeight=60;*/
+    //offset para el exitP
+    private final int exitPHolderYoffset=495;
+    private final int exitPHolderXoffset=260;
+    private final int exitPHolderWidth=200;
+    private final int exitPHolderHeight=60;
+    /*//offset para el exitBtn
+    private final int exitBtnHolderYoffset=495;
+    private final int exitBtnHolderXoffset=260;
+    private final int exitBtnHolderWidth=200;
+    private final int exitBtnHolderHeight=60;*/
     
     public Inicio(int width, int height, int multiplier) {
         initComponents();
         initPanel( width,  height,  multiplier);
-        this.printImage(titulo, "src/main/java/imag/Tetris.png");
+        escal.escalarLabel(titulo, "/imag/Tetris.png");
+       // escal.escalarLabel(fondo1, "/imag/FondoT.png");
+        //this.printImage(titulo, "/imag/Tetris.png");
     }
 
     private void initPanel(int width, int height, int multiplier){
-         gameHolder.setBounds(gameHolderXoffset * multiplier, gameHolderYoffset * multiplier,
-                gameHolderWidth * multiplier, gameHolderHeight * multiplier);
-        statsHolder.setBounds(statsHolderXoffset * multiplier, statsHolderYoffset * multiplier,
-                statsHolderWidth * multiplier, statsHolderHeight * multiplier);
-        nextShape.setBounds(nextShapeXoffset * multiplier, nextShapeYoffset * multiplier,
-                nextShapeWidth * multiplier, nextShapeHeight * multiplier);
-        controlsHolder.setBounds(controlsHolderXoffset * multiplier, controlsHolderYoffset * multiplier,
-                controlsHolderWidth * multiplier, controlsHolderHeight * multiplier);
+         fondo1.setBounds(fondo1HolderXoffset * multiplier, fondo1HolderYoffset * multiplier,
+                fondo1HolderWidth * multiplier, fondo1HolderHeight * multiplier);
+        fondo2.setBounds(fondo2HolderXoffset * multiplier, fondo2HolderYoffset * multiplier,
+                fondo2HolderWidth * multiplier, fondo2HolderHeight * multiplier);
+        titulo.setBounds(tituloHolderXoffset * multiplier, tituloHolderYoffset * multiplier,
+                tituloHolderWidth * multiplier, tituloHolderHeight * multiplier);
+        playP.setBounds(playPHolderXoffset * multiplier, playPHolderYoffset * multiplier,
+                playPHolderWidth * multiplier, playPHolderHeight * multiplier);
+        playBtn.setBounds(playPHolderXoffset * multiplier, playPHolderYoffset * multiplier,
+                playPHolderWidth * multiplier, playPHolderHeight * multiplier);
+        scoreP.setBounds(scorePHolderXoffset * multiplier, scorePHolderYoffset * multiplier,
+                scorePHolderWidth * multiplier, scorePHolderHeight * multiplier);
+        scoreBtn.setBounds(scorePHolderXoffset * multiplier, scorePHolderYoffset * multiplier,
+                scorePHolderWidth * multiplier, scorePHolderHeight * multiplier);
+        configP.setBounds(configPHolderXoffset * multiplier, configPHolderYoffset * multiplier,
+                configPHolderWidth * multiplier, configPHolderHeight * multiplier);
+        configBtn.setBounds(configPHolderXoffset * multiplier, configPHolderYoffset * multiplier,
+                configPHolderWidth * multiplier, configPHolderHeight * multiplier);
+        exitP.setBounds(exitPHolderXoffset * multiplier, exitPHolderYoffset * multiplier,
+                exitPHolderWidth * multiplier, exitPHolderHeight * multiplier);
+        exitBtn.setBounds(exitPHolderXoffset * multiplier, exitPHolderYoffset * multiplier,
+                exitPHolderWidth * multiplier, exitPHolderHeight * multiplier);
         this.setSize(width, height);
         this.setVisible(true);
-        this.gameArea = new GameArea(this.gameHolder, 10);
-        this.gameThread = new GameThread(this.gameArea, this);
-        this.gameControls = new GameControls(this.gameArea, this.gameThread);
-        this.add(gameArea);
-        this.gameThread.start();
+       
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -168,7 +216,7 @@ public class Inicio extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fondo1, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fondo2, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -183,13 +231,13 @@ public class Inicio extends javax.swing.JPanel {
                 .addGap(84, 84, 84))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-private void printImage(JLabel label, String ruta){//Para ajusstar la imagen al JLabel
-        this.imagen= new ImageIcon(ruta);
-        this.icono= new ImageIcon(this.imagen.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT));
-        label.setIcon(this.icono);
+    /*private void printImage(JLabel label, String ruta){//Para ajusstar la imagen al JLabel
+        ImageIcon imagen= new ImageIcon(ruta);
+        ImageIcon icono= new ImageIcon(imagen.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT));
+        label.setIcon(icono);
         this.repaint();
-    }
+    }*/
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel configBtn;
@@ -202,6 +250,6 @@ private void printImage(JLabel label, String ruta){//Para ajusstar la imagen al 
     private javax.swing.JPanel playP;
     private javax.swing.JLabel scoreBtn;
     private javax.swing.JPanel scoreP;
-    private javax.swing.JLabel titulo;
+    public static javax.swing.JLabel titulo;
     // End of variables declaration//GEN-END:variables
 }

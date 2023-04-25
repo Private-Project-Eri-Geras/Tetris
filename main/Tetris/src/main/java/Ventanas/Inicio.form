@@ -50,7 +50,7 @@
                   <Component id="fondo1" alignment="3" min="-2" pref="580" max="-2" attributes="0"/>
                   <Component id="fondo2" alignment="3" min="-2" pref="580" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="29" max="32767" attributes="0"/>
+              <EmptySpace pref="30" max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
@@ -74,6 +74,9 @@
     <Component class="javax.swing.JLabel" name="fondo2">
     </Component>
     <Component class="javax.swing.JLabel" name="titulo">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+      </AuxValues>
     </Component>
     <Container class="javax.swing.JPanel" name="playP">
 
