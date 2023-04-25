@@ -142,19 +142,19 @@ public class GameArea extends JPanel {
     }
 
     private int blockCounter = 0;
-    private TetrisBlock[] testBlocks = { new Ishape(), new Jshape(), new Lshape(), new Ishape(), new Oshape(),
+    private TetrisBlock[] testBlocks = { new Jshape(), new Lshape(), new Ishape(), new Oshape(),
             new Sshape(),
             new Tshape(), new Zshape() };
 
     /** Spawnea un bloque aleatorio entre I, J, L, O, S, T, Z */
     public void spawnBlock() {
-        // Random random = new Random();
-        // this.block = blocks[random.nextInt(blocks.length)];
+        Random random = new Random();
+        this.block = blocks[random.nextInt(blocks.length)];
 
         // == TESTING ==//
-        this.blockDropped = false;
-        this.block = testBlocks[blockCounter];
-        blockCounter = (blockCounter + 1) % testBlocks.length;
+        // this.blockDropped = false;
+        // this.block = testBlocks[blockCounter];
+        // blockCounter = (blockCounter + 1) % testBlocks.length;
         // == TESTING ==//
         block.spawn(this.colums);
     }
@@ -849,6 +849,9 @@ public class GameArea extends JPanel {
      * @param g Graphics
      */
     private void drawBlock(Graphics g) {
+        while (this.moveDownFlag || this.moveFlag || this.rotateFlag || this.checkToDropFlag || this.clearLinesFlag
+                || this.moveBlockToBottomFlag)
+            ;
         if (block == null)
             return;
         int yi;
