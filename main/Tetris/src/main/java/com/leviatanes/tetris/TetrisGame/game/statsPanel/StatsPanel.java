@@ -1,11 +1,7 @@
 package com.leviatanes.tetris.tetrisGame.game.statsPanel;
 
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -54,20 +50,10 @@ public class StatsPanel extends javax.swing.JPanel {
         int sLblW = this.scoreLabelWidth * multiplier;
         int sLblH = this.scoreLabelHeight * multiplier;
         this.scoreLabel.setBounds(sLblX, sLblY, sLblW, sLblH);
-        this.scoreLabel.setIcon(scaleImage("src/main/resources/images/Score.png", sLblW, sLblH));
-        this.add(this.scoreLabel);
-    }
-
-    private ImageIcon scaleImage(String imagePath, int width, int height) {
-        BufferedImage img = null;
-        try {
-            img = ImageIO.read(new File(imagePath));
-            Image dimg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-            return new ImageIcon(dimg);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        String scoreImagePath = "src/main/java/com/leviatanes/tetris/tetrisGame/game/statsPanel/images/Score.jpg";
+        this.scoreLabel.setIcon(new ImageIcon(
+                new ImageIcon(getClass().getResource(scoreImagePath)).getImage().getScaledInstance(sLblW, sLblH,
+                        Image.SCALE_SMOOTH)));
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated
