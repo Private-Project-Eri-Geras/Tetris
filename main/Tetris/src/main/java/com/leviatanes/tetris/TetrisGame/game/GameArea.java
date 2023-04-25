@@ -183,7 +183,7 @@ public class GameArea extends JPanel {
      */
     public boolean moveDown() {
         // espera a que se termine la seccion critica
-        while (rotateFlag || moveFlag || checkToDropFlag || clearLinesFlag || moveBlockToBottomFlag)
+        while (checkToDropFlag || clearLinesFlag || moveBlockToBottomFlag)
             ;
         System.out.println("moveDown");
         if (this.block == null) {
