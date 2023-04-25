@@ -582,6 +582,9 @@ public class GameArea extends JPanel {
                 return;
             }
         }
+        System.out.println("wallkick test failed, current rotation: " + this.block.getCurrentRotation());
+        this.block.setX(x);
+        this.block.setY(y);
         this.block.rotateBack();
     }
 
@@ -686,8 +689,10 @@ public class GameArea extends JPanel {
                 return;
             }
         }
+        this.block.setX(x);
+        this.block.setY(y);
         this.block.rotate();
-
+        System.out.println("wallkick test failed, current rotation: " + this.block.getCurrentRotation());
     }
 
     /**
