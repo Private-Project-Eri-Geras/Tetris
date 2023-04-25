@@ -1,4 +1,4 @@
-package com.leviatanes.tetris.TetrisGame;
+package com.leviatanes.tetris.tetrisGame.game;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

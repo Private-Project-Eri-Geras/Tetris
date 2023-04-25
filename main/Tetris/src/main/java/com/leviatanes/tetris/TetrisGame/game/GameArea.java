@@ -1,4 +1,4 @@
-package com.leviatanes.tetris.TetrisGame;
+package com.leviatanes.tetris.tetrisGame.game;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -6,7 +6,8 @@ import java.util.Random;
 
 import javax.swing.JPanel;
 
-import com.leviatanes.tetris.TetrisGame.Tetrinominos.*;
+import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
+import com.leviatanes.tetris.tetrisGame.tetrisBlocks.tetrinominos.*;
 
 public class GameArea extends JPanel {
     /** Columnas del tablero del juego */
@@ -133,10 +134,11 @@ public class GameArea extends JPanel {
         return this.rotateFlag;
     }
 
-    // private int blockCounter = 0;
-    // private TetrisBlock[] testBlocks = { new Jshape(), new Lshape(), new Ishape(), new Oshape(),
-    //         new Sshape(),
-    //         new Tshape(), new Zshape() };
+    //
+    //
+    //
+    //
+    //
 
     /** Spawnea un bloque aleatorio entre I, J, L, O, S, T, Z */
     public void spawnBlock() {

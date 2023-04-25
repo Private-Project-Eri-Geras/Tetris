@@ -1,4 +1,4 @@
-package com.leviatanes.tetris.TetrisGame;
+package com.leviatanes.tetris.tetrisGame.tetrisBlocks;
 
 import java.awt.Color;
 

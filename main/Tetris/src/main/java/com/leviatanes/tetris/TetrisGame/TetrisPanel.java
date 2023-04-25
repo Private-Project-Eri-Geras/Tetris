@@ -1,190 +1,194 @@
-package com.leviatanes.tetris.TetrisGame;
+package com.leviatanes.tetris.tetrisGame;
+
+import com.leviatanes.tetris.tetrisGame.game.GameArea;
+import com.leviatanes.tetris.tetrisGame.game.GameControls;
+import com.leviatanes.tetris.tetrisGame.game.GameThread;
 
 public class TetrisPanel extends javax.swing.JPanel {
-    /** lleva el control del juego */
-    private GameArea gameArea;
-    /** lleva el control de los controles */
-    private GameControls gameControls;
-    /** lleva el control del hilo del juego */
-    private GameThread gameThread;
+        /** lleva el control del juego */
+        private GameArea gameArea;
+        /** lleva el control de los controles */
+        private GameControls gameControls;
+        /** lleva el control del hilo del juego */
+        private GameThread gameThread;
 
-    // constantes para calculos de offset
-    // offset para el panel de estadisticas
-    private final int statsHolderYoffset = 12;
-    private final int statsHolderXoffset = 3;
-    private final int statsHolderWidth = 24;
-    private final int statsHolderHeight = 56;
-    // offset para el panel del juego
-    private final int gameHolderYoffset = 4;
-    private final int gameHolderXoffset = 30;
-    private final int gameHolderWidth = 30;
-    private final int gameHolderHeight = 72;
-    // offset para el panel de pieza siguiente
-    private final int nextShapeYoffset = 12;
-    private final int nextShapeXoffset = 65;
-    private final int nextShapeWidth = 20;
-    private final int nextShapeHeight = 20;
-    // offset para el panel de controles
-    private final int controlsHolderYoffset = 36;
-    private final int controlsHolderXoffset = 65;
-    private final int controlsHolderWidth = 20;
-    private final int controlsHolderHeight = 32;
+        // constantes para calculos de offset
+        // offset para el panel de estadisticas
+        private final int statsHolderYoffset = 12;
+        private final int statsHolderXoffset = 3;
+        private final int statsHolderWidth = 24;
+        private final int statsHolderHeight = 56;
+        // offset para el panel del juego
+        private final int gameHolderYoffset = 4;
+        private final int gameHolderXoffset = 30;
+        private final int gameHolderWidth = 30;
+        private final int gameHolderHeight = 72;
+        // offset para el panel de pieza siguiente
+        private final int nextShapeYoffset = 12;
+        private final int nextShapeXoffset = 65;
+        private final int nextShapeWidth = 20;
+        private final int nextShapeHeight = 20;
+        // offset para el panel de controles
+        private final int controlsHolderYoffset = 36;
+        private final int controlsHolderXoffset = 65;
+        private final int controlsHolderWidth = 20;
+        private final int controlsHolderHeight = 32;
 
-    public TetrisPanel(int width, int height, int multiplier) {
-        initComponents();
-        // inicializar componentes del juego
-        this.initGameComponents(width, height, multiplier);
+        public TetrisPanel(int width, int height, int multiplier) {
+                initComponents();
+                // inicializar componentes del juego
+                this.initGameComponents(width, height, multiplier);
 
-    }
+        }
 
-    private void initGameComponents(int width, int height, int multiplier) {
-        gameHolder.setBounds(gameHolderXoffset * multiplier, gameHolderYoffset * multiplier,
-                gameHolderWidth * multiplier, gameHolderHeight * multiplier);
-        statsHolder.setBounds(statsHolderXoffset * multiplier, statsHolderYoffset * multiplier,
-                statsHolderWidth * multiplier, statsHolderHeight * multiplier);
-        nextShape.setBounds(nextShapeXoffset * multiplier, nextShapeYoffset * multiplier,
-                nextShapeWidth * multiplier, nextShapeHeight * multiplier);
-        controlsHolder.setBounds(controlsHolderXoffset * multiplier, controlsHolderYoffset * multiplier,
-                controlsHolderWidth * multiplier, controlsHolderHeight * multiplier);
-        this.setSize(width, height);
-        this.setVisible(true);
-        this.gameArea = new GameArea(this.gameHolder, 10);
-        this.gameThread = new GameThread(this.gameArea, this);
-        this.gameControls = new GameControls(this.gameArea, this.gameThread);
-        this.add(gameArea);
-        this.gameThread.start();
-    }
+        private void initGameComponents(int width, int height, int multiplier) {
+                gameHolder.setBounds(gameHolderXoffset * multiplier, gameHolderYoffset * multiplier,
+                                gameHolderWidth * multiplier, gameHolderHeight * multiplier);
+                statsHolder.setBounds(statsHolderXoffset * multiplier, statsHolderYoffset * multiplier,
+                                statsHolderWidth * multiplier, statsHolderHeight * multiplier);
+                nextShape.setBounds(nextShapeXoffset * multiplier, nextShapeYoffset * multiplier,
+                                nextShapeWidth * multiplier, nextShapeHeight * multiplier);
+                controlsHolder.setBounds(controlsHolderXoffset * multiplier, controlsHolderYoffset * multiplier,
+                                controlsHolderWidth * multiplier, controlsHolderHeight * multiplier);
+                this.setSize(width, height);
+                this.setVisible(true);
+                this.gameArea = new GameArea(this.gameHolder, 10);
+                this.gameThread = new GameThread(this.gameArea, this);
+                this.gameControls = new GameControls(this.gameArea, this.gameThread);
+                this.add(gameArea);
+                this.gameThread.start();
+        }
 
-    public GameControls getGameControls() {
-        return this.gameControls;
-    }
+        public GameControls getGameControls() {
+                return this.gameControls;
+        }
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+        /**
+         * This method is called from within the constructor to initialize the form.
+         * WARNING: Do NOT modify this code. The content of this method is always
+         * regenerated by the Form Editor.
+         */
+        @SuppressWarnings("unchecked")
+        // <editor-fold defaultstate="collapsed" desc="Generated
+        // <editor-fold defaultstate="collapsed" desc="Generated
+        // <editor-fold defaultstate="collapsed" desc="Generated
+        // Code">//GEN-BEGIN:initComponents
+        private void initComponents() {
 
-        nextShape = new javax.swing.JPanel();
-        gameHolder = new javax.swing.JPanel();
-        controlsHolder = new javax.swing.JPanel();
-        statsHolder = new javax.swing.JPanel();
+                nextShape = new javax.swing.JPanel();
+                gameHolder = new javax.swing.JPanel();
+                controlsHolder = new javax.swing.JPanel();
+                statsHolder = new javax.swing.JPanel();
 
-        nextShape.setBackground(new java.awt.Color(255, 255, 0));
+                nextShape.setBackground(new java.awt.Color(255, 255, 0));
 
-        javax.swing.GroupLayout nextShapeLayout = new javax.swing.GroupLayout(nextShape);
-        nextShape.setLayout(nextShapeLayout);
-        nextShapeLayout.setHorizontalGroup(
-                nextShapeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 160, Short.MAX_VALUE));
-        nextShapeLayout.setVerticalGroup(
-                nextShapeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 160, Short.MAX_VALUE));
+                javax.swing.GroupLayout nextShapeLayout = new javax.swing.GroupLayout(nextShape);
+                nextShape.setLayout(nextShapeLayout);
+                nextShapeLayout.setHorizontalGroup(
+                                nextShapeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGap(0, 160, Short.MAX_VALUE));
+                nextShapeLayout.setVerticalGroup(
+                                nextShapeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGap(0, 160, Short.MAX_VALUE));
 
-        gameHolder.setBackground(new java.awt.Color(255, 255, 255));
-        gameHolder.setMaximumSize(new java.awt.Dimension(240, 576));
+                gameHolder.setBackground(new java.awt.Color(255, 255, 255));
+                gameHolder.setMaximumSize(new java.awt.Dimension(240, 576));
 
-        javax.swing.GroupLayout gameHolderLayout = new javax.swing.GroupLayout(gameHolder);
-        gameHolder.setLayout(gameHolderLayout);
-        gameHolderLayout.setHorizontalGroup(
-                gameHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 240, Short.MAX_VALUE));
-        gameHolderLayout.setVerticalGroup(
-                gameHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 576, Short.MAX_VALUE));
+                javax.swing.GroupLayout gameHolderLayout = new javax.swing.GroupLayout(gameHolder);
+                gameHolder.setLayout(gameHolderLayout);
+                gameHolderLayout.setHorizontalGroup(
+                                gameHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGap(0, 240, Short.MAX_VALUE));
+                gameHolderLayout.setVerticalGroup(
+                                gameHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGap(0, 576, Short.MAX_VALUE));
 
-        controlsHolder.setBackground(new java.awt.Color(0, 153, 153));
+                controlsHolder.setBackground(new java.awt.Color(0, 153, 153));
 
-        javax.swing.GroupLayout controlsHolderLayout = new javax.swing.GroupLayout(controlsHolder);
-        controlsHolder.setLayout(controlsHolderLayout);
-        controlsHolderLayout.setHorizontalGroup(
-                controlsHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 160, Short.MAX_VALUE));
-        controlsHolderLayout.setVerticalGroup(
-                controlsHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 256, Short.MAX_VALUE));
+                javax.swing.GroupLayout controlsHolderLayout = new javax.swing.GroupLayout(controlsHolder);
+                controlsHolder.setLayout(controlsHolderLayout);
+                controlsHolderLayout.setHorizontalGroup(
+                                controlsHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGap(0, 160, Short.MAX_VALUE));
+                controlsHolderLayout.setVerticalGroup(
+                                controlsHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGap(0, 256, Short.MAX_VALUE));
 
-        statsHolder.setBackground(new java.awt.Color(102, 255, 102));
+                statsHolder.setBackground(new java.awt.Color(102, 255, 102));
 
-        javax.swing.GroupLayout statsHolderLayout = new javax.swing.GroupLayout(statsHolder);
-        statsHolder.setLayout(statsHolderLayout);
-        statsHolderLayout.setHorizontalGroup(
-                statsHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 192, Short.MAX_VALUE));
-        statsHolderLayout.setVerticalGroup(
-                statsHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 448, Short.MAX_VALUE));
+                javax.swing.GroupLayout statsHolderLayout = new javax.swing.GroupLayout(statsHolder);
+                statsHolder.setLayout(statsHolderLayout);
+                statsHolderLayout.setHorizontalGroup(
+                                statsHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGap(0, 192, Short.MAX_VALUE));
+                statsHolderLayout.setVerticalGroup(
+                                statsHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGap(0, 448, Short.MAX_VALUE));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(24, 24, 24)
-                                .addComponent(statsHolder,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(24, 24, 24)
-                                .addComponent(gameHolder,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(40, 40, 40)
-                                .addGroup(layout.createParallelGroup(
-                                        javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(controlsHolder,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(nextShape,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(40, Short.MAX_VALUE)));
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(
-                                        javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(96, 96, 96)
-                                                .addGroup(layout
-                                                        .createParallelGroup(
-                                                                javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(layout.createSequentialGroup()
-                                                                .addComponent(nextShape,
-                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addGap(32, 32, 32)
-                                                                .addComponent(controlsHolder,
-                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                        javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                        .addComponent(statsHolder,
-                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(32, 32, 32)
-                                                .addComponent(gameHolder,
-                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                        javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap(32, Short.MAX_VALUE)));
-    }// </editor-fold>//GEN-END:initComponents
+                javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+                this.setLayout(layout);
+                layout.setHorizontalGroup(
+                                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(layout.createSequentialGroup()
+                                                                .addGap(24, 24, 24)
+                                                                .addComponent(statsHolder,
+                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(24, 24, 24)
+                                                                .addComponent(gameHolder,
+                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(40, 40, 40)
+                                                                .addGroup(layout.createParallelGroup(
+                                                                                javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                .addComponent(controlsHolder,
+                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addComponent(nextShape,
+                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addContainerGap(40, Short.MAX_VALUE)));
+                layout.setVerticalGroup(
+                                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(layout.createSequentialGroup()
+                                                                .addGroup(layout.createParallelGroup(
+                                                                                javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                .addGroup(layout.createSequentialGroup()
+                                                                                                .addGap(96, 96, 96)
+                                                                                                .addGroup(layout
+                                                                                                                .createParallelGroup(
+                                                                                                                                javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                                                .addGroup(layout.createSequentialGroup()
+                                                                                                                                .addComponent(nextShape,
+                                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                                .addGap(32, 32, 32)
+                                                                                                                                .addComponent(controlsHolder,
+                                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                                                .addComponent(statsHolder,
+                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                                                .addGroup(layout.createSequentialGroup()
+                                                                                                .addGap(32, 32, 32)
+                                                                                                .addComponent(gameHolder,
+                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                                .addContainerGap(32, Short.MAX_VALUE)));
+        }// </editor-fold>//GEN-END:initComponents
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel controlsHolder;
-    private javax.swing.JPanel gameHolder;
-    private javax.swing.JPanel nextShape;
-    private javax.swing.JPanel statsHolder;
-    // End of variables declaration//GEN-END:variables
+        // Variables declaration - do not modify//GEN-BEGIN:variables
+        private javax.swing.JPanel controlsHolder;
+        private javax.swing.JPanel gameHolder;
+        private javax.swing.JPanel nextShape;
+        private javax.swing.JPanel statsHolder;
+        // End of variables declaration//GEN-END:variables
 }
