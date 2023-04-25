@@ -23,13 +23,12 @@ import javax.swing.JLabel;
  */
 public class Test extends javax.swing.JFrame {
     private TetrisPanel tetrisPanel;
-    
+
     Escalar escal= new Escalar();
     int mouseX, mouseY;
     private ImageIcon imagen;
     private Icon icono;
-    
-    //private Inicio menuIni;
+
     final int BASE_WIDTH = 90;
     private final int BASE_HEIGHT = 80;
     private final int MATRIX_ROWS = 28;
@@ -38,7 +37,7 @@ public class Test extends javax.swing.JFrame {
     // Variables
     private int width = 0;
     private int height = 0;
-    private int multiplier = 1;
+    public int multiplier = 1;
 
     // Get screen resolution
     private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -74,8 +73,8 @@ public class Test extends javax.swing.JFrame {
         resolution[0][0] = BASE_WIDTH;
         resolution[0][1] = BASE_HEIGHT;
         for (multiplier = 1; multiplier < MATRIX_ROWS && resolution[multiplier - 1][1] < screenHeight; multiplier++) {
-            // if (multiplier == 9)
-            // break;
+            if (multiplier == 9)
+                break;
             resolution[multiplier][0] = resolution[0][0] * (multiplier + 1);
             resolution[multiplier][1] = resolution[0][1] * (multiplier + 1);
             width = resolution[multiplier - 1][0];
@@ -92,7 +91,7 @@ public class Test extends javax.swing.JFrame {
     }
 
     private void initGame() {
-        //this.setResizable(false);
+        this.setResizable(false);
         this.setSize(width, height);
         this.tetrisPanel = new TetrisPanel(width, height, multiplier);
         tetrisPanel.setSize(width, height);
@@ -119,20 +118,7 @@ public class Test extends javax.swing.JFrame {
         
         //this.addKeyListener(tetrisPanel.getGameControls());
     }
-    
-    /*private void printImage(JLabel label, String ruta){//Para ajusstar la imagen al JLabel
-        ImageIcon imagen= new ImageIcon(ruta);
-        ImageIcon icono= new ImageIcon(imagen.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT));
-        label.setIcon(icono);
-        this.repaint();
-    }*/
-   /* private void printImage(JLabel label, String ruta){//Para ajusstar la imagen al JLabel
-        this.imagen= new ImageIcon(ruta);
-        this.icono= new ImageIcon(this.imagen.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT));
-        label.setIcon(this.icono);
-        this.repaint();
-    }*/
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -174,6 +160,11 @@ public class Test extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    //get de multiplier
+    public int getMultiplier() {
+        return multiplier;
+    }
 
     /**
      * @param args the command line arguments

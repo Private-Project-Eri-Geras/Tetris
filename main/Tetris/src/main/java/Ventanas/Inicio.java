@@ -107,7 +107,9 @@ public class Inicio extends javax.swing.JPanel {
         exitBtn.setBounds(exitPHolderXoffset * multiplier, exitPHolderYoffset * multiplier,
                 exitPHolderWidth * multiplier, exitPHolderHeight * multiplier);
         
-        escal.escalarLabel(titulo, "/imag/Tetris.png");
+        escal.escalarLabel(titulo, "/imag/Tetris.png", multiplier);
+        escal.escalarLabel(fondo1, "/imag/FondoT.png", multiplier);
+        escal.escalarLabel(fondo2, "/imag/FondoT.png", multiplier);
         this.setSize(width, height);
         this.setVisible(true);
        

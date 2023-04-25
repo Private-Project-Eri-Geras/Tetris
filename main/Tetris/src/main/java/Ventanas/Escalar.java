@@ -13,9 +13,9 @@ public class Escalar {
     private ImageIcon imagen;
     private Icon icono;
     
-    public void escalarLabel(JLabel label, String ruta){
+    public void escalarLabel(JLabel label, String ruta, int multiplier){
         label.setIcon(new ImageIcon(new ImageIcon(getClass().getResource(ruta)).getImage()
-                      .getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT)
+                      .getScaledInstance(label.getWidth()/multiplier , label.getHeight()/multiplier, Image.SCALE_DEFAULT)
         ));
         System.out.println("label.getWidth(): "+label.getWidth()+", label.getHeight()"+label.getHeight());
         //label.repaint();
