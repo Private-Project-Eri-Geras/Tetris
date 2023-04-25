@@ -48,6 +48,15 @@ public class TetrisBlock {
     }
 
     /**
+     * Devuelve la lista de rotaciones del bloque
+     * 
+     * @return int[][][] blockRotations
+     */
+    public int[][][] getBlockRotations() {
+        return blockRotations;
+    }
+
+    /**
      * Devuelve el color oscuro del bloque
      * 
      * @return Color darkColor Color oscuro del bloque
@@ -167,6 +176,24 @@ public class TetrisBlock {
     }
 
     // Metodos
+
+    /**
+     * Suma una coordenada al bloque
+     * 
+     * @param x
+     */
+    public void addX(int x) {
+        this.x += x;
+    }
+
+    /**
+     * Suma una coordenada al bloque
+     * 
+     * @param y
+     */
+    public void addY(int y) {
+        this.y += y;
+    }
 
     /**
      * Establece el bloque actual
