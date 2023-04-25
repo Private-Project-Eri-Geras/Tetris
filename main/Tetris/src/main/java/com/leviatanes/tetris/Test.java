@@ -4,6 +4,7 @@
  */
 package com.leviatanes.tetris;
 
+import Ventanas.Inicio;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -16,6 +17,7 @@ import com.leviatanes.tetris.TetrisGame.TetrisPanel;
  */
 public class Test extends javax.swing.JFrame {
     private TetrisPanel tetrisPanel;
+    //private Inicio menuIni;
     final int BASE_WIDTH = 90;
     private final int BASE_HEIGHT = 80;
     private final int MATRIX_ROWS = 28;
@@ -39,11 +41,13 @@ public class Test extends javax.swing.JFrame {
     public Test() {
         initComponents();
         // obtener resolucion maxima
+        this.setResizable(false);
         this.getMaxResolution();
         // generar centro de pantalla para el panel
         this.generateCenter();
+        this.MenuInicio();
         // inicializar el juego
-        this.initGame();
+        //this.initGame();
     }
 
     private void getMaxResolution() {
@@ -69,7 +73,7 @@ public class Test extends javax.swing.JFrame {
     }
 
     private void initGame() {
-        this.setResizable(false);
+        //this.setResizable(false);
         this.setSize(width, height);
         this.tetrisPanel = new TetrisPanel(width, height, multiplier);
         tetrisPanel.setSize(width, height);
@@ -80,6 +84,20 @@ public class Test extends javax.swing.JFrame {
         this.addKeyListener(tetrisPanel.getGameControls());
     }
 
+    private void MenuInicio(){
+        
+        //this.setSize(width, height);
+        //this.tetrisPanel = new TetrisPanel(width, height, multiplier);
+        Inicio menuIni = new Inicio(width, height, multiplier);
+        menuIni.setSize(width, height);
+        menuIni.setLocation(0, 0);
+        PlaceHolder.removeAll();
+        PlaceHolder.add(menuIni);
+        PlaceHolder.revalidate();
+        PlaceHolder.repaint();
+        this.addKeyListener(tetrisPanel.getGameControls());
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
