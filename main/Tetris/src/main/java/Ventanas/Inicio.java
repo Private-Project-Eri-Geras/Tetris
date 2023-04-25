@@ -130,9 +130,24 @@ public class Inicio extends javax.swing.JPanel {
         exitP = new javax.swing.JPanel();
         exitBtn = new javax.swing.JLabel();
 
+        setBackground(new java.awt.Color(142, 76, 236));
+
+        playP.setBackground(new java.awt.Color(38, 185, 193));
+
         playBtn.setFont(new java.awt.Font("Impact", 0, 36)); // NOI18N
         playBtn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         playBtn.setText("PLAY");
+        playBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                playBtnMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                playBtnMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                playBtnMouseExited(evt);
+            }
+        });
 
         javax.swing.GroupLayout playPLayout = new javax.swing.GroupLayout(playP);
         playP.setLayout(playPLayout);
@@ -145,9 +160,19 @@ public class Inicio extends javax.swing.JPanel {
             .addComponent(playBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
         );
 
+        scoreP.setBackground(new java.awt.Color(38, 185, 193));
+
         scoreBtn.setFont(new java.awt.Font("Impact", 0, 36)); // NOI18N
         scoreBtn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         scoreBtn.setText("SCORE");
+        scoreBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                scoreBtnMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                scoreBtnMouseExited(evt);
+            }
+        });
 
         javax.swing.GroupLayout scorePLayout = new javax.swing.GroupLayout(scoreP);
         scoreP.setLayout(scorePLayout);
@@ -160,9 +185,19 @@ public class Inicio extends javax.swing.JPanel {
             .addComponent(scoreBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
         );
 
+        configP.setBackground(new java.awt.Color(38, 185, 193));
+
         configBtn.setFont(new java.awt.Font("Impact", 0, 36)); // NOI18N
         configBtn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         configBtn.setText("CONFIG");
+        configBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                configBtnMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                configBtnMouseExited(evt);
+            }
+        });
 
         javax.swing.GroupLayout configPLayout = new javax.swing.GroupLayout(configP);
         configP.setLayout(configPLayout);
@@ -175,9 +210,22 @@ public class Inicio extends javax.swing.JPanel {
             .addComponent(configBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
         );
 
+        exitP.setBackground(new java.awt.Color(38, 185, 193));
+
         exitBtn.setFont(new java.awt.Font("Impact", 0, 36)); // NOI18N
         exitBtn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         exitBtn.setText("EXIT");
+        exitBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                exitBtnMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                exitBtnMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                exitBtnMouseExited(evt);
+            }
+        });
 
         javax.swing.GroupLayout exitPLayout = new javax.swing.GroupLayout(exitP);
         exitP.setLayout(exitPLayout);
@@ -235,6 +283,57 @@ public class Inicio extends javax.swing.JPanel {
                 .addGap(84, 84, 84))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void playBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playBtnMouseEntered
+        //Camabio de color del botón
+        playP.setBackground(new java.awt.Color(46, 83, 197));
+    }//GEN-LAST:event_playBtnMouseEntered
+
+    private void playBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playBtnMouseExited
+        // Regresa a su color
+        playP.setBackground(new java.awt.Color(38, 185, 193));
+    }//GEN-LAST:event_playBtnMouseExited
+
+    private void scoreBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_scoreBtnMouseEntered
+        //Camabio de color del botón
+        scoreP.setBackground(new java.awt.Color(46, 83, 197));
+    }//GEN-LAST:event_scoreBtnMouseEntered
+
+    private void scoreBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_scoreBtnMouseExited
+        // Regresa a su color
+        scoreP.setBackground(new java.awt.Color(38, 185, 193));
+    }//GEN-LAST:event_scoreBtnMouseExited
+
+    private void configBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_configBtnMouseEntered
+        //Camabio de color del botón
+        configP.setBackground(new java.awt.Color(46, 83, 197));
+    }//GEN-LAST:event_configBtnMouseEntered
+
+    private void configBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_configBtnMouseExited
+        // Regresa a su color
+        configP.setBackground(new java.awt.Color(38, 185, 193));
+    }//GEN-LAST:event_configBtnMouseExited
+
+    private void exitBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitBtnMouseEntered
+        //Camabio de color del botón
+        exitP.setBackground(new java.awt.Color(46, 83, 197));
+    }//GEN-LAST:event_exitBtnMouseEntered
+
+    private void exitBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitBtnMouseExited
+        // Regresa a su color
+        exitP.setBackground(new java.awt.Color(38, 185, 193));
+    }//GEN-LAST:event_exitBtnMouseExited
+
+    private void exitBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitBtnMouseClicked
+        // Sale del programa
+        System.exit(0);
+    }//GEN-LAST:event_exitBtnMouseClicked
+
+    private void playBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playBtnMouseClicked
+        // Va a la pestaña de juego
+            //De momento solo inicializa el juego
+            
+    }//GEN-LAST:event_playBtnMouseClicked
     /*private void printImage(JLabel label, String ruta){//Para ajusstar la imagen al JLabel
         ImageIcon imagen= new ImageIcon(ruta);
         ImageIcon icono= new ImageIcon(imagen.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT));

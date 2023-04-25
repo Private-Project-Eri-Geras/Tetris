@@ -59,10 +59,7 @@ public class Test extends javax.swing.JFrame {
         this.setLocationRelativeTo(this);//Para centrar el Frame //mio
         this.MenuInicio();
         
-        //setLocationRelativeTo(null);
-        //escal.escalarLabel(Ventanas.Inicio.titulo, "/imag/Tetris.png");
-        //escal.escalarLabel(Ventanas.Inicio.fondo1, "/imag/FondoT.png");
-        //this.repaint();
+        
         
         // inicializar el juego
         //this.initGame();
