@@ -1,39 +1,39 @@
-package com.leviatanes.tetris.TetrisGame.Tetrinominos;
+package com.leviatanes.tetris.tetrisGame.tetrisBlocks.tetrinominos;
 
 import java.awt.Color;
 
-import com.leviatanes.tetris.TetrisGame.TetrisBlock;
+import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
 
-public class Sshape extends TetrisBlock {
+public class Zshape extends TetrisBlock {
         private static final int[][] block = {
-                        { 0, 1, 1 },
-                        { 1, 1, 0 }
+                        { 1, 1, 0 },
+                        { 0, 1, 1 }
         };
         private static final int[][][] blockRotations = new int[][][] {
                         {
-                                        { 0, 1, 1 },
-                                        { 1, 1, 0 }
+                                        { 1, 1, 0 },
+                                        { 0, 1, 1 }
                         },
                         {
-                                        { 1, 0 },
+                                        { 0, 1 },
                                         { 1, 1 },
-                                        { 0, 1 }
+                                        { 1, 0 }
                         },
                         {
-                                        { 0, 1, 1 },
-                                        { 1, 1, 0 }
+                                        { 1, 1, 0 },
+                                        { 0, 1, 1 }
                         },
                         {
-                                        { 1, 0 },
+                                        { 0, 1 },
                                         { 1, 1 },
-                                        { 0, 1 }
+                                        { 1, 0 }
                         }
         };
-        private static final Color darkColor = new Color(35, 144, 27);
-        private static final Color lightColor = new Color(54, 185, 44);
+        private static final Color darkColor = new Color(164, 10, 10);
+        private static final Color lightColor = new Color(200, 63, 49);
 
-        public Sshape() {
-                super(block, blockRotations, 'S', darkColor, lightColor);
+        public Zshape() {
+                super(block, blockRotations, 'Z', darkColor, lightColor);
         }
 
         @Override

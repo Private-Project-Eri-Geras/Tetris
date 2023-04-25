@@ -1,4 +1,7 @@
-package com.leviatanes.tetris.TetrisGame;
+package com.leviatanes.tetris.tetrisGame.game;
+
+import com.leviatanes.tetris.tetrisGame.TetrisPanel;
+import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
 
 public class GameThread extends Thread {
     private boolean paused;

@@ -1,8 +1,8 @@
-package com.leviatanes.tetris.TetrisGame.Tetrinominos;
+package com.leviatanes.tetris.tetrisGame.tetrisBlocks.tetrinominos;
 
 import java.awt.Color;
 
-import com.leviatanes.tetris.TetrisGame.TetrisBlock;
+import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
 
 public class Ishape extends TetrisBlock {
         public static final int[][] block = {
