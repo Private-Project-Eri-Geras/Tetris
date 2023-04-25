@@ -1,9 +1,5 @@
 package com.leviatanes.tetris.TetrisGame;
 
-import java.util.logging.Logger;
-import java.nio.channels.Pipe;
-import java.util.logging.Level;
-
 public class GameThread extends Thread {
     private boolean paused;
     private int waitingTime;
@@ -56,10 +52,10 @@ public class GameThread extends Thread {
                     pause();
             }
             System.out.println("    aft while moveDown");
-            settleBlock();
-
-            gameArea.clearLines();
-            gameArea.repaint();
+            if (settleBlock()) {
+                gameArea.clearLines();
+                gameArea.repaint();
+            }
             System.out.println("    reset run");
         }
 
@@ -101,7 +97,7 @@ public class GameThread extends Thread {
         gameArea.setBlock(block);
     }
 
-    public void settleBlock() {
+    public boolean settleBlock() {
         System.out.println("    settleBlock");
         startSettleTime = System.currentTimeMillis();
         rotationCount = 0;
@@ -120,9 +116,10 @@ public class GameThread extends Thread {
                 ;
             gameArea.moveBlockToBackGround();
             gameArea.setBlock(null);
+            return true;
         }
         gameArea.disableBlockDropped();
-        rotationCount = 0;
+        return false;
     }
 
     /**

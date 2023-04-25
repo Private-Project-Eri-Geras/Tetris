@@ -752,7 +752,7 @@ public class GameArea extends JPanel {
      * 
      * @param r linea a eliminar
      */
-    public void clearLine(int r) {
+    private void clearLine(int r) {
         for (int col = 0; col < this.colums; col++) {
             background[0][r][col] = darkColor;
             background[1][r][col] = lightColor;
@@ -766,7 +766,7 @@ public class GameArea extends JPanel {
      * 
      * @param r linea eliminada
      */
-    public void shiftDown(int r) {
+    private void shiftDown(int r) {
         for (int row = r; row >= 0; row--) {
             for (int col = 0; col < this.colums; col++) {
                 if (row == 0) {
