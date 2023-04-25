@@ -70,8 +70,8 @@ public class GameArea extends JPanel {
      * @param placeHolder JPanel panel que encierra el tablero
      * @param colums      int columnas del tablero
      */
-    public GameArea(JPanel placeHolder, int colums) {
-        this.initGame(placeHolder, colums);
+    public GameArea(int x, int y, int width, int height, int colums) {
+        this.initGame(x, y, width, height, colums);
     }
 
     /**
@@ -80,17 +80,11 @@ public class GameArea extends JPanel {
      * @param placeHolder
      * @param colums
      */
-    private void initGame(JPanel placeHolder, int colums) {
-        placeHolder.setVisible(false);
-        this.setBounds(placeHolder.getBounds());
-        this.setBorder(placeHolder.getBorder());
+    private void initGame(int x, int y, int width, int height, int colums) {
+        this.setBounds(x, y, width, height);
         this.colums = colums;
-        System.out.println("colums: " + this.colums);
-        System.out.println("PlaceHolderBounds: " + placeHolder.getBounds());
-        System.out.println("PlaceHolderBounds.width: " + placeHolder.getBounds().width);
-        System.out.println("PlaceHolderBounds.height: " + placeHolder.getBounds().height);
-        this.tileSize = placeHolder.getBounds().width / this.colums;
-        this.rows = placeHolder.getBounds().height / tileSize;
+        this.tileSize = width / this.colums;
+        this.rows = height / tileSize;
 
         this.drawOffset = (int) (tileSize * 0.20);
         this.drawOffset2 = -(2 * drawOffset) + 1;
