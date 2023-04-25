@@ -52,10 +52,10 @@ public class TetrisPanel extends javax.swing.JPanel {
 
         private void initGameComponents(int width, int height, int multiplier) {
                 this.setSize(width, height);
-                this.setVisible(true);
 
                 this.gameArea = new GameArea(gameHolderXoffset * multiplier, gameHolderYoffset * multiplier,
                                 gameHolderWidth * multiplier, gameHolderHeight * multiplier, 10);
+                this.add(gameArea);
 
                 this.nextShape = new NextShapePanel();
                 nextShape.setBounds(nextShapeXoffset * multiplier, nextShapeYoffset * multiplier,
@@ -63,7 +63,7 @@ public class TetrisPanel extends javax.swing.JPanel {
                 nextShape.setSize(nextShapeWidth * multiplier, nextShapeHeight * multiplier);
                 this.add(nextShape);
 
-                this.statsHolder = new StatsPanel();
+                this.statsHolder = new StatsPanel(multiplier);
                 statsHolder.setBounds(statsHolderXoffset * multiplier, statsHolderYoffset * multiplier,
                                 statsHolderWidth * multiplier, statsHolderHeight * multiplier);
                 statsHolder.setSize(statsHolderWidth * multiplier, statsHolderHeight * multiplier);
@@ -79,7 +79,7 @@ public class TetrisPanel extends javax.swing.JPanel {
 
                 this.gameControls = new GameControls(this.gameArea, this.gameThread);
 
-                this.add(gameArea);
+                this.setVisible(true);
                 this.gameThread.start();
         }
 
