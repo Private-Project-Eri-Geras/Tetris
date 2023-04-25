@@ -31,14 +31,6 @@ public class GameArea extends JPanel {
     private boolean clearLinesFlag = false;
     /** Bandera para mover el bloque al fondo */
     private boolean moveBlockToBottomFlag = false;
-    // =================[ BANDERAS DE ROTACION ]====================//
-    /*
-     * estas banderas se encargan de que las rotaciones no se ciclen completamente
-     */
-    /** Bandera de rotacion de bloque */
-    private boolean rotateBlockFlag = false;
-    /** Bandera de contraRotacion de bloque */
-    private boolean counterRotateBlockFlag = false;
     /**
      * matriz del color de fondo
      * 
