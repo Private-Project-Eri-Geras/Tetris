@@ -17,7 +17,8 @@ public class Escalar {
         label.setIcon(new ImageIcon(new ImageIcon(getClass().getResource(ruta)).getImage()
                       .getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT)
         ));
-        label.repaint();
+        System.out.println("label.getWidth(): "+label.getWidth()+", label.getHeight()"+label.getHeight());
+        //label.repaint();
         /*Image img= new ImageIcon(ruta).getImage();
         ImageIcon img2=new ImageIcon(img.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH));
         label.setIcon(img2);*/
