@@ -31,6 +31,14 @@ public class GameArea extends JPanel {
     private boolean clearLinesFlag = false;
     /** Bandera para mover el bloque al fondo */
     private boolean moveBlockToBottomFlag = false;
+    // =================[ BANDERAS DE ROTACION ]====================//
+    /*
+     * estas banderas se encargan de que las rotaciones no se ciclen completamente
+     */
+    /** Bandera de rotacion de bloque */
+    private boolean rotateBlockFlag = false;
+    /** Bandera de contraRotacion de bloque */
+    private boolean counterRotateBlockFlag = false;
     /**
      * matriz del color de fondo
      * 
@@ -134,7 +142,8 @@ public class GameArea extends JPanel {
     }
 
     private int blockCounter = 0;
-    private TetrisBlock[] testBlocks = { new Ishape(), new Jshape(), new Lshape(), new Oshape(), new Sshape(),
+    private TetrisBlock[] testBlocks = { new Ishape(), new Jshape(), new Lshape(), new Ishape(), new Oshape(),
+            new Sshape(),
             new Tshape(), new Zshape() };
 
     /** Spawnea un bloque aleatorio entre I, J, L, O, S, T, Z */
@@ -238,7 +247,7 @@ public class GameArea extends JPanel {
      */
     public boolean checkBottom() throws ArrayIndexOutOfBoundsException {
         // espera a que se termine la seccion critica
-        while (rotateFlag || moveFlag || clearLinesFlag || moveBlockToBottomFlag)
+        while (moveFlag || clearLinesFlag || moveBlockToBottomFlag)
             ;
         this.moveDownFlag = true;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         if (this.block == null) {
@@ -510,14 +519,33 @@ public class GameArea extends JPanel {
             return;
         }
         this.rotateFlag = true;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
-        this.block.rotate();
-        this.offsetOutOfBounnds();
-        if (this.checkRotate())
-            this.rotateBack();
+        this.checkRotate();
         this.rotateFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         repaint();
         System.out.println("exit rotate");
     }
+
+    /**
+     * Arreglo de pruebas de rotacion J,L,S,Z,T
+     * int[TipoDeRotacion][NumeroDeTest][cooredandas]
+     */
+    private int[][][] rotationTests = {
+            { { 0, 0 }, { -1, 0 }, { -1, -1 }, { 0, 2 }, { -1, 2 } }, // 0->1
+            { { 0, 0 }, { 1, 0 }, { 1, 1 }, { 0, -2 }, { 1, -2 } }, // 1->2
+            { { 0, 0 }, { 1, 0 }, { 1, -1 }, { 0, 2 }, { 1, 2 } }, // 2->3
+            { { 0, 0 }, { -1, 0 }, { -1, 1 }, { 0, -2 }, { -1, -2 } }// 3->0
+    };
+
+    /**
+     * Arreglo de pruebas de rotacion I
+     * int[TipoDeRotacion][NumeroDeTest][cooredandas]
+     */
+    private int[][][] rotationTestI = {
+            { { 0, 0 }, { -2, 0 }, { 1, 0 }, { -2, 1 }, { 1, -2 } }, // 0->1
+            { { 0, 0 }, { -1, 0 }, { 2, 0 }, { -1, -2 }, { 2, 1 } }, // 1->2
+            { { 0, 0 }, { 2, 0 }, { -1, 0 }, { 2, -1 }, { -1, 2 } }, // 2->3
+            { { 0, 0 }, { 1, 0 }, { -2, 0 }, { 1, 2 }, { -2, -1 } } // 3->0
+    };
 
     /**
      * Verifica si la rotacion del bloque es valida
@@ -525,27 +553,63 @@ public class GameArea extends JPanel {
      * o si se sale de los limites del tablero
      * si es valida se deja la rotacion
      * si no es valida se regresa la rotacion anterior
-     * 
-     * @return true si la rotacion es invalida
      */
-    private boolean checkRotate() {
-        int[][] shape = block.getBlock();
+    private void checkRotate() {
+        if (this.block.getType() == 'O') {
+            return;
+        }
+        int[][][] rotationTest;
+        if (this.block.getType() == 'I') {
+            rotationTest = rotationTestI;
+        } else {
+            rotationTest = rotationTests;
+        }
+
+        int currentRotation = this.block.getCurrentRotation();
+        this.block.rotate();
+        int x = this.block.getLeftEdge();
+        int y = this.block.getTopEdge();
+        for (int i = 0; i < 5; i++) {
+            this.block.setX(x);
+            this.block.setY(y);
+            block.addX(rotationTest[currentRotation][i][0]);
+            block.addY(rotationTest[currentRotation][i][1]);
+            System.out
+                    .println("validando wallKick test " + (i + 1) + " offset: x " + rotationTest[currentRotation][i][0]
+                            + " y " + (-rotationTest[currentRotation][i][1]));
+            if (this.wallKickTest()) {
+                System.out.println("wallkick test passed, current rotation: " + this.block.getCurrentRotation());
+                return;
+            }
+        }
+        this.block.rotateBack();
+    }
+
+    /**
+     * Verifica que el "wallkick"
+     * sea una rotacion valida
+     * 
+     * @return boolean true si la rotacion es valida
+     */
+    private boolean wallKickTest() {
+        if (this.checkOutOfBounnds())
+            return false;
+        int shape[][] = block.getBlock();
         int w = block.getWidth();
         int h = block.getHeight();
-        int xi, yi;
+        int x, y;// se utilizaran para sacar el offsetverdadero y comparar correctamente
         for (int row = 0; row < h; row++) {
             for (int col = 0; col < w; col++) {
                 if (shape[row][col] == 1) {
-                    yi = row + block.getY();
-                    xi = col + block.getX();
-                    if (background[0][yi][xi] != darkColor) {
-                        return true;
+                    x = col + block.getX();
+                    y = row + block.getY();
+                    if (background[0][y][x] != darkColor) {
+                        return false;
                     }
                 }
-
             }
         }
-        return false;
+        return true;
     }
 
     /** Gira el bloque en contra de las manecillas del reloj */
@@ -559,62 +623,96 @@ public class GameArea extends JPanel {
             return;
         }
         this.rotateFlag = true;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
-        this.block.rotateBack();
-        this.offsetOutOfBounnds();
-        if (this.checkRotateBack())
-            this.rotate();
+        this.checkRotateBack();
         this.rotateFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         repaint();
         System.out.println("exit rotateBack");
     }
 
     /**
+     * Arreglo de pruebas de contraRotacion J,L,S,Z,T
+     * int[TipoDeRotacion][NumeroDeTest][cooredandas]
+     */
+    private int[][][] counterRotationTests = {
+            { { 0, 0 }, { 1, 0 }, { 1, 1 }, { 0, -2 }, { 1, -2 } }, // 1->0
+            { { 0, 0 }, { -1, 0 }, { -1, -1 }, { 0, 2 }, { -1, 2 } }, // 2->1
+            { { 0, 0 }, { -1, 0 }, { -1, 1 }, { 0, -2 }, { -1, -2 } }, // 3->2
+            { { 0, 0 }, { 1, 0 }, { 1, -1 }, { 0, 2 }, { 1, 2 } } // 0->3
+    };
+    /**
+     * Arreglo de pruebas de contraRotacion I
+     * int[TipoDeRotacion][NumeroDeTest][cooredandas]
+     * La coordenada Y tiene signo negativo al estandard de tetris
+     */
+    private int[][][] counterRotationTestI = {
+            { { 0, 0 }, { 2, 0 }, { -1, 0 }, { 2, -1 }, { -1, 2 } }, // 1->0
+            { { 0, 0 }, { 1, 0 }, { -2, 0 }, { 1, 2 }, { -2, -1 } }, // 2->1
+            { { 0, 0 }, { -2, 0 }, { 1, 0 }, { -2, 1 }, { 1, -2 } }, // 3->2
+            { { 0, 0 }, { -1, 0 }, { 2, 0 }, { -1, -2 }, { 2, 1 } } // 0->3
+    };
+
+    /**
      * Verifica si la rotacion del bloque es valida
      * no es valida si se solapa a otro bloque ya existente
      * o si se sale de los limites del tablero
      * si es valida se deja la rotacion
-     * si no es valida se regresa la rotacion anterior
-     * 
-     * @return true si la rotacion es invalida
      */
-    private boolean checkRotateBack() {
-        int[][] shape = block.getBlock();
-        int w = block.getWidth();
-        int h = block.getHeight();
-        int xi, yi;
-        for (int row = 0; row < h; row++) {
-            for (int col = w - 1; col >= 0; col--) {
-                if (shape[row][col] == 1) {
-                    yi = row + block.getY();
-                    xi = col + block.getX();
-                    if (background[0][yi][xi] != darkColor) {
-                        return true;
-                    }
-                }
+    private void checkRotateBack() {
+        if (this.block.getType() == 'O') {
+            return;
+        }
+        int[][][] rotationTest;
+        if (this.block.getType() == 'I') {
+            rotationTest = counterRotationTestI;
+        } else {
+            rotationTest = counterRotationTests;
+        }
 
+        int currentRotation = this.block.getCurrentRotation();
+        currentRotation = currentRotation == 0 ? 3 : currentRotation - 1;
+        this.block.rotateBack();
+        int x = this.block.getLeftEdge();
+        int y = this.block.getTopEdge();
+        for (int i = 0; i < 5; i++) {
+            this.block.setX(x);
+            this.block.setY(y);
+            block.addX(rotationTest[currentRotation][i][0]);
+            block.addY(rotationTest[currentRotation][i][1]);
+            System.out
+                    .println("validando wallKick test " + (i + 1) + " offset: x " + rotationTest[currentRotation][i][0]
+                            + " y " + (-rotationTest[currentRotation][i][1]));
+            if (this.wallKickTest()) {
+                System.out.println("wallkick test passed, current rotation: " + this.block.getCurrentRotation());
+                return;
             }
         }
-        return false;
+        this.block.rotate();
+
     }
 
     /**
      * Verifica si el bloque esta fuera de los limites del tablero
      * 
+     * @return true si esta fuera de los limites
      */
-    private void offsetOutOfBounnds() {
+    private boolean checkOutOfBounnds() {
         if (block.getLeftEdge() < 0) {
-            block.setX(0);
-        }
-        if (block.getTopEdge() < 0) {
-            block.setY(0);
+            System.out.println("left edge: " + block.getLeftEdge());
+            return true;
         }
         if (block.getRightEdge() > this.colums) {
-            block.setX(this.colums - block.getWidth());
+            System.out.println("right edge: " + block.getRightEdge());
+            return true;
         }
         if (block.getBottomEdge() > this.rows) {
-            block.setY(this.rows - block.getHeight());
+            System.out.println("bottom edge: " + block.getBottomEdge());
+            return true;
         }
-
+        if (block.getTopEdge() < 0) {
+            System.out.println("top edge: " + block.getTopEdge());
+            return true;
+        }
+        return false;
     }
 
     /**
