@@ -22,11 +22,7 @@ public class TetrisPanel extends javax.swing.JPanel {
         private GameThread gameThread;
 
         // constantes para calculos de offset
-        // offset para el panel de estadisticas
-        private final int statsHolderYoffset = 12;
-        private final int statsHolderXoffset = 3;
-        private final int statsHolderWidth = 24;
-        private final int statsHolderHeight = 56;
+
         // offset para el panel del juego
         private final int gameHolderYoffset = 4;
         private final int gameHolderXoffset = 30;
@@ -42,6 +38,11 @@ public class TetrisPanel extends javax.swing.JPanel {
         private final int stashShapeXoffset = 65;
         private final int stashShapeWidth = 20;
         private final int stashShapeHeight = 20;
+        // offset para el panel de estadisticas
+        private final int statsHolderYoffset = 12;
+        private final int statsHolderXoffset = 3;
+        private final int statsHolderWidth = 24;
+        private final int statsHolderHeight = 56;
 
         public TetrisPanel(int width, int height, int multiplier) {
                 initComponents();
@@ -60,25 +61,24 @@ public class TetrisPanel extends javax.swing.JPanel {
                 this.nextShape = new NextShapePanel();
                 nextShape.setBounds(nextShapeXoffset * multiplier, nextShapeYoffset * multiplier,
                                 nextShapeWidth * multiplier, nextShapeHeight * multiplier);
-                nextShape.setSize(nextShapeWidth * multiplier, nextShapeHeight * multiplier);
                 this.add(nextShape);
 
                 this.statsHolder = new StatsPanel(multiplier);
                 statsHolder.setBounds(statsHolderXoffset * multiplier, statsHolderYoffset * multiplier,
                                 statsHolderWidth * multiplier, statsHolderHeight * multiplier);
-                statsHolder.setSize(statsHolderWidth * multiplier, statsHolderHeight * multiplier);
+
                 this.add(statsHolder);
 
                 this.stashShape = new StashShape();
                 stashShape.setBounds(stashShapeXoffset * multiplier, stashShapeYoffset * multiplier,
                                 stashShapeWidth * multiplier, stashShapeHeight * multiplier);
-                stashShape.setSize(stashShapeWidth * multiplier, stashShapeHeight * multiplier);
                 this.add(stashShape);
 
                 this.gameThread = new GameThread(this.gameArea, this);
 
                 this.gameControls = new GameControls(this.gameArea, this.gameThread);
 
+                this.statsHolder.setVisible(true);
                 this.setVisible(true);
                 this.gameThread.start();
         }
