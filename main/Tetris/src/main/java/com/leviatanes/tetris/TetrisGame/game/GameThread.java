@@ -45,9 +45,15 @@ public class GameThread extends Thread {
             System.out.println("    run");
             if (gameArea.getBlock() == null) {
                 gameArea.spawnBlock();
+                while (gameArea.getSpawnedFlag())
+                    ;
                 if (gameArea.isGameOver())
                     break;
+                System.out.println("    Blocks spanwed coord " + gameArea.getBlock().getX() + " "
+                        + gameArea.getBlock().getY());
                 nextShape.setNextShape(gameArea.getNextBlock());
+                System.out.println("    Blocks spanwed coord " + gameArea.getBlock().getX() + " "
+                        + gameArea.getBlock().getY());
                 gameArea.repaint();
 
                 waiting();

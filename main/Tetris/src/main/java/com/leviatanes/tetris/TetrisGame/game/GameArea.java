@@ -32,6 +32,8 @@ public class GameArea extends JPanel {
     private boolean clearLinesFlag = false;
     /** Bandera para mover el bloque al fondo */
     private boolean moveBlockToBottomFlag = false;
+    /** Bandera de spawneo */
+    private boolean spawnFlag = false;
     /**
      * matriz del color de fondo
      * 
@@ -152,6 +154,10 @@ public class GameArea extends JPanel {
         return this.rotateFlag;
     }
 
+    /** @return bandera de seccion critica */
+    public boolean getSpawnedFlag() {
+        return this.spawnFlag;
+    }
     //
     //
     //
@@ -160,23 +166,27 @@ public class GameArea extends JPanel {
 
     /** Spawnea un bloque aleatorio entre I, J, L, O, S, T, Z */
     public void spawnBlock() {
+        this.spawnFlag = true;
         Random random = new Random();
-        if (this.block == null && this.nextBlock == null) {
+        if (this.nextBlock == null) {
             this.block = blocks[random.nextInt(blocks.length)];
-            block.spawn(colums);
+            block.spawn(this.colums);
+            System.out.println("IF Block spawned coord " + this.block.getX() + " " + this.block.getY());
             this.nextBlock = blocks[random.nextInt(blocks.length)];
-            nextBlock.spawn(this.colums);
         } else {
-            this.block = this.nextBlock;
+            this.block = new TetrisBlock(nextBlock);
+            block.spawn(this.colums);
+            System.out.println("ELSE Block spawned coord " + this.block.getX() + " " + this.block.getY());
             this.nextBlock = blocks[random.nextInt(blocks.length)];
-            nextBlock.spawn(this.colums);
         }
+        System.out.println("Block spawned coord " + this.block.getX() + " " + this.block.getY());
+        repaint();
+        this.spawnFlag = false;
         // == TESTING ==//
         // this.blockDropped = false;
         // this.block = testBlocks[blockCounter];
         // blockCounter = (blockCounter + 1) % testBlocks.length;
         // == TESTING ==//
-        block.spawn(this.colums);
     }
 
     /**

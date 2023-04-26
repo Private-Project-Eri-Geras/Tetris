@@ -63,7 +63,6 @@ public class ShapeHolder extends javax.swing.JPanel {
 
     public void setBlock(TetrisBlock block) {
         this.block = block;
-        this.block.setRotation(0);
         if (block.getType() == 'I') {
             this.block.setX(0);
             this.block.setY(2);
