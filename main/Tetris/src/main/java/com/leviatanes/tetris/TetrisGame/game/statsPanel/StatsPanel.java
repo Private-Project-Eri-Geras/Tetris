@@ -51,6 +51,11 @@ public class StatsPanel extends javax.swing.JPanel {
     private final static int levelY = 30;
     private final static int levelW = 4;
     private final static int levelH = 4;
+    // offset para el panel de figura guardada
+    private final int stashShapeYoffset = 44;
+    private final int stashShapeXoffset = 65;
+    private final int stashShapeWidth = 20;
+    private final int stashShapeHeight = 20;
 
     // offset para el linesLabel
     private final static int linesTxtLblX = 3;
@@ -64,6 +69,8 @@ public class StatsPanel extends javax.swing.JPanel {
 
     public StatsPanel(int multiplier) {
         initComponents();
+        this.setBounds(stashShapeXoffset * multiplier, stashShapeYoffset * multiplier,
+                stashShapeWidth * multiplier, stashShapeHeight * multiplier);
         this.multiplier = multiplier;
         this.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         initPanels();
@@ -351,12 +358,14 @@ public class StatsPanel extends javax.swing.JPanel {
         getIcon(label, folderPath + imagePath, width, height);
     }
 
+    /** pone un icono a un label ya existente */
     private void setIcon(JLabel label, String imagePath, int width, int height) {
         width = width * multiplier;
         height = height * multiplier;
         getIcon(label, imagePath, width, height);
     }
 
+    /** Obtiene un icono y lo escala para colocarlo */
     private void getIcon(JLabel label, String imagePath, int width, int height) {
         ImageIcon image = new ImageIcon(getClass().getResource(imagePath));
         Image img = image.getImage();
