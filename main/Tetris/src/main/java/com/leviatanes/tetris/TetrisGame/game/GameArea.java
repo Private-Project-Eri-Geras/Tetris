@@ -42,6 +42,10 @@ public class GameArea extends JPanel {
     private Color[][][] background;
     /** Bloque de tetris a usar */
     private TetrisBlock block;
+    /** Bloque de tetris que sigue despues */
+    private TetrisBlock nextBlock;
+    /** Bloque de tetris que se ha deseado guardar */
+    private TetrisBlock savedBlock;
     /**
      * Offset del cuadrado interior a dibujar es un 15% del tamaño de balsoza
      */
@@ -109,6 +113,26 @@ public class GameArea extends JPanel {
         this.block = block;
     }
 
+    /** @return TetrisBlock */
+    public TetrisBlock getNextBlock() {
+        return this.nextBlock;
+    }
+
+    /** @param block TetrisBlock */
+    public void setNextBlock(TetrisBlock block) {
+        this.nextBlock = block;
+    }
+
+    /** @return TetrisBlock */
+    public TetrisBlock getSavedBlock() {
+        return this.savedBlock;
+    }
+
+    /** @param block TetrisBlock */
+    public void setSavedBlock(TetrisBlock block) {
+        this.savedBlock = block;
+    }
+
     /**
      * retorna la bandera del bloque dropeado
      * 
@@ -137,14 +161,77 @@ public class GameArea extends JPanel {
     /** Spawnea un bloque aleatorio entre I, J, L, O, S, T, Z */
     public void spawnBlock() {
         Random random = new Random();
-        this.block = blocks[random.nextInt(blocks.length)];
-
+        if (this.block == null && this.nextBlock == null) {
+            this.block = blocks[random.nextInt(blocks.length)];
+            this.nextBlock = blocks[random.nextInt(blocks.length)];
+        } else {
+            this.block = this.nextBlock;
+            this.nextBlock = blocks[random.nextInt(blocks.length)];
+        }
         // == TESTING ==//
         // this.blockDropped = false;
         // this.block = testBlocks[blockCounter];
         // blockCounter = (blockCounter + 1) % testBlocks.length;
         // == TESTING ==//
         block.spawn(this.colums);
+    }
+
+    /**
+     * Cambia el bloque por el guardado
+     * si no hay ningun bloque guardado
+     * se guarda el bloque actual
+     * y se spawnea un nuevo bloque (por el bloque siguiente)
+     */
+    public void swapBlock() {
+        if (this.savedBlock == null) {
+            this.savedBlock = this.block;
+            savedBlock.setRotation(0);
+            savedBlock.setX(0);
+            savedBlock.setY(0);
+            this.spawnBlock();
+        } else {
+            TetrisBlock temp = this.block;
+            int rotacion = this.block.getCurrentRotation();
+            int x = this.block.getX();
+            int y = this.block.getY();
+            this.block = this.savedBlock;
+            this.block.setRotation(rotacion);
+            this.block.setX(x);
+            this.block.setY(y);
+            if (this.checkSwap()) {
+                this.block = temp;
+                return;
+            }
+            temp.setRotation(0);
+            temp.setX(0);
+            temp.setY(0);
+            this.savedBlock = temp;
+        }
+        repaint();
+    }
+
+    /**
+     * Valida si el swap es valido
+     * 
+     * @return true si el swap es valido
+     */
+    private boolean checkSwap() {
+        int[][] shape = this.savedBlock.getBlock();
+        int w = this.savedBlock.getWidth();
+        int h = this.savedBlock.getHeight();
+        if (this.checkOutOfBounnds())
+            return true;
+        for (int row = 0; row < h; row++) {
+            for (int col = 0; col < w; col++) {
+                if (shape[row][col] == 1) {
+                    int x = col + this.savedBlock.getX();
+                    int y = row + this.savedBlock.getY();
+                    if (this.background[0][y][x] != darkColor)
+                        return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
