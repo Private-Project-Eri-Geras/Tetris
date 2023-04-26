@@ -1,15 +1,18 @@
 package com.leviatanes.tetris.tetrisGame.game;
 
+import com.leviatanes.tetris.tetrisGame.game.nextShape.NextShapePanel;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class GameControls implements KeyListener {
     private GameArea gameArea;
     private GameThread gameThread;
+    private NextShapePanel nextShape;
 
-    public GameControls(GameArea gameArea, GameThread gameThread) {
+    public GameControls(GameArea gameArea, GameThread gameThread, NextShapePanel nextShape) {
         this.gameArea = gameArea;
         this.gameThread = gameThread;
+        this.nextShape = nextShape;
     }
 
     private static final int rotate = 87;
@@ -20,6 +23,7 @@ public class GameControls implements KeyListener {
     private static final int drop = 32;
     private static final int pause = 80;
     private static final int acelerate = 16;
+    private static final int stash = 82;
 
     @Override
     /**
@@ -34,6 +38,7 @@ public class GameControls implements KeyListener {
      * spacio = bajar bloque (codigo 32)
      * shitf = acelerar caida (codigo 16)
      * p = pausar juego (codigo 80)
+     * r = hacer swap de piezas (codigo 82)
      */
     public void keyPressed(KeyEvent key) {
         if (this.isPause(key)) // si se pulsa la tecla pausa se pausa el juego
@@ -100,6 +105,9 @@ public class GameControls implements KeyListener {
             case counterRotate:
                 gameArea.rotateBack();
                 gameThread.resetSettleTime(); // se resetea el tiempo para bloquear el bloque en el fondo
+                break;
+            case stash:
+                gameArea.swapBlock();
             default:
                 break;
         }
