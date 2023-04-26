@@ -37,6 +37,18 @@ public class TetrisBlock {
         this.currentRotation = 0;
     }
 
+    public TetrisBlock(TetrisBlock obj) {
+        this.block = obj.getBlock();
+        this.blockRotations = obj.getBlockRotations();
+        this.blockType = obj.getType();
+        this.darkColor = obj.getDarkColor();
+        this.lightColor = obj.getLightColor();
+        this.borderColor = obj.getBorderColor();
+        this.x = 0;
+        this.y = 0;
+        this.currentRotation = 0;
+    }
+
     // Getters
     /**
      * Devuelve el bloque actual
@@ -181,6 +193,8 @@ public class TetrisBlock {
     public void setRotation(int currentRotation) {
         this.currentRotation = currentRotation;
         this.block = this.blockRotations[this.currentRotation];
+        this.x = 0;
+        this.y = 0;
     }
     // Metodos
 
