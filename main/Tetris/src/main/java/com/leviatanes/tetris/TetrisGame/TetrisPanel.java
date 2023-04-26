@@ -74,7 +74,7 @@ public class TetrisPanel extends javax.swing.JPanel {
                                 stashShapeWidth * multiplier, stashShapeHeight * multiplier);
                 this.add(stashShape);
 
-                this.gameThread = new GameThread(this.gameArea, this);
+                this.gameThread = new GameThread(this.gameArea, statsHolder);
 
                 this.gameControls = new GameControls(this.gameArea, this.gameThread);
 
