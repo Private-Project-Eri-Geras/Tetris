@@ -43,7 +43,7 @@ public class Ishape extends TetrisBlock {
          * @param colums numero de columnas del tablero
          */
         public void spawn(int colums) {
-                super.setCurentRotation(0);
+                super.setCurrentRotation(0);
                 super.setBlock(block);
                 super.setX((colums - super.getWidth()) / 2);
                 super.setY(1);
