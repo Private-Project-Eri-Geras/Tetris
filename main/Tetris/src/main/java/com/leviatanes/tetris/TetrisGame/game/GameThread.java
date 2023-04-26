@@ -1,6 +1,7 @@
 package com.leviatanes.tetris.tetrisGame.game;
 
 import com.leviatanes.tetris.tetrisGame.TetrisPanel;
+import com.leviatanes.tetris.tetrisGame.game.statsPanel.StatsPanel;
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
 
 public class GameThread extends Thread {
@@ -8,7 +9,7 @@ public class GameThread extends Thread {
     private int waitingTime;
     private int actualSpeed;
     private GameArea gameArea;
-    private TetrisPanel tetrisPanel;
+    private StatsPanel statsPanel;
     /** contador de rotaciones permitidas */
     private int rotationCount;
     /** tiempo de inicio */
@@ -28,15 +29,16 @@ public class GameThread extends Thread {
      * @param tetrisPanel Panel de tetris tendra la informacion del juego a
      *                    actualizar
      */
-    public GameThread(GameArea gameArea, TetrisPanel tetrisPanel) {
+    public GameThread(GameArea gameArea, StatsPanel statsPanel) {
         this.gameArea = gameArea;
-        this.tetrisPanel = tetrisPanel;
+        this.statsPanel = statsPanel;
         this.paused = false;
         this.waitingTime = 1000;
         this.actualSpeed = this.waitingTime;
     }
 
     public void run() {
+        int linesClearedAtOnce = 0;
         while (true) {
             System.out.println("    run");
             if (gameArea.getBlock() == null) {
@@ -56,7 +58,11 @@ public class GameThread extends Thread {
             }
             System.out.println("    aft while moveDown");
             if (settleBlock()) {
-                gameArea.clearLines();
+                linesClearedAtOnce = gameArea.clearLines();
+                statsPanel.updateLines(linesClearedAtOnce);
+                scoring(linesClearedAtOnce);
+                leveling();
+
                 gameArea.repaint();
             }
             System.out.println("    reset run");
@@ -176,5 +182,48 @@ public class GameThread extends Thread {
         endTime = System.currentTimeMillis();
         elapsedTime = endTime - startTime;
         return elapsedTime;
+    }
+
+    /**
+     * Calcula y actualiza el score por linea
+     * single = 10 * (level)
+     * double = 30 * (level)
+     * triple = 50 * (level)
+     * tetris = 80 * (level)
+     */
+    private void scoring(int linesClearedAtOnce) {
+        int level = statsPanel.getLevel();
+        int score = 0;
+        switch (linesClearedAtOnce) {
+            case 1:
+                score += 10 * level;
+                break;
+            case 2:
+                score += 30 * level;
+                break;
+            case 3:
+                score += 50 * level;
+                break;
+            case 4:
+                score += 80 * level;
+                break;
+        }
+        statsPanel.updateScore(score);
+    }
+
+    /**
+     * Calcula y actualiza el nivel
+     * 10 lineas = 1 nivel
+     */
+    private void leveling() {
+        int lines = statsPanel.getLines();
+        if (lines == 0)
+            return;
+        int actualLevel = statsPanel.getLevel();
+        int level = lines / 10 + 1;
+        if (level > actualLevel) {
+            statsPanel.updateLevel(level);
+            this.waitingTime -= level * level;
+        }
     }
 }
