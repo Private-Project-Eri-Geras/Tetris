@@ -314,9 +314,7 @@ public class TetrisBlock {
      * @param colums cuantas columnas tiene el tablero
      */
     public void spawn(int colums) {
-        this.currentRotation = 0;
-        this.block = this.blockRotations[this.currentRotation];
-
+        this.setRotation(0);
         this.x = (colums - this.getWidth()) / 2;
         this.y = 0;
     }

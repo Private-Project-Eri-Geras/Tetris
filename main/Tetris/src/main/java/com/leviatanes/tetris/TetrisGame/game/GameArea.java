@@ -163,10 +163,13 @@ public class GameArea extends JPanel {
         Random random = new Random();
         if (this.block == null && this.nextBlock == null) {
             this.block = blocks[random.nextInt(blocks.length)];
+            block.spawn(colums);
             this.nextBlock = blocks[random.nextInt(blocks.length)];
+            nextBlock.spawn(this.colums);
         } else {
             this.block = this.nextBlock;
             this.nextBlock = blocks[random.nextInt(blocks.length)];
+            nextBlock.spawn(this.colums);
         }
         // == TESTING ==//
         // this.blockDropped = false;
@@ -174,40 +177,6 @@ public class GameArea extends JPanel {
         // blockCounter = (blockCounter + 1) % testBlocks.length;
         // == TESTING ==//
         block.spawn(this.colums);
-    }
-
-    /**
-     * Cambia el bloque por el guardado
-     * si no hay ningun bloque guardado
-     * se guarda el bloque actual
-     * y se spawnea un nuevo bloque (por el bloque siguiente)
-     */
-    public void swapBlock() {
-        if (this.savedBlock == null) {
-            this.savedBlock = this.block;
-            savedBlock.setRotation(0);
-            savedBlock.setX(0);
-            savedBlock.setY(0);
-            this.spawnBlock();
-        } else {
-            TetrisBlock temp = this.block;
-            int rotacion = this.block.getCurrentRotation();
-            int x = this.block.getX();
-            int y = this.block.getY();
-            this.block = this.savedBlock;
-            this.block.setRotation(rotacion);
-            this.block.setX(x);
-            this.block.setY(y);
-            if (this.checkSwap()) {
-                this.block = temp;
-                return;
-            }
-            temp.setRotation(0);
-            temp.setX(0);
-            temp.setY(0);
-            this.savedBlock = temp;
-        }
-        repaint();
     }
 
     /**

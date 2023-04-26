@@ -107,7 +107,6 @@ public class GameControls implements KeyListener {
                 gameThread.resetSettleTime(); // se resetea el tiempo para bloquear el bloque en el fondo
                 break;
             case stash:
-                gameArea.swapBlock();
             default:
                 break;
         }
