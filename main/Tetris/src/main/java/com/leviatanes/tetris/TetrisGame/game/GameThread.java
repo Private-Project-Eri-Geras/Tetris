@@ -1,6 +1,6 @@
 package com.leviatanes.tetris.tetrisGame.game;
 
-import com.leviatanes.tetris.tetrisGame.TetrisPanel;
+import com.leviatanes.tetris.tetrisGame.game.nextShape.NextShapePanel;
 import com.leviatanes.tetris.tetrisGame.game.statsPanel.StatsPanel;
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
 
@@ -10,6 +10,7 @@ public class GameThread extends Thread {
     private int actualSpeed;
     private GameArea gameArea;
     private StatsPanel statsPanel;
+    private NextShapePanel nextShape;
     /** contador de rotaciones permitidas */
     private int rotationCount;
     /** tiempo de inicio */
@@ -29,9 +30,10 @@ public class GameThread extends Thread {
      * @param tetrisPanel Panel de tetris tendra la informacion del juego a
      *                    actualizar
      */
-    public GameThread(GameArea gameArea, StatsPanel statsPanel) {
+    public GameThread(GameArea gameArea, StatsPanel statsPanel, NextShapePanel nextShape) {
         this.gameArea = gameArea;
         this.statsPanel = statsPanel;
+        this.nextShape = nextShape;
         this.paused = false;
         this.waitingTime = 1000;
         this.actualSpeed = this.waitingTime;
@@ -45,7 +47,9 @@ public class GameThread extends Thread {
                 gameArea.spawnBlock();
                 if (gameArea.isGameOver())
                     break;
+                nextShape.setNextShape(gameArea.getNextBlock());
                 gameArea.repaint();
+
                 waiting();
             }
             // si se pulsa la tecla pausa se pausa el juego
