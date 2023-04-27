@@ -170,15 +170,14 @@ public class GameArea extends JPanel {
         Random random = new Random();
         if (this.nextBlock == null) {
             this.block = blocks[random.nextInt(blocks.length)];
-            block.spawn(this.colums);
             System.out.println("IF Block spawned coord " + this.block.getX() + " " + this.block.getY());
             this.nextBlock = blocks[random.nextInt(blocks.length)];
         } else {
-            this.block = new TetrisBlock(nextBlock);
-            block.spawn(this.colums);
+            this.block = nextBlock;
             System.out.println("ELSE Block spawned coord " + this.block.getX() + " " + this.block.getY());
             this.nextBlock = blocks[random.nextInt(blocks.length)];
         }
+        block.spawn(this.colums);
         System.out.println("Block spawned coord " + this.block.getX() + " " + this.block.getY());
         repaint();
         this.spawnFlag = false;
