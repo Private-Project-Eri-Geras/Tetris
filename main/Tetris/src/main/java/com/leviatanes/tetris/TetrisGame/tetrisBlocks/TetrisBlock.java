@@ -187,15 +187,6 @@ public class TetrisBlock {
         this.y = y;
     }
 
-    /**
-     * Establece la rotacion actual del bloque
-     */
-    public void setRotation(int currentRotation) {
-        this.currentRotation = currentRotation;
-        this.block = this.blockRotations[this.currentRotation];
-        this.x = 0;
-        this.y = 0;
-    }
     // Metodos
 
     /**
@@ -328,7 +319,8 @@ public class TetrisBlock {
      * @param colums cuantas columnas tiene el tablero
      */
     public void spawn(int colums) {
-        this.setRotation(0);
+        this.setCurrentRotation(0);
+        this.setBlock(this.blockRotations[this.currentRotation]);
         this.x = (colums - this.getWidth()) / 2;
         this.y = 0;
     }
