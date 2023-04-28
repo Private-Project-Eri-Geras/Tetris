@@ -35,7 +35,7 @@ public class GameThread extends Thread {
         this.statsPanel = statsPanel;
         this.nextShape = nextShape;
         this.paused = false;
-        this.waitingTime = 3000;
+        this.waitingTime = 1000;
         this.actualSpeed = this.waitingTime;
     }
 

@@ -3,8 +3,6 @@ package com.leviatanes.tetris.tetrisGame.game.nextShape;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import javax.swing.JPanel;
-
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
 
 public class ShapeHolder extends javax.swing.JPanel {
@@ -62,14 +60,31 @@ public class ShapeHolder extends javax.swing.JPanel {
     }
 
     public void setBlock(TetrisBlock block) {
-        this.block = block;
+        String blockType = block.getType() + "shape";
+        // create a new instance of the block
+        // using generics checking the type of the block
+        // and casting it to the correct type
+        // and not using a deprecated method
+        Object newBlock = null;
+        try {
+            newBlock = Class.forName("com.leviatanes.tetris.tetrisGame.tetrisBlocks.tetrinominos." + blockType)
+                    .newInstance();
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        this.block = (TetrisBlock) newBlock;
+
         if (block.getType() == 'I') {
             this.block.setX(0);
             this.block.setY(2);
-        } else {
-            this.block.setY(1);
+        } else if (block.getType() == 'O') {
             this.block.setX(1);
+            this.block.setY(1);
+        } else {
+            this.block.setX(0);
+            this.block.setY(1);
         }
+
         this.repaint();
     }
 
