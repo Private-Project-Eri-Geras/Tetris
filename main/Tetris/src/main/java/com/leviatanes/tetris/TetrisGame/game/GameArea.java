@@ -48,6 +48,8 @@ public class GameArea extends JPanel {
     private TetrisBlock nextBlock;
     /** Bloque de tetris que se ha deseado guardar */
     private TetrisBlock savedBlock;
+    /** BLoque fantaste de tetris que muestra la posicion */
+    private TetrisBlock ghostBlock;
     /**
      * Offset del cuadrado interior a dibujar es un 15% del tamaño de balsoza
      */
@@ -179,6 +181,7 @@ public class GameArea extends JPanel {
         }
         block.spawn(this.colums);
         System.out.println("Block spawned coord " + this.block.getX() + " " + this.block.getY());
+        setGhostBlock();
         repaint();
         this.spawnFlag = false;
         // == TESTING ==//
@@ -186,30 +189,6 @@ public class GameArea extends JPanel {
         // this.block = testBlocks[blockCounter];
         // blockCounter = (blockCounter + 1) % testBlocks.length;
         // == TESTING ==//
-    }
-
-    /**
-     * Valida si el swap es valido
-     * 
-     * @return true si el swap es valido
-     */
-    private boolean checkSwap() {
-        int[][] shape = this.savedBlock.getBlock();
-        int w = this.savedBlock.getWidth();
-        int h = this.savedBlock.getHeight();
-        if (this.checkOutOfBounnds())
-            return true;
-        for (int row = 0; row < h; row++) {
-            for (int col = 0; col < w; col++) {
-                if (shape[row][col] == 1) {
-                    int x = col + this.savedBlock.getX();
-                    int y = row + this.savedBlock.getY();
-                    if (this.background[0][y][x] != darkColor)
-                        return true;
-                }
-            }
-        }
-        return false;
     }
 
     /**
@@ -264,6 +243,7 @@ public class GameArea extends JPanel {
         }
 
         this.block.moveDown();
+        setGhostBlock();
         repaint();
         // bansera critica
         this.moveDownFlag = false; // !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
@@ -288,6 +268,7 @@ public class GameArea extends JPanel {
             ;
         this.blockDropped = true;
         this.dropedFalg = false; // !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
+        setGhostBlock();
         repaint();
         System.out.println("exit drop");
     }
@@ -443,8 +424,9 @@ public class GameArea extends JPanel {
             return false;
         }
         this.block.moveLeft();
-        repaint();
         this.moveFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
+        setGhostBlock();
+        repaint();
         System.out.println("exit moveLeft");
         return true;
     }
@@ -511,8 +493,9 @@ public class GameArea extends JPanel {
             return false;
         }
         this.block.moveRight();
-        repaint();
         this.moveFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
+        setGhostBlock();
+        repaint();
         System.out.println("exit moveRight");
         return true;
     }
@@ -574,6 +557,7 @@ public class GameArea extends JPanel {
         this.rotateFlag = true;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         this.checkRotate();
         this.rotateFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
+        setGhostBlock();
         repaint();
         System.out.println("exit rotate");
     }
@@ -681,6 +665,7 @@ public class GameArea extends JPanel {
         this.rotateFlag = true;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         this.checkRotateBack();
         this.rotateFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
+        setGhostBlock();
         repaint();
         System.out.println("exit rotateBack");
     }
@@ -842,7 +827,87 @@ public class GameArea extends JPanel {
     }
 
     /**
-     * Mueve el bloque activo
+     * Se encarga de tomar los datos del bloque fantasma
+     * llevarlo lo mas bajo posible pardar un señalamiento
+     * de donde caera el bloque activo
+     */
+    private void setGhostBlock() {
+        System.out.println("setGhostBlock");
+        if (block == null) {
+            this.ghostBlock = null;
+            System.out.println("exit setGhostBlock block null");
+            return;
+        }
+        ghostBlock = new TetrisBlock(block.getBlock(), block.getBlockRotations(), block.getType(),
+                new Color(199, 199, 199), new Color(223, 223, 223));
+        ghostBlock.setX(block.getX());
+        ghostBlock.setY(block.getY());
+        ghostBlock.setCurrentRotation(block.getCurrentRotation());
+
+        while (this.moveDownFlag || this.moveFlag || this.rotateFlag || this.checkToDropFlag || this.clearLinesFlag)
+            ;
+        while (this.moveDownGhost())
+            ;
+        System.out.println("exit setGhostBlock");
+    }
+
+    /**
+     * Mueve el bloque para abajo
+     * 
+     * @return boolean true si se pudo mover
+     */
+    public boolean moveDownGhost() {
+        if (this.ghostBlock == null) {
+            return false;
+        }
+        // bansera critica
+        if (this.checkBottomGhost()) {
+            return false;
+        }
+
+        this.ghostBlock.moveDown();
+        // bansera critica
+        return true;
+    }
+
+    public boolean checkBottomGhost() throws ArrayIndexOutOfBoundsException {
+        if (this.ghostBlock.getBottomEdge() == this.rows) {
+            return true;
+        }
+        // obtencion de datos del bloque
+        int shape[][] = this.ghostBlock.getBlock();
+        int w = this.ghostBlock.getWidth();
+        int h = this.ghostBlock.getHeight();
+        int x, y;// se utilizaran para sacar el offsetverdadero y comparar correctamente
+        if (ghostBlock.getHeight() != 1) {
+            for (int col = 0; col < w; col++) {
+                for (int row = h - 1; row >= 0; row--) {
+                    if (shape[row][col] != 0) {
+                        x = col + ghostBlock.getX();
+                        y = row + ghostBlock.getY() + 1;
+                        if (background[0][y][x] != darkColor) {
+                            return true;
+                        }
+                        break;
+                    }
+                }
+            }
+        } else {
+            for (int col = 0; col < w; col++) {
+                x = col + ghostBlock.getX();
+                y = ghostBlock.getY() + 1;
+                if (y < 0)
+                    break;
+                if (background[0][y][x] != darkColor) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Mueve el bloque fantasma
      * al fondo del tablero
      */
     public void moveBlockToBackGround() {
@@ -873,6 +938,13 @@ public class GameArea extends JPanel {
         }
         System.out.println("exit moveBlockToBackGround");
     }
+
+    /**
+     * Verifica el borde inferior del bloque fantasma en 2 condiciones
+     * toco el borde del tablero o a otro bloque
+     * 
+     * @return boolean true si el bloque llego al fondo o toco otro bloque
+     */
 
     /**
      * Dibuja el fondo del tablero
@@ -926,6 +998,36 @@ public class GameArea extends JPanel {
     }
 
     /**
+     * Dibuja el bloque
+     * fantasma del tablero
+     * 
+     * @param g Graphics
+     */
+    private void drawGhostBlock(Graphics g) {
+        while (this.moveDownFlag || this.moveFlag || this.rotateFlag || this.checkToDropFlag || this.clearLinesFlag
+                || this.moveBlockToBottomFlag)
+            ;
+        if (ghostBlock == null)
+            return;
+        int yi;
+        int xi;
+        Color darkColor = new Color(199, 199, 199);
+        Color brigthColor = new Color(223, 223, 223);
+        Color olColor = block.getBorderColor();
+        int heigth = ghostBlock.getHeight();
+        int width = ghostBlock.getWidth();
+        for (int row = 0; row < heigth; row++) {
+            for (int col = 0; col < width; col++) {
+                if (ghostBlock.getBlock()[row][col] == 1) {
+                    yi = row + ghostBlock.getY();
+                    xi = col + ghostBlock.getX();
+                    this.drawGameSquare(g, yi, xi, darkColor, brigthColor, olColor);
+                }
+            }
+        }
+    }
+
+    /**
      * Dibuja una baldoza del tablero
      * 
      * @param g       Graphics
@@ -955,6 +1057,7 @@ public class GameArea extends JPanel {
         super.paintComponent(g);
 
         this.drawBackGround(g);
+        this.drawGhostBlock(g);
         this.drawBlock(g);
     }
 }
