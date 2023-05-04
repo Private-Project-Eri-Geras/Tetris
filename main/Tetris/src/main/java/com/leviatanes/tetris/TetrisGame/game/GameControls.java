@@ -18,8 +18,11 @@ public class GameControls implements KeyListener {
     private static final int rotate = 87;
     private static final int counterRotate = 69;
     private static final int left = 65;
+    private static final int left2 = 37;
     private static final int rigth = 68;
+    private static final int rigth2 = 39;
     private static final int down = 83;
+    private static final int down2 = 40;
     private static final int drop = 32;
     private static final int pause = 80;
     private static final int acelerate = 16;
@@ -33,8 +36,11 @@ public class GameControls implements KeyListener {
      * w = rotar bloque (codigo 87)
      * e = contra rotar bloque (codigo 69)
      * a = mover bloque a la izquierda (codigo 65)
+     * flecha derecha = mover bloque a la derecha (codigo 39)
      * d = mover bloque hacia abajo (codigo 68)
+     * flecha abajo = bajar bloque (codigo 40)
      * s = mover bloque a la derecha (codigo 83)
+     * flecha izquierda = mover bloque a la izquierda (codigo 37)
      * spacio = bajar bloque (codigo 32)
      * shitf = acelerar caida (codigo 16)
      * p = pausar juego (codigo 80)
@@ -87,12 +93,15 @@ public class GameControls implements KeyListener {
                 gameArea.rotate();
                 gameThread.resetSettleTime(); // se resetea el tiempo para bloquear el bloque en el fondo
                 break;
+            case left2:
             case left:
                 gameArea.moveLeft();
                 break;
+            case rigth2:
             case rigth:
                 gameArea.moveRight();
                 break;
+            case down2:
             case down:
                 gameArea.moveDown();
                 break;
