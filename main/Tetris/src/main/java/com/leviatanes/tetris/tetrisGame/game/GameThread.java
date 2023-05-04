@@ -111,6 +111,11 @@ public class GameThread extends Thread {
         startSettleTime = System.currentTimeMillis();
         rotationCount = 0;
         while (getSettleTime() < 500) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             if (rotationCount >= maxRotations)
                 break;
             if (this.paused) {
