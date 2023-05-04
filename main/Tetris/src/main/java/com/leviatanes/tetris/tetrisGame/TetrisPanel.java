@@ -3,7 +3,7 @@ package com.leviatanes.tetris.tetrisGame;
 import com.leviatanes.tetris.tetrisGame.game.GameArea;
 import com.leviatanes.tetris.tetrisGame.game.GameControls;
 import com.leviatanes.tetris.tetrisGame.game.GameThread;
-import com.leviatanes.tetris.tetrisGame.game.StashShape.StashShape;
+import com.leviatanes.tetris.tetrisGame.game.holdShape.StashShape;
 import com.leviatanes.tetris.tetrisGame.game.nextShape.NextShapePanel;
 import com.leviatanes.tetris.tetrisGame.game.statsPanel.StatsPanel;
 
