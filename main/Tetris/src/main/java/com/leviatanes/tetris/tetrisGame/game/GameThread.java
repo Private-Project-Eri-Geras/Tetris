@@ -43,29 +43,15 @@ public class GameThread extends Thread {
         int linesClearedAtOnce = 0;
         while (true) {
             System.out.println("    run");
-            if (gameArea.getBlock() == null) {
-                gameArea.spawnBlock();
-                while (gameArea.getSpawnedFlag())
-                    ;
-                if (gameArea.isGameOver())
-                    break;
-                System.out.println("    Blocks spanwed coord " + gameArea.getBlock().getX() + " "
-                        + gameArea.getBlock().getY());
-                nextShape.setNextShape(gameArea.getNextBlock());
-                System.out.println("    Blocks spanwed coord " + gameArea.getBlock().getX() + " "
-                        + gameArea.getBlock().getY());
-                gameArea.repaint();
+            if (this.spawn())
+                break;
 
-                waiting();
-            }
+            waiting();
             // si se pulsa la tecla pausa se pausa el juego
             System.out.println("    bef while moveDown");
-            while (gameArea.moveDown()) {
-                if (waiting() == true)
-                    break;
-                if (this.paused)
-                    pause();
-            }
+            while (gameArea.moveDown())
+                waiting();
+
             System.out.println("    aft while moveDown");
             if (settleBlock()) {
                 linesClearedAtOnce = gameArea.clearLines();
@@ -86,16 +72,20 @@ public class GameThread extends Thread {
      * 
      * @return true si el bloque dejo de moverse, false si no
      */
-    public boolean waiting() {
+    public void waiting() {
         System.out.println("    waiting");
         startTime = System.currentTimeMillis();
         while (getElapsedTime() < actualSpeed) {
             if (this.paused)
                 this.pause();
-            if (gameArea.isBlockDropped())
-                return true;
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (gameArea.isBlockDropped() == true)
+                break;
         }
-        return false;
     }
 
     public void togglePause() {
@@ -125,7 +115,7 @@ public class GameThread extends Thread {
                 break;
             if (this.paused) {
                 this.pause();
-                startTime = System.currentTimeMillis();
+                startTime = System.currentTimeMillis() - elapsedTime;
             }
         }
         System.out.println("    bef checkToDrop");
@@ -235,5 +225,24 @@ public class GameThread extends Thread {
             statsPanel.updateLevel(level);
             this.waitingTime -= level * level;
         }
+    }
+
+    /**
+     * Genera un bloque nuevo
+     * y verifica que no sea game over
+     */
+    private boolean spawn() {
+        if (gameArea.getBlock() == null) {
+            gameArea.spawnBlock();
+            while (gameArea.getSpawnedFlag())
+                ;
+
+            if (gameArea.isGameOver())
+                return true;
+
+            nextShape.setNextShape(gameArea.getNextBlock());
+            gameArea.repaint();
+        }
+        return false;
     }
 }

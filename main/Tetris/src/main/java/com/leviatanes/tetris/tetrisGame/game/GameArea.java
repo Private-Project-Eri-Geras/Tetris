@@ -168,6 +168,7 @@ public class GameArea extends JPanel {
 
     /** Spawnea un bloque aleatorio entre I, J, L, O, S, T, Z */
     public void spawnBlock() {
+        this.blockDropped = false;
         this.spawnFlag = true;
         Random random = new Random();
         if (this.nextBlock == null) {
@@ -229,16 +230,13 @@ public class GameArea extends JPanel {
         // espera a que se termine la seccion critica
         while (checkToDropFlag || clearLinesFlag || moveBlockToBottomFlag)
             ;
-        System.out.println("moveDown");
         if (this.block == null) {
-            System.out.println("exit moveDown");
             return false;
         }
         // bansera critica
         this.moveDownFlag = true; // !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         if (this.checkBottom()) {
             this.moveDownFlag = false; // !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
-            System.out.println("exit moveDown");
             return false;
         }
 
@@ -247,7 +245,6 @@ public class GameArea extends JPanel {
         repaint();
         // bansera critica
         this.moveDownFlag = false; // !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
-        System.out.println("exit moveDown");
         return true;
     }
 
@@ -740,19 +737,15 @@ public class GameArea extends JPanel {
      */
     private boolean checkOutOfBounnds() {
         if (block.getLeftEdge() < 0) {
-            System.out.println("left edge: " + block.getLeftEdge());
             return true;
         }
         if (block.getRightEdge() > this.colums) {
-            System.out.println("right edge: " + block.getRightEdge());
             return true;
         }
         if (block.getBottomEdge() > this.rows) {
-            System.out.println("bottom edge: " + block.getBottomEdge());
             return true;
         }
         if (block.getTopEdge() < 0) {
-            System.out.println("top edge: " + block.getTopEdge());
             return true;
         }
         return false;
@@ -832,10 +825,8 @@ public class GameArea extends JPanel {
      * de donde caera el bloque activo
      */
     private void setGhostBlock() {
-        System.out.println("setGhostBlock");
         if (block == null) {
             this.ghostBlock = null;
-            System.out.println("exit setGhostBlock block null");
             return;
         }
         ghostBlock = new TetrisBlock(block.getBlock(), block.getBlockRotations(), block.getType(),
@@ -848,7 +839,6 @@ public class GameArea extends JPanel {
             ;
         while (this.moveDownGhost())
             ;
-        System.out.println("exit setGhostBlock");
     }
 
     /**
