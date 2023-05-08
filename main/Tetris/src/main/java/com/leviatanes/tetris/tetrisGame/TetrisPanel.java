@@ -3,26 +3,25 @@ package com.leviatanes.tetris.tetrisGame;
 import com.leviatanes.tetris.tetrisGame.game.GameArea;
 import com.leviatanes.tetris.tetrisGame.game.GameControls;
 import com.leviatanes.tetris.tetrisGame.game.GameThread;
-import com.leviatanes.tetris.tetrisGame.game.holdShape.StashShape;
-import com.leviatanes.tetris.tetrisGame.game.nextShape.NextShapePanel;
-import com.leviatanes.tetris.tetrisGame.game.statsPanel.StatsPanel;
+import com.leviatanes.tetris.tetrisGame.game.sidePanels.HoldPanel;
+import com.leviatanes.tetris.tetrisGame.game.sidePanels.NextPanel;
+import com.leviatanes.tetris.tetrisGame.game.sidePanels.StatsPanel;
 
 public class TetrisPanel extends javax.swing.JPanel {
         /** lleva el control del juego */
         private GameArea gameArea;
         /** lleva el control del panel de la figura siguiente */
-        private NextShapePanel nextShape;
+        private NextPanel nextShape;
         /** lleva el control del panel de estadisticas */
-        private StatsPanel statsHolder;
+        private StatsPanel statsPanel;
         /** lleva el control de la figura guardada */
-        private StashShape stashShape;
+        private HoldPanel holdShape;
         /** lleva el control de los controles */
         private GameControls gameControls;
         /** lleva el control del hilo del juego */
         private GameThread gameThread;
 
         // constantes para calculos de offset
-
         // offset para el panel del juego
         private final int gameHolderYoffset = 4;
         private final int gameHolderXoffset = 30;
@@ -45,41 +44,46 @@ public class TetrisPanel extends javax.swing.JPanel {
         private final int statsHolderHeight = 56;
 
         public TetrisPanel(int width, int height, int multiplier) {
-                initComponents();
+                // initComponents();
                 // inicializar componentes del juego
                 this.initGameComponents(width, height, multiplier);
 
         }
 
         private void initGameComponents(int width, int height, int multiplier) {
+                this.setLayout(null);
+                this.setBounds(0, 0, width, height);
                 this.setSize(width, height);
 
-                this.gameArea = new GameArea(gameHolderXoffset * multiplier, gameHolderYoffset * multiplier,
-                                gameHolderWidth * multiplier, gameHolderHeight * multiplier, 10);
-                this.add(gameArea);
-
-                this.nextShape = new NextShapePanel(multiplier);
+                this.nextShape = new NextPanel(multiplier);
                 nextShape.setBounds(nextShapeXoffset * multiplier, nextShapeYoffset * multiplier,
                                 nextShapeWidth * multiplier, nextShapeHeight * multiplier);
                 nextShape.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
                 this.add(nextShape);
 
-                this.statsHolder = new StatsPanel(multiplier);
-                statsHolder.setBounds(statsHolderXoffset * multiplier, statsHolderYoffset * multiplier,
+                this.statsPanel = new StatsPanel(multiplier);
+                statsPanel.setBounds(statsHolderXoffset * multiplier, statsHolderYoffset * multiplier,
                                 statsHolderWidth * multiplier, statsHolderHeight * multiplier);
 
-                this.add(statsHolder);
+                this.add(statsPanel);
 
-                this.stashShape = new StashShape(multiplier);
-                stashShape.setBounds(stashShapeXoffset * multiplier, stashShapeYoffset * multiplier,
+                this.holdShape = new HoldPanel(multiplier);
+                holdShape.setBounds(stashShapeXoffset * multiplier, stashShapeYoffset * multiplier,
                                 stashShapeWidth * multiplier, stashShapeHeight * multiplier);
-                this.add(stashShape);
+                this.add(holdShape);
 
-                this.gameThread = new GameThread(this.gameArea, statsHolder, this.nextShape, this.stashShape);
+                final int xGA = gameHolderXoffset * multiplier;
+                final int yGA = gameHolderYoffset * multiplier;
+                final int widthGA = gameHolderWidth * multiplier;
+                final int heightGA = gameHolderHeight * multiplier;
+                this.gameArea = new GameArea(xGA, yGA, widthGA, heightGA, nextShape, holdShape);
+                this.add(gameArea);
 
-                this.gameControls = new GameControls(this.gameArea, this.gameThread, this.stashShape);
+                this.gameThread = new GameThread(this.gameArea, statsPanel);
 
-                this.statsHolder.setVisible(true);
+                this.gameControls = new GameControls(this.gameArea, this.gameThread, this.holdShape);
+
+                this.statsPanel.setVisible(true);
                 this.setVisible(true);
                 this.gameThread.start();
         }
@@ -87,21 +91,4 @@ public class TetrisPanel extends javax.swing.JPanel {
         public GameControls getGameControls() {
                 return this.gameControls;
         }
-
-        // <editor-fold defaultstate="collapsed" desc="Generated
-        // Code">//GEN-BEGIN:initComponents
-        private void initComponents() {
-
-                javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-                this.setLayout(layout);
-                layout.setHorizontalGroup(
-                                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGap(0, 720, Short.MAX_VALUE));
-                layout.setVerticalGroup(
-                                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGap(0, 640, Short.MAX_VALUE));
-        }// </editor-fold>//GEN-END:initComponents
-
-        // Variables declaration - do not modify//GEN-BEGIN:variables
-        // End of variables declaration//GEN-END:variables
 }
