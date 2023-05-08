@@ -46,8 +46,10 @@ public class GameThread extends Thread {
             waiting();
             // si se pulsa la tecla pausa se pausa el juego
             System.out.println("    bef while moveDown");
-            while (gameArea.moveDown())
-                waiting();
+            while (gameArea.moveDown()) {
+                if (waiting())
+                    break;
+            }
 
             System.out.println("    aft while moveDown");
             if (settleBlock()) {
@@ -69,7 +71,9 @@ public class GameThread extends Thread {
      * 
      * @return true si el bloque dejo de moverse, false si no
      */
-    public void waiting() {
+    public boolean waiting() {
+        if (gameArea.isHardDrop() || gameArea.getBlock() == null)
+            return true;
         System.out.println("    waiting");
         startTime = System.currentTimeMillis();
         while (getElapsedTime() < actualSpeed) {
@@ -83,6 +87,7 @@ public class GameThread extends Thread {
             if (gameArea.isBlockDropped() == true)
                 break;
         }
+        return false;
     }
 
     public void togglePause() {
@@ -104,6 +109,8 @@ public class GameThread extends Thread {
     }
 
     public boolean settleBlock() {
+        if (gameArea.getBlock() == null)
+            return false;
         if (gameArea.isHardDrop()) {
             gameArea.moveBlockToBackGround();
             return true;
