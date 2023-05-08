@@ -33,7 +33,11 @@ public class TetrisPanel extends javax.swing.JPanel {
         private final int nextShapeXoffset = 65;
         private final int nextShapeWidth = 20;
         private final int nextShapeHeight = 20;
-
+        // offset para el panel de pieza guardada
+        private final int stashShapeYoffset = 44;
+        private final int stashShapeXoffset = 65;
+        private final int stashShapeWidth = 20;
+        private final int stashShapeHeight = 20;
         // offset para el panel de estadisticas
         private final int statsHolderYoffset = 12;
         private final int statsHolderXoffset = 3;
@@ -66,13 +70,14 @@ public class TetrisPanel extends javax.swing.JPanel {
 
                 this.add(statsHolder);
 
-                this.stashShape = new StashShape();
-
+                this.stashShape = new StashShape(multiplier);
+                stashShape.setBounds(stashShapeXoffset * multiplier, stashShapeYoffset * multiplier,
+                                stashShapeWidth * multiplier, stashShapeHeight * multiplier);
                 this.add(stashShape);
 
-                this.gameThread = new GameThread(this.gameArea, statsHolder, this.nextShape);
+                this.gameThread = new GameThread(this.gameArea, statsHolder, this.nextShape, this.stashShape);
 
-                this.gameControls = new GameControls(this.gameArea, this.gameThread, this.nextShape);
+                this.gameControls = new GameControls(this.gameArea, this.gameThread, this.stashShape);
 
                 this.statsHolder.setVisible(true);
                 this.setVisible(true);

@@ -1,18 +1,18 @@
 package com.leviatanes.tetris.tetrisGame.game;
 
-import com.leviatanes.tetris.tetrisGame.game.nextShape.NextShapePanel;
+import com.leviatanes.tetris.tetrisGame.game.holdShape.StashShape;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class GameControls implements KeyListener {
     private GameArea gameArea;
     private GameThread gameThread;
-    private NextShapePanel nextShape;
+    private StashShape stashShape;
 
-    public GameControls(GameArea gameArea, GameThread gameThread, NextShapePanel nextShape) {
+    public GameControls(GameArea gameArea, GameThread gameThread, StashShape stashShape) {
         this.gameArea = gameArea;
         this.gameThread = gameThread;
-        this.nextShape = nextShape;
+        this.stashShape = stashShape;
     }
 
     private static final int rotate = 87;
@@ -27,6 +27,7 @@ public class GameControls implements KeyListener {
     private static final int pause = 80;
     private static final int acelerate = 16;
     private static final int stash = 82;
+    private static final int stash2 = 17;
 
     @Override
     /**
@@ -45,6 +46,7 @@ public class GameControls implements KeyListener {
      * shitf = acelerar caida (codigo 16)
      * p = pausar juego (codigo 80)
      * r = hacer swap de piezas (codigo 82)
+     * control = hacer swap de piezas (codigo 17)
      */
     public void keyPressed(KeyEvent key) {
         if (this.isPause(key)) // si se pulsa la tecla pausa se pausa el juego
@@ -115,7 +117,15 @@ public class GameControls implements KeyListener {
                 gameArea.rotateBack();
                 gameThread.resetSettleTime(); // se resetea el tiempo para bloquear el bloque en el fondo
                 break;
+            case stash2:
             case stash:
+                if (!stashShape.isHoldAllowed())
+                    return;
+                gameArea.swap();
+                stashShape.setHoldAllowed(false);
+                stashShape.setHoldedShape(gameArea.getHoldedBlock());
+                break;
+
             default:
                 break;
         }

@@ -47,7 +47,7 @@ public class GameArea extends JPanel {
     /** Bloque de tetris que sigue despues */
     private TetrisBlock nextBlock;
     /** Bloque de tetris que se ha deseado guardar */
-    private TetrisBlock savedBlock;
+    private TetrisBlock holdedBlock;
     /** BLoque fantaste de tetris que muestra la posicion */
     private TetrisBlock ghostBlock;
     /**
@@ -128,13 +128,13 @@ public class GameArea extends JPanel {
     }
 
     /** @return TetrisBlock */
-    public TetrisBlock getSavedBlock() {
-        return this.savedBlock;
+    public TetrisBlock getHoldedBlock() {
+        return this.holdedBlock;
     }
 
     /** @param block TetrisBlock */
-    public void setSavedBlock(TetrisBlock block) {
-        this.savedBlock = block;
+    public void setHoldedBlock(TetrisBlock block) {
+        this.holdedBlock = block;
     }
 
     /**
@@ -219,6 +219,21 @@ public class GameArea extends JPanel {
             }
         }
         return false;
+    }
+
+    /** Hace un cambio de piezas */
+    public void swap() {
+        if (this.holdedBlock == null) {
+            this.holdedBlock = this.block;
+            this.spawnBlock();
+        } else {
+            TetrisBlock temp = this.block;
+            this.block = this.holdedBlock;
+            this.holdedBlock = temp;
+            this.block.spawn(this.colums);
+            this.setGhostBlock();
+            repaint();
+        }
     }
 
     /**

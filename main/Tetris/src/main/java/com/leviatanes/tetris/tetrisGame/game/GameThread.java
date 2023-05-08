@@ -1,5 +1,6 @@
 package com.leviatanes.tetris.tetrisGame.game;
 
+import com.leviatanes.tetris.tetrisGame.game.holdShape.StashShape;
 import com.leviatanes.tetris.tetrisGame.game.nextShape.NextShapePanel;
 import com.leviatanes.tetris.tetrisGame.game.statsPanel.StatsPanel;
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
@@ -11,6 +12,7 @@ public class GameThread extends Thread {
     private GameArea gameArea;
     private StatsPanel statsPanel;
     private NextShapePanel nextShape;
+    private StashShape stashShape;
     /** contador de rotaciones permitidas */
     private int rotationCount;
     /** tiempo de inicio */
@@ -30,10 +32,11 @@ public class GameThread extends Thread {
      * @param tetrisPanel Panel de tetris tendra la informacion del juego a
      *                    actualizar
      */
-    public GameThread(GameArea gameArea, StatsPanel statsPanel, NextShapePanel nextShape) {
+    public GameThread(GameArea gameArea, StatsPanel statsPanel, NextShapePanel nextShape, StashShape stashShape) {
         this.gameArea = gameArea;
         this.statsPanel = statsPanel;
         this.nextShape = nextShape;
+        this.stashShape = stashShape;
         this.paused = false;
         this.waitingTime = 1000;
         this.actualSpeed = this.waitingTime;
@@ -246,6 +249,8 @@ public class GameThread extends Thread {
                 return true;
 
             nextShape.setNextShape(gameArea.getNextBlock());
+            stashShape.setHoldAllowed(true);
+
             gameArea.repaint();
         }
         return false;
