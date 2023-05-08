@@ -27,8 +27,8 @@ public class GameControls implements KeyListener {
     private static final int shoftDrop = 16;
     private static final int hardDrop = 32;
     private static final int pause = 80;
-    private static final int stash = 82;
-    private static final int stash2 = 17;
+    private static final int hold = 82;
+    private static final int hold2 = 17;
 
     @Override
     /**
@@ -116,8 +116,8 @@ public class GameControls implements KeyListener {
                 gameArea.rotateBack();
                 gameThread.resetSettleTime(); // se resetea el tiempo para bloquear el bloque en el fondo
                 break;
-            case stash2:
-            case stash:
+            case hold2:
+            case hold:
                 if (!stashShape.isHoldAllowed())
                     return;
                 gameArea.swap();
