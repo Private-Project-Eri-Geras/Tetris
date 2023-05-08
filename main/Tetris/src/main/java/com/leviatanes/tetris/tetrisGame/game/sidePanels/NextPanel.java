@@ -1,4 +1,4 @@
-package com.leviatanes.tetris.tetrisGame.game.holdShape;
+package com.leviatanes.tetris.tetrisGame.game.sidePanels;
 
 import java.awt.Image;
 
@@ -7,63 +7,51 @@ import javax.swing.JLabel;
 
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
 
-public class StashShape extends javax.swing.JPanel {
+public class NextPanel extends javax.swing.JPanel {
     /** Label de la pieza siguiente */
-    private JLabel holdedShapeLabel;
+    private JLabel nextShapeLabel;
     /** Panel de la pieza siguiente */
-    private ShapeHolder holdedShape;
+    private ShapeHolder nextShapePanel;
     /** Multiplicador */
     private int multiplier;
     /** Path de la carpeta de imagenes */
-    private final String folderPath = "/com/leviatanes/tetris/tetrisGame/game/nextShape/images/";
+    private final String folderPath = "/com/leviatanes/tetris/tetrisGame/game/sidePanels/images/";
     // offset para el label de la pieza siguiente
     private final int nextShapeLabelYoffset = 1;
     private final int nextShapeLabelXoffset = 1;
     private final int nextShapeLabelWidth = 18;
     private final int nextShapeLabelHeight = 6;
 
-    public StashShape(int multiplier) {
+    public NextPanel(int multiplier) {
         initComponents();
         this.multiplier = multiplier;
         initPanels();
         this.setVisible(true);
     }
 
-    public boolean isHoldAllowed() {
-        return this.holdedShape.isHoldAllowed();
-    }
-
-    public void toogleHoldAllowed() {
-        this.holdedShape.toggleHoldAllowed();
-    }
-
-    public void setHoldAllowed(boolean holdAllowed) {
-        this.holdedShape.setHoldAllowed(holdAllowed);
-    }
-
-    public void setHoldedShape(TetrisBlock nextShape) {
-        this.holdedShape.setBlock(nextShape);
+    public void setNextShape(TetrisBlock nextShape) {
+        this.nextShapePanel.setBlock(nextShape);
+        this.repaint();
     }
 
     public ShapeHolder getShapePlaceHolder() {
-        return this.holdedShape;
+        return this.nextShapePanel;
     }
 
     public void repaintShape() {
-        this.holdedShape.repaint();
+        this.nextShapePanel.repaint();
     }
 
     private void initPanels() {
-        this.holdedShapeLabel = new JLabel();
-        initLabel(holdedShapeLabel, nextShapeLabelXoffset, nextShapeLabelYoffset, nextShapeLabelWidth,
+        this.nextShapeLabel = new JLabel();
+        initLabel(nextShapeLabel, nextShapeLabelXoffset, nextShapeLabelYoffset, nextShapeLabelWidth,
                 nextShapeLabelHeight, "Next.png");
 
-        this.add(holdedShapeLabel);
+        this.add(nextShapeLabel);
 
-        this.holdedShape = new ShapeHolder(multiplier);
-        this.holdedShape.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        this.add(holdedShape);
-        this.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        this.nextShapePanel = new ShapeHolder(multiplier);
+        this.nextShapePanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        this.add(nextShapePanel);
     }
 
     /** Inicializa un label asignandole la imagen correspondiente */

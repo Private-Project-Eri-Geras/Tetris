@@ -1,4 +1,4 @@
-package com.leviatanes.tetris.tetrisGame.game.statsPanel;
+package com.leviatanes.tetris.tetrisGame.game.sidePanels;
 
 import java.awt.Image;
 import javax.swing.ImageIcon;
@@ -65,7 +65,7 @@ public class StatsPanel extends javax.swing.JPanel {
     private final static int linesW = 4;
     private final static int linesH = 4;
 
-    private final String folderPath = "/com/leviatanes/tetris/tetrisGame/game/statsPanel/images/";
+    private final String folderPath = "/com/leviatanes/tetris/tetrisGame/game/sidePanels/images/";
 
     public StatsPanel(int multiplier) {
         initComponents();

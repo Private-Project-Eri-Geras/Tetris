@@ -1,4 +1,4 @@
-package com.leviatanes.tetris.tetrisGame.game.nextShape;
+package com.leviatanes.tetris.tetrisGame.game.sidePanels;
 
 import java.awt.Image;
 
@@ -7,50 +7,63 @@ import javax.swing.JLabel;
 
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
 
-public class NextShapePanel extends javax.swing.JPanel {
+public class HoldPanel extends javax.swing.JPanel {
     /** Label de la pieza siguiente */
-    private JLabel nextShapeLabel;
+    private JLabel holdedShapeLabel;
     /** Panel de la pieza siguiente */
-    private ShapeHolder nextShapePanel;
+    private ShapeHolder holdedShape;
     /** Multiplicador */
     private int multiplier;
     /** Path de la carpeta de imagenes */
-    private final String folderPath = "/com/leviatanes/tetris/tetrisGame/game/nextShape/images/";
+    private final String folderPath = "/com/leviatanes/tetris/tetrisGame/game/sidePanels/images/";
     // offset para el label de la pieza siguiente
     private final int nextShapeLabelYoffset = 1;
     private final int nextShapeLabelXoffset = 1;
     private final int nextShapeLabelWidth = 18;
     private final int nextShapeLabelHeight = 6;
 
-    public NextShapePanel(int multiplier) {
+    public HoldPanel(int multiplier) {
         initComponents();
         this.multiplier = multiplier;
         initPanels();
         this.setVisible(true);
     }
 
-    public void setNextShape(TetrisBlock nextShape) {
-        this.nextShapePanel.setBlock(nextShape);
+    public boolean isHoldAllowed() {
+        return this.holdedShape.isHoldAllowed();
+    }
+
+    public void toogleHoldAllowed() {
+        this.holdedShape.toggleHoldAllowed();
+    }
+
+    public void setHoldAllowed(boolean holdAllowed) {
+        this.holdedShape.setHoldAllowed(holdAllowed);
+    }
+
+    public void setHoldedShape(TetrisBlock nextShape) {
+        this.holdedShape.setBlock(nextShape);
     }
 
     public ShapeHolder getShapePlaceHolder() {
-        return this.nextShapePanel;
+        return this.holdedShape;
     }
 
     public void repaintShape() {
-        this.nextShapePanel.repaint();
+        this.holdedShape.repaint();
     }
 
     private void initPanels() {
-        this.nextShapeLabel = new JLabel();
-        initLabel(nextShapeLabel, nextShapeLabelXoffset, nextShapeLabelYoffset, nextShapeLabelWidth,
-                nextShapeLabelHeight, "Next.png");
+        this.holdedShapeLabel = new JLabel();
+        initLabel(holdedShapeLabel, nextShapeLabelXoffset, nextShapeLabelYoffset, nextShapeLabelWidth,
+                nextShapeLabelHeight, "Hold.png");
 
-        this.add(nextShapeLabel);
+        this.add(holdedShapeLabel);
 
-        this.nextShapePanel = new ShapeHolder(multiplier);
-        this.nextShapePanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        this.add(nextShapePanel);
+        this.holdedShape = new ShapeHolder(multiplier);
+        this.holdedShape.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        this.add(holdedShape);
+        this.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
     }
 
     /** Inicializa un label asignandole la imagen correspondiente */

@@ -1,4 +1,4 @@
-package com.leviatanes.tetris.tetrisGame.game.holdShape;
+package com.leviatanes.tetris.tetrisGame.game.sidePanels;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -97,8 +97,8 @@ public class ShapeHolder extends javax.swing.JPanel {
             this.block.setX(0);
             this.block.setY(2);
         } else if (block.getType() == 'O') {
-        this.repaint();
-        this.block.setX(1);
+            this.repaint();
+            this.block.setX(1);
             this.block.setY(1);
         } else {
             this.block.setX(0);
