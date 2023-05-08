@@ -8,14 +8,25 @@ import javax.swing.JPanel;
 
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.tetrinominos.*;
+import com.leviatanes.tetris.tetrisGame.game.sidePanels.*;
 
 public class GameArea extends JPanel {
+    /** Ancho de la pantalla */
+    private int width;
+    /** Alto de la pantalla */
+    private int height;
+    /** Coordenada X */
+    private int x;
+    /** Coordenada Y */
+    private int y;
     /** Columnas del tablero del juego */
     private int colums;// se usa para x
     /** Filas del tablero del juego */
     private int rows;// se usa para y
     /** Tamaño de la baldoza */
     private int tileSize;
+    /** Bandera de HardDrop */
+    private boolean hardDropFlag = false;
 
     // ===========[ BANDERAS DE SECCIONES CRITICAS ]================//
     /** Bandera de rotacion */
@@ -34,6 +45,7 @@ public class GameArea extends JPanel {
     private boolean moveBlockToBottomFlag = false;
     /** Bandera de spawneo */
     private boolean spawnFlag = false;
+
     /**
      * matriz del color de fondo
      * 
@@ -66,6 +78,9 @@ public class GameArea extends JPanel {
     /** Los 7 bloques diferentes que podemos utilizar */
     private static final TetrisBlock[] blocks = { new Ishape(), new Jshape(), new Lshape(), new Oshape(), new Sshape(),
             new Tshape(), new Zshape() };
+    // ===================[ SIDE PANELS ]===========================//
+    private NextPanel nextShape;
+    private HoldPanel holdShape;
 
     /**
      * Constructor de la clase
@@ -78,8 +93,15 @@ public class GameArea extends JPanel {
      * @param placeHolder JPanel panel que encierra el tablero
      * @param colums      int columnas del tablero
      */
-    public GameArea(int x, int y, int width, int height, int colums) {
-        this.initGame(x, y, width, height, colums);
+    public GameArea(int x, int y, int width, int height, NextPanel nextShape, HoldPanel holdShape) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.colums = 10;
+        this.nextShape = nextShape;
+        this.holdShape = holdShape;
+        this.initGame();
     }
 
     /**
@@ -88,9 +110,8 @@ public class GameArea extends JPanel {
      * @param placeHolder
      * @param colums
      */
-    private void initGame(int x, int y, int width, int height, int colums) {
+    private void initGame() {
         this.setBounds(x, y, width, height);
-        this.colums = colums;
         this.tileSize = width / this.colums;
         this.rows = height / tileSize;
 
@@ -105,6 +126,11 @@ public class GameArea extends JPanel {
                 this.background[2][i][j] = borderColor;
             }
         }
+    }
+
+    /** @return boolean isHardDroped? */
+    public boolean isHardDrop() {
+        return this.hardDropFlag;
     }
 
     /** @return TetrisBlock */
@@ -181,6 +207,8 @@ public class GameArea extends JPanel {
             this.nextBlock = blocks[random.nextInt(blocks.length)];
         }
         block.spawn(this.colums);
+        nextShape.setNextShape(this.nextBlock);
+        holdShape.setHoldAllowed(true);
         System.out.println("Block spawned coord " + this.block.getX() + " " + this.block.getY());
         setGhostBlock();
         repaint();
@@ -263,10 +291,21 @@ public class GameArea extends JPanel {
         return true;
     }
 
+    /** Hace softDrop */
+    public void softDrop() {
+        this.drop();
+    }
+
+    /** Hace hardDrop */
+    public void hardDrop() {
+        this.hardDropFlag = true;
+        this.drop();
+    }
+
     /**
      * Suelta el bloque en la posicion mas baja posible
      */
-    public void drop() {
+    private void drop() {
         // espera a que se termine la seccion critica
         while (rotateFlag || moveFlag || checkToDropFlag || clearLinesFlag || moveBlockToBottomFlag)
             ;
@@ -941,6 +980,7 @@ public class GameArea extends JPanel {
                 }
             }
         }
+        this.block = null;
         System.out.println("exit moveBlockToBackGround");
     }
 
