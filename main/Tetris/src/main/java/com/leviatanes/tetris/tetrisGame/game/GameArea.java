@@ -209,6 +209,7 @@ public class GameArea extends JPanel {
         block.spawn(this.colums);
         nextShape.setNextShape(this.nextBlock);
         holdShape.setHoldAllowed(true);
+        this.hardDropFlag = false;
         System.out.println("Block spawned coord " + this.block.getX() + " " + this.block.getY());
         setGhostBlock();
         repaint();
