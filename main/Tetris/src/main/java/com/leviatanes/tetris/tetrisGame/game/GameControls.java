@@ -1,15 +1,16 @@
 package com.leviatanes.tetris.tetrisGame.game;
 
-import com.leviatanes.tetris.tetrisGame.game.holdShape.StashShape;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+import com.leviatanes.tetris.tetrisGame.game.sidePanels.*;
 
 public class GameControls implements KeyListener {
     private GameArea gameArea;
     private GameThread gameThread;
-    private StashShape stashShape;
+    private HoldPanel stashShape;
 
-    public GameControls(GameArea gameArea, GameThread gameThread, StashShape stashShape) {
+    public GameControls(GameArea gameArea, GameThread gameThread, HoldPanel stashShape) {
         this.gameArea = gameArea;
         this.gameThread = gameThread;
         this.stashShape = stashShape;
@@ -23,9 +24,9 @@ public class GameControls implements KeyListener {
     private static final int rigth2 = 39;
     private static final int down = 83;
     private static final int down2 = 40;
-    private static final int drop = 32;
+    private static final int shoftDrop = 16;
+    private static final int hardDrop = 32;
     private static final int pause = 80;
-    private static final int acelerate = 16;
     private static final int stash = 82;
     private static final int stash2 = 17;
 
@@ -42,8 +43,8 @@ public class GameControls implements KeyListener {
      * flecha abajo = bajar bloque (codigo 40)
      * s = mover bloque a la derecha (codigo 83)
      * flecha izquierda = mover bloque a la izquierda (codigo 37)
-     * spacio = bajar bloque (codigo 32)
-     * shitf = acelerar caida (codigo 16)
+     * spacio = hardDrop (codigo 32)
+     * shitf = softDrop (codigo 16)
      * p = pausar juego (codigo 80)
      * r = hacer swap de piezas (codigo 82)
      * control = hacer swap de piezas (codigo 17)
@@ -60,8 +61,6 @@ public class GameControls implements KeyListener {
      * Utilizaremos en caso de ser nesesario detectar una realese
      */
     public void keyReleased(KeyEvent key) {
-        if (key.getKeyCode() == acelerate)
-            gameThread.restoreGameSpeed();
     }
 
     @Override
@@ -107,11 +106,11 @@ public class GameControls implements KeyListener {
             case down:
                 gameArea.moveDown();
                 break;
-            case drop:
-                gameArea.drop();
+            case shoftDrop:
+                gameArea.softDrop();
                 break;
-            case acelerate:
-                gameThread.acelerateGameSpeed();
+            case hardDrop:
+                gameArea.hardDrop();
                 break;
             case counterRotate:
                 gameArea.rotateBack();
