@@ -78,7 +78,7 @@ public class TetrisPanel extends javax.swing.JPanel {
                 final int yGA = gameHolderYoffset * multiplier;
                 final int widthGA = gameHolderWidth * multiplier;
                 final int heightGA = gameHolderHeight * multiplier;
-                this.gameArea = new GameArea(xGA, yGA, widthGA, heightGA, nextShape, holdShape, gameOver);
+                this.gameArea = new GameArea(xGA, yGA, widthGA, heightGA, nextShape, holdShape, statsPanel, gameOver);
                 this.add(gameArea);
 
                 this.gameThread = new GameThread(this.gameArea, statsPanel);

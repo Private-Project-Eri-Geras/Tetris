@@ -84,6 +84,8 @@ public class GameArea extends JPanel {
     private NextPanel nextShape;
     /** panel de pieza a mantener */
     private HoldPanel holdShape;
+    /** panel de estadisticas */
+    private StatsPanel stats;
     /** panel de fin de juego */
     private GameOver gameOver;
 
@@ -98,7 +100,8 @@ public class GameArea extends JPanel {
      * @param placeHolder JPanel panel que encierra el tablero
      * @param colums      int columnas del tablero
      */
-    public GameArea(int x, int y, int width, int height, NextPanel nextShape, HoldPanel holdShape, GameOver gameOver) {
+    public GameArea(int x, int y, int width, int height, NextPanel nextShape, HoldPanel holdShape, StatsPanel stas,
+            GameOver gameOver) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -106,6 +109,7 @@ public class GameArea extends JPanel {
         this.colums = 10;
         this.nextShape = nextShape;
         this.holdShape = holdShape;
+        this.stats = stas;
         this.gameOver = gameOver;
         this.initGame();
     }
@@ -249,6 +253,7 @@ public class GameArea extends JPanel {
                     y = row + block.getY();
                     if (background[0][y][x] != darkColor) {
                         this.block = null;
+                        this.gameOver.setScore(stats.getScore());
                         this.gameOver.setVisible(true);
                         return true;
                     }
