@@ -16,6 +16,7 @@ public class ScoreReader {
         String fileName = "main/Tetris/src/main/java/com/leviatanes/tetris/tetrisGame/game/gameOver/highScores.txt";
         String currentDir = System.getProperty("user.dir");
         String filePath = currentDir + File.separator + fileName;
+        System.out.println(filePath);
         File file = new File(filePath);
         try {
             if (file.createNewFile()) {
