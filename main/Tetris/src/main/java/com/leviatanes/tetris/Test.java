@@ -73,7 +73,7 @@ public class Test extends javax.swing.JFrame {
         resolution[0][0] = BASE_WIDTH;
         resolution[0][1] = BASE_HEIGHT;
         for (multiplier = 1; multiplier < MATRIX_ROWS && resolution[multiplier - 1][1] < screenHeight; multiplier++) {
-            if (multiplier == 2)// Condición de paro. Multiplicador deseado +1
+            if (multiplier == 9)// Condición de paro. Multiplicador deseado +1
                 break;
             resolution[multiplier][0] = resolution[0][0] * (multiplier + 1);
             resolution[multiplier][1] = resolution[0][1] * (multiplier + 1);
