@@ -61,6 +61,8 @@ public class GameControls implements KeyListener {
      * Utilizaremos en caso de ser nesesario detectar una realese
      */
     public void keyReleased(KeyEvent key) {
+        if (key.getKeyCode() == shoftDrop)
+            gameThread.restoreGameSpeed();
     }
 
     @Override
@@ -107,7 +109,7 @@ public class GameControls implements KeyListener {
                 gameArea.moveDown();
                 break;
             case shoftDrop:
-                gameArea.softDrop();
+                gameThread.softDrop();
                 break;
             case hardDrop:
                 gameArea.hardDrop();

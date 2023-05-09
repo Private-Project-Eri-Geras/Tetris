@@ -146,8 +146,8 @@ public class GameThread extends Thread {
     /**
      * Acelera la velocidad de caida a 1/10 de la velocidad actual
      */
-    public void acelerateGameSpeed() {
-        this.actualSpeed = this.waitingTime / 30;
+    public void softDrop() {
+        this.actualSpeed = this.waitingTime / 20;
     }
 
     /**

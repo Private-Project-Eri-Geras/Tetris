@@ -292,11 +292,6 @@ public class GameArea extends JPanel {
         return true;
     }
 
-    /** Hace softDrop */
-    public void softDrop() {
-        this.drop();
-    }
-
     /** Hace hardDrop */
     public void hardDrop() {
         this.hardDropFlag = true;
@@ -1050,6 +1045,8 @@ public class GameArea extends JPanel {
      * @param g Graphics
      */
     private void drawGhostBlock(Graphics g) {
+        if (this.block == null)
+            return;
         while (this.moveDownFlag || this.moveFlag || this.rotateFlag || this.checkToDropFlag || this.clearLinesFlag
                 || this.moveBlockToBottomFlag)
             ;

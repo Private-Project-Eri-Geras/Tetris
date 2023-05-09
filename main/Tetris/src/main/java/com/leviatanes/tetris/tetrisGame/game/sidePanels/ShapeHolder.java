@@ -86,8 +86,7 @@ public class ShapeHolder extends javax.swing.JPanel {
         // and not using a deprecated method
         Object newBlock = null;
         try {
-            newBlock = Class.forName("com.leviatanes.tetris.tetrisGame.tetrisBlocks.tetrinominos." + blockType)
-                    .newInstance();
+            newBlock = Class.forName("com.leviatanes.tetris.tetrisGame.tetrisBlocks.tetrinominos." + blockType).newInstance();
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
             e.printStackTrace();
         }
