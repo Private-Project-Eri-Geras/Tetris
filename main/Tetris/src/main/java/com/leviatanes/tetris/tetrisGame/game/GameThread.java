@@ -62,7 +62,7 @@ public class GameThread extends Thread {
             }
             System.out.println("    reset run");
         }
-
+        System.out.println("    end run");
     }
 
     /**
