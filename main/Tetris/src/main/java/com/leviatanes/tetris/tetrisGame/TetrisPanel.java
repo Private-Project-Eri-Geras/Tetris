@@ -1,11 +1,8 @@
 package com.leviatanes.tetris.tetrisGame;
 
-import com.leviatanes.tetris.tetrisGame.game.GameArea;
-import com.leviatanes.tetris.tetrisGame.game.GameControls;
-import com.leviatanes.tetris.tetrisGame.game.GameThread;
-import com.leviatanes.tetris.tetrisGame.game.sidePanels.HoldPanel;
-import com.leviatanes.tetris.tetrisGame.game.sidePanels.NextPanel;
-import com.leviatanes.tetris.tetrisGame.game.sidePanels.StatsPanel;
+import com.leviatanes.tetris.tetrisGame.game.*;
+import com.leviatanes.tetris.tetrisGame.game.gameOver.GameOver;
+import com.leviatanes.tetris.tetrisGame.game.sidePanels.*;
 
 public class TetrisPanel extends javax.swing.JPanel {
         /** lleva el control del juego */
@@ -20,6 +17,8 @@ public class TetrisPanel extends javax.swing.JPanel {
         private GameControls gameControls;
         /** lleva el control del hilo del juego */
         private GameThread gameThread;
+        /** panel de juego perdido */
+        private GameOver gameOver;
 
         // constantes para calculos de offset
         // offset para el panel del juego
@@ -55,6 +54,9 @@ public class TetrisPanel extends javax.swing.JPanel {
                 this.setBounds(0, 0, width, height);
                 this.setSize(width, height);
 
+                this.gameOver = new GameOver(multiplier);
+                this.add(gameOver);
+
                 this.nextShape = new NextPanel(multiplier);
                 nextShape.setBounds(nextShapeXoffset * multiplier, nextShapeYoffset * multiplier,
                                 nextShapeWidth * multiplier, nextShapeHeight * multiplier);
@@ -76,7 +78,7 @@ public class TetrisPanel extends javax.swing.JPanel {
                 final int yGA = gameHolderYoffset * multiplier;
                 final int widthGA = gameHolderWidth * multiplier;
                 final int heightGA = gameHolderHeight * multiplier;
-                this.gameArea = new GameArea(xGA, yGA, widthGA, heightGA, nextShape, holdShape);
+                this.gameArea = new GameArea(xGA, yGA, widthGA, heightGA, nextShape, holdShape, gameOver);
                 this.add(gameArea);
 
                 this.gameThread = new GameThread(this.gameArea, statsPanel);

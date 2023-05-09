@@ -248,8 +248,9 @@ public class GameThread extends Thread {
             gameArea.spawnBlock();
             while (gameArea.getSpawnedFlag())
                 ;
-            if (gameArea.isGameOver())
+            if (gameArea.isGameOver()) {
                 return true;
+            }
             gameArea.repaint();
         }
         return false;

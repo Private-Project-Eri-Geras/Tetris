@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.tetrinominos.*;
+import com.leviatanes.tetris.tetrisGame.game.gameOver.GameOver;
 import com.leviatanes.tetris.tetrisGame.game.sidePanels.*;
 
 public class GameArea extends JPanel {
@@ -78,9 +79,13 @@ public class GameArea extends JPanel {
     /** Los 7 bloques diferentes que podemos utilizar */
     private static final TetrisBlock[] blocks = { new Ishape(), new Jshape(), new Lshape(), new Oshape(), new Sshape(),
             new Tshape(), new Zshape() };
-    // ===================[ SIDE PANELS ]===========================//
+    // ===================[ OTHER PANELS ]===========================//
+    /** panel de pieza siguiente */
     private NextPanel nextShape;
+    /** panel de pieza a mantener */
     private HoldPanel holdShape;
+    /** panel de fin de juego */
+    private GameOver gameOver;
 
     /**
      * Constructor de la clase
@@ -93,7 +98,7 @@ public class GameArea extends JPanel {
      * @param placeHolder JPanel panel que encierra el tablero
      * @param colums      int columnas del tablero
      */
-    public GameArea(int x, int y, int width, int height, NextPanel nextShape, HoldPanel holdShape) {
+    public GameArea(int x, int y, int width, int height, NextPanel nextShape, HoldPanel holdShape, GameOver gameOver) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -101,6 +106,7 @@ public class GameArea extends JPanel {
         this.colums = 10;
         this.nextShape = nextShape;
         this.holdShape = holdShape;
+        this.gameOver = gameOver;
         this.initGame();
     }
 
@@ -111,6 +117,7 @@ public class GameArea extends JPanel {
      * @param colums
      */
     private void initGame() {
+        this.gameOver.setVisible(false);
         this.setBounds(x, y, width, height);
         this.tileSize = width / this.colums;
         this.rows = height / tileSize;
@@ -242,6 +249,7 @@ public class GameArea extends JPanel {
                     y = row + block.getY();
                     if (background[0][y][x] != darkColor) {
                         this.block = null;
+                        this.gameOver.setVisible(true);
                         return true;
                     }
                 }
