@@ -13,108 +13,145 @@ import javax.swing.JLabel;
  *
  * @author maria
  */
-public class Inicio extends javax.swing.JPanel {
+public class Inicio extends javax.swing.JPanel {//El panel de inicio
     int mouseX, mouseY;
     private ImageIcon imagen;
     private Icon icono;
     Escalar escal= new Escalar();
     
-    //Offset para el fondo1
-    private final int fondo1HolderYoffset=30;
-    private final int fondo1HolderXoffset=30;
-    private final int fondo1HolderWidth=150;
-    private final int fondo1HolderHeight=580;
-    //offset para el fondo2
-    private final int fondo2HolderYoffset=30;
-    private final int fondo2HolderXoffset=540;
-    private final int fondo2HolderWidth=150;
-    private final int fondo2HolderHeight=580;
-    //offset para el titulo
-    private final int tituloHolderYoffset=30;
-    private final int tituloHolderXoffset=210;
-    private final int tituloHolderWidth=300;
-    private final int tituloHolderHeight=100;
-    //offset para el playP
-    private final int playPHolderYoffset=225;
-    private final int playPHolderXoffset=260;
-    private final int playPHolderWidth=200;
-    private final int playPHolderHeight=60;
-    /*//offset para el playBtn
-    private final int playBtnHolderYoffset=225;
-    private final int playBtnHolderXoffset=260;
-    private final int playBtnHolderWidth=200;
-    private final int playBtnHolderHeight=60;*/
-    //offset para el scoreP
-    private final int scorePHolderYoffset=315;
-    private final int scorePHolderXoffset=260;
-    private final int scorePHolderWidth=200;
-    private final int scorePHolderHeight=60;
-   /* //offset para el scoreBtn
-    private final int scoreBtnHolderYoffset=315;
-    private final int scoreBtnHolderXoffset=260;
-    private final int scoreBtnHolderWidth=200;
-    private final int scoreBtnHolderHeight=60;*/
-    //offset para el configP
-    private final int configPHolderYoffset=405;
-    private final int configPHolderXoffset=260;
-    private final int configPHolderWidth=200;
-    private final int configPHolderHeight=60;
-    /*//offset para el configBtn
-    private final int configBtnHolderYoffset=405;
-    private final int configBtnHolderXoffset=260;
-    private final int configBtnHolderWidth=200;
-    private final int configBtnHolderHeight=60;*/
-    //offset para el exitP
-    private final int exitPHolderYoffset=495;
-    private final int exitPHolderXoffset=260;
-    private final int exitPHolderWidth=200;
-    private final int exitPHolderHeight=60;
-    /*//offset para el exitBtn
-    private final int exitBtnHolderYoffset=495;
-    private final int exitBtnHolderXoffset=260;
-    private final int exitBtnHolderWidth=200;
-    private final int exitBtnHolderHeight=60;*/
-    
+//Offset para el fondo1
+    private final int fondoHolderYoffset=0;
+    private final int fondo1HolderXoffset=0;
+    private final int fondoHolderWidth=20;
+    private final int fondoHolderHeight=80;
+//offset para el fondo2
+    //private final int fondo2HolderYoffset=0;
+    private final int fondo2HolderXoffset=70;
+    //private final int fondo2HolderWidth=20;
+    //private final int fondo2HolderHeight=80;
+//offset para el titulo
+    private final int tituloHolderYoffset=10;
+    private final int tituloHolderXoffset=25;
+    private final int tituloHolderWidth=40;
+    private final int tituloHolderHeight=12;
+//offset para los botones
+    private final int btnPHolderXoffset=33;//Es el mismo para todos los botones    
+    private final int btnPHolderWidth=24;
+    private final int btnPHolderHeight=8;
+   
+    private final int playPHolderYoffset=28; //La Y es la que va a cambiar en cada botón
+    private final int scorePHolderYoffset=41; //La Y es la que va a cambiar en cada botón
+    private final int configPHolderYoffset=54; //La Y es la que va a cambiar en cada botón
+    private final int exitPHolderYoffset=67; //La Y es la que va a cambiar en cada botón
+
+
     public Inicio(int width, int height, int multiplier) {
         initComponents();
         initPanel( width,  height,  multiplier);
         
-       // escal.escalarLabel(fondo1, "/imag/FondoT.png");
+        // escal.escalarLabel(fondo1, "/imag/FondoT.png");
         //this.printImage(titulo, "/imag/Tetris.png");
     }
 
     private void initPanel(int width, int height, int multiplier){
-         fondo1.setBounds(fondo1HolderXoffset * multiplier, fondo1HolderYoffset * multiplier,
-                fondo1HolderWidth * multiplier, fondo1HolderHeight * multiplier);
-        fondo2.setBounds(fondo2HolderXoffset * multiplier, fondo2HolderYoffset * multiplier,
-                fondo2HolderWidth * multiplier, fondo2HolderHeight * multiplier);
-        titulo.setBounds(tituloHolderXoffset * multiplier, tituloHolderYoffset * multiplier,
-                tituloHolderWidth * multiplier, tituloHolderHeight * multiplier);
-        playP.setBounds(playPHolderXoffset * multiplier, playPHolderYoffset * multiplier,
-                playPHolderWidth * multiplier, playPHolderHeight * multiplier);
-        playBtn.setBounds(playPHolderXoffset * multiplier, playPHolderYoffset * multiplier,
-                playPHolderWidth * multiplier, playPHolderHeight * multiplier);
-        scoreP.setBounds(scorePHolderXoffset * multiplier, scorePHolderYoffset * multiplier,
-                scorePHolderWidth * multiplier, scorePHolderHeight * multiplier);
-        scoreBtn.setBounds(scorePHolderXoffset * multiplier, scorePHolderYoffset * multiplier,
-                scorePHolderWidth * multiplier, scorePHolderHeight * multiplier);
-        configP.setBounds(configPHolderXoffset * multiplier, configPHolderYoffset * multiplier,
-                configPHolderWidth * multiplier, configPHolderHeight * multiplier);
-        configBtn.setBounds(configPHolderXoffset * multiplier, configPHolderYoffset * multiplier,
-                configPHolderWidth * multiplier, configPHolderHeight * multiplier);
-        exitP.setBounds(exitPHolderXoffset * multiplier, exitPHolderYoffset * multiplier,
-                exitPHolderWidth * multiplier, exitPHolderHeight * multiplier);
-        exitBtn.setBounds(exitPHolderXoffset * multiplier, exitPHolderYoffset * multiplier,
-                exitPHolderWidth * multiplier, exitPHolderHeight * multiplier);
+        this.setLayout(null);
+        System.out.println("Panel Inicio: ancho: " + width + ", alto: " + height);
+        this.setBounds(0, 0, width, height);
+        setBackground(new java.awt.Color(142, 76, 236));
+
+        int x, y, w, h;
+        // =====================[TITULO]=======================
+        x = tituloHolderXoffset * multiplier;
+        y = tituloHolderYoffset * multiplier;
+        w = tituloHolderWidth * multiplier;
+        h = tituloHolderHeight * multiplier;
+        titulo.setBounds(x, y, w, h);
+        System.out.println("\nTITULO: w:" + titulo.getWidth() + ", h" + titulo.getHeight() + ", x:" + titulo.getX() + ", y:" + titulo.getY());
         
         escal.escalarLabel(titulo, "/imag/Tetris.png", multiplier);
+        this.add(titulo);
+        // =====================[FONDOS]=======================
+        x = fondo1HolderXoffset * multiplier;
+        y = fondoHolderYoffset * multiplier;
+        w = fondoHolderWidth * multiplier;
+        h = fondoHolderHeight * multiplier;
+        fondo1.setBounds(x, y, w, h);
+        System.out.println("\nFONDO1: w:" + fondo1.getWidth() + ", h" + fondo1.getHeight() + ", x:" + fondo1.getX() + ", y:" + fondo1.getY());
         escal.escalarLabel(fondo1, "/imag/FondoT.png", multiplier);
+        this.add(fondo1);
+        
+        x = fondo2HolderXoffset * multiplier;
+        fondo2.setBounds(x, y, w, h);
+        System.out.println("\nFondo2: w: " + fondo2.getWidth() + ", h: " + fondo2.getHeight()+", x:" + fondo2.getX() + ", y:" + fondo2.getY());
         escal.escalarLabel(fondo2, "/imag/FondoT.png", multiplier);
-        this.setSize(width, height);
+        this.add(fondo2);
+        // =====================[BOTONES]=======================
+        // =====================[PLAY]=======================
+        x = btnPHolderXoffset * multiplier;
+        y = playPHolderYoffset * multiplier;
+        w = btnPHolderWidth * multiplier;
+        h = btnPHolderHeight * multiplier;
+        playP.setBounds(x, y, w, h);
+        System.out.println("\nPLAY: w:" + playP.getWidth() + ", h" + playP.getHeight() + ", x:" + playP.getX() + ", y:" + playP.getY());
+        this.add(playP);
+        playBtn.setBounds(x, y, w, h);
+        this.adjustFontSize(playBtn, playBtn.getFont().getFontName(), w, h);
+        playP.add(playBtn);
+        playP.revalidate();
+        playP.repaint();
+        playBtn.setVisible(true);
+        // =====================[SCORE]=======================
+        y= scorePHolderYoffset * multiplier;
+        scoreP.setBounds(x, y, w, h);
+        this.add(scoreP);
+        scoreBtn.setBounds(0, 0, w, h);
+        this.adjustFontSize(scoreBtn, scoreBtn.getFont().getFontName(), w, h);
+        scoreP.add(scoreBtn);
+        scoreP.revalidate();
+        scoreP.repaint();
+        scoreBtn.setVisible(true);
+        System.out.println("\nSCORE: w:" + scoreP.getWidth() + ", h" + scoreP.getHeight() + ", x:" + scoreP.getX() + ", y:" + scoreP.getY());
+        // =====================[CONFIG]=======================
+        y= configPHolderYoffset * multiplier;
+        configP.setBounds(x,y, w, h);
+        this.add(configP);
+        configBtn.setBounds(0, 0, w, h);
+        this.adjustFontSize(configBtn, configBtn.getFont().getFontName(), w, h);
+        configP.add(configBtn);
+        configBtn.revalidate();
+        configBtn.repaint();
+        configBtn.setVisible(true);
+        System.out.println("\nCONFIG: w:" + configP.getWidth() + ", h" + configP.getHeight() + ", x:" + configP.getX() + ", y:" + configP.getY());
+        // =====================[EXIT]=======================
+        y= exitPHolderYoffset * multiplier;
+        exitP.setBounds(x, y, w, h);
+        this.add(exitP);
+        exitBtn.setBounds(0, 0, w, h);
+        this.adjustFontSize(exitBtn, exitBtn.getFont().getFontName(), w, h);
+        exitP.add(exitBtn);
+        exitP.revalidate();
+        exitP.repaint();
+        exitP.setVisible(true);
+        System.out.println("\nEXIT: w:" + exitP.getWidth() + ", h" + exitP.getHeight() + ", x:" + exitP.getX() + ", y:" + exitP.getY());
+        //this.setSize(width, height);
         this.setVisible(true);
-       
+        this.revalidate();
+        this.repaint();
     }
-    @SuppressWarnings("unchecked")
+
+    private void adjustFontSize(JLabel label, String font, int w, int h){
+        for (int i = 1;; i++) {
+            label.setFont(new java.awt.Font(font, 1, i));
+            int fontW = label.getFontMetrics(label.getFont()).stringWidth(label.getText());
+            int fontH = label.getFontMetrics(label.getFont()).getHeight();
+            if (fontW > w || fontH > h) {
+                label.setFont(new java.awt.Font(font, 1, i - 1));
+                break;
+            }
+        }
+    }
+    
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 

@@ -24,7 +24,7 @@ import javax.swing.JLabel;
 public class Test extends javax.swing.JFrame {
     private TetrisPanel tetrisPanel;
 
-    Escalar escal= new Escalar();
+   // Escalar escal= new Escalar();
     int mouseX, mouseY;
     private ImageIcon imagen;
     private Icon icono;
@@ -51,16 +51,19 @@ public class Test extends javax.swing.JFrame {
      */
     public Test() {
         initComponents();
+        
         // obtener resolucion maxima
         this.setResizable(false);
         this.getMaxResolution();
         // generar centro de pantalla para el panel
-        this.generateCenter();
+        //this.generateCenter();
+        this.setBounds(0,0,width, height);
+        System.out.println("width: " + width + " height: " + height + " multiplier: " + multiplier);
         this.setLocationRelativeTo(this);//Para centrar el Frame //mio
         this.MenuInicio();
-        
-        
-        
+        this.revalidate();
+        this.repaint();
+        this.setVisible(true);
         // inicializar el juego
         //this.initGame();
     }
@@ -70,7 +73,7 @@ public class Test extends javax.swing.JFrame {
         resolution[0][0] = BASE_WIDTH;
         resolution[0][1] = BASE_HEIGHT;
         for (multiplier = 1; multiplier < MATRIX_ROWS && resolution[multiplier - 1][1] < screenHeight; multiplier++) {
-            if (multiplier == 9)
+            if (multiplier == 2)// Condición de paro. Multiplicador deseado +1
                 break;
             resolution[multiplier][0] = resolution[0][0] * (multiplier + 1);
             resolution[multiplier][1] = resolution[0][1] * (multiplier + 1);
@@ -109,11 +112,17 @@ public class Test extends javax.swing.JFrame {
         PlaceHolder.removeAll();
         PlaceHolder.add(menuIni);
         PlaceHolder.revalidate();
+        PlaceHolder.repaint();
        // this.printImage(titulo, "src/main/java/imag/Tetris.png");
         
         //PlaceHolder.repaint();
         
         //this.addKeyListener(tetrisPanel.getGameControls());
+    }
+
+    //get de multiplier
+    public int getMultiplier() {
+        return multiplier;
     }
 
     /**
@@ -157,11 +166,6 @@ public class Test extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    //get de multiplier
-    public int getMultiplier() {
-        return multiplier;
-    }
 
     /**
      * @param args the command line arguments
