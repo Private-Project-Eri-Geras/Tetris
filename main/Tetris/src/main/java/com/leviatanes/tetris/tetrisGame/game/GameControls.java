@@ -68,6 +68,7 @@ public class GameControls implements KeyListener {
     @Override
     /** Metodo no usado */
     public void keyTyped(KeyEvent key) {
+
     }
 
     /**

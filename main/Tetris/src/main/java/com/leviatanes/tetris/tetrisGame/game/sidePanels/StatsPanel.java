@@ -51,11 +51,6 @@ public class StatsPanel extends javax.swing.JPanel {
     private final static int levelY = 30;
     private final static int levelW = 4;
     private final static int levelH = 4;
-    // offset para el panel de figura guardada
-    private final int stashShapeYoffset = 44;
-    private final int stashShapeXoffset = 65;
-    private final int stashShapeWidth = 20;
-    private final int stashShapeHeight = 20;
 
     // offset para el linesLabel
     private final static int linesTxtLblX = 3;
@@ -68,15 +63,13 @@ public class StatsPanel extends javax.swing.JPanel {
     private final String folderPath = "/com/leviatanes/tetris/tetrisGame/game/sidePanels/images/";
 
     public StatsPanel(int multiplier) {
-        initComponents();
-        this.setBounds(stashShapeXoffset * multiplier, stashShapeYoffset * multiplier,
-                stashShapeWidth * multiplier, stashShapeHeight * multiplier);
+        this.setLayout(null);
         this.multiplier = multiplier;
-        this.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         initPanels();
+        revalidate();
         repaint();
+        this.setOpaque(true);
         this.setVisible(true);
-
     }
 
     // =========[GETTERS]==========
@@ -373,20 +366,4 @@ public class StatsPanel extends javax.swing.JPanel {
         label.setIcon(new ImageIcon(scaledImage));
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 192, Short.MAX_VALUE));
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 448, Short.MAX_VALUE));
-    }// </editor-fold>//GEN-END:initComponents
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
 }

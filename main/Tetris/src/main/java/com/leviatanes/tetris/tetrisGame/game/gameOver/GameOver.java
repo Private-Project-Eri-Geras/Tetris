@@ -1,10 +1,14 @@
 package com.leviatanes.tetris.tetrisGame.game.gameOver;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+
+import com.leviatanes.tetris.tetrisGame.game.gameOver.scorePanel.*;
 
 public class GameOver extends JPanel {
     // base resolution
@@ -24,6 +28,7 @@ public class GameOver extends JPanel {
     private int multiplier;
 
     private JLabel lblGameOver;
+    private JPanel scorePanel;
     private int score;
     private Score scores[];
     private ScoreReader read;
@@ -67,6 +72,15 @@ public class GameOver extends JPanel {
                 break;
             }
         }
+        x = scoreX * multiplier;
+        y = scoreY * multiplier;
+        w = scoreW * multiplier;
+        h = scoreH * multiplier;
+        this.scorePanel = new JPanel();
+        this.scorePanel.setBounds(x, y, w, h);
+        this.scorePanel.setLayout(null);
+        this.scorePanel.setOpaque(false);
+        this.add(scorePanel);
         this.add(lblGameOver);
         scores = read.readScores();
     }
@@ -87,6 +101,10 @@ public class GameOver extends JPanel {
             this.lblGameOver.setText("HIGH SCORE");
             Score score = new Score("bbb", this.score);
             this.read.replaceScore(score);
+            HighScore highScore = new HighScore(multiplier, this.score);
+            this.scorePanel.add(highScore, BorderLayout.CENTER);
+            this.scorePanel.revalidate();
+            this.scorePanel.repaint();
         } else {
             this.lblGameOver.setText("GAME OVER");
         }
