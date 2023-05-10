@@ -261,7 +261,7 @@ public class GameArea extends JPanel {
                     y = row + block.getY();
                     if (background[0][y][x] != darkColor) {
                         this.block = null;
-                        this.gameOver.setScore(stats.getScore());
+                        this.gameOver.setPuntuation(stats.getScore(), stats.getLines());
                         this.gameOver.endGame();
                         this.gameOver.setVisible(true);
                         return true;

@@ -55,7 +55,6 @@ public class HighScore extends JPanel {
         this.setLayout(null);
         this.multiplier = multiplier;
         this.setBounds(0, 0, scorePanelW * multiplier, scorePanelH * multiplier);
-        System.out.println("Bounds " + this.getBounds());
         this.score = score2;
         initPanels();
         this.setOpaque(false);
@@ -119,10 +118,8 @@ public class HighScore extends JPanel {
         w = w * multiplier;
         h = h * multiplier;
         label.setBounds(x, y, w, h);
-        System.out.println("Bounds " + x + " " + y + " " + w + " " + h);
         if (imagePath.equals("a")) {
             label.setText("A");
-            System.out.println("Label Text");
             for (int i = 1;; i++) {
                 label.setFont(new java.awt.Font("Impact", 1, i));
                 int fontW = label.getFontMetrics(label.getFont()).stringWidth(label.getText());
@@ -166,7 +163,6 @@ public class HighScore extends JPanel {
     }
 
     private void paintLetter(Graphics g, JLabel label) {
-        System.out.println("Bounds " + label.getBounds());
         int x = label.getBounds().x;
         int y = label.getBounds().y;
         int width = label.getBounds().width;

@@ -30,6 +30,7 @@ public class GameOver extends JPanel {
     private JLabel lblGameOver;
     private JPanel scorePanel;
     private int score;
+    private int lines;
     private Score scores[];
     private ScoreReader read;
 
@@ -42,6 +43,15 @@ public class GameOver extends JPanel {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public void setLines(int lines) {
+        this.lines = lines;
+    }
+
+    public void setPuntuation(int score, int lines) {
+        this.score = score;
+        this.lines = lines;
     }
 
     public void revalidation() {
@@ -100,6 +110,7 @@ public class GameOver extends JPanel {
         if (isHighScore) {
             this.lblGameOver.setText("HIGH SCORE");
             Score score = new Score("bbb", this.score);
+            System.out.println("Score" + this.score);
             this.read.replaceScore(score);
             HighScore highScore = new HighScore(multiplier, this.score);
             this.scorePanel.add(highScore, BorderLayout.CENTER);
@@ -107,6 +118,12 @@ public class GameOver extends JPanel {
             this.scorePanel.repaint();
         } else {
             this.lblGameOver.setText("GAME OVER");
+            Score score = new Score("bbb", this.score);
+            System.out.println("Score" + this.score);
+            NormalScore normalScore = new NormalScore(multiplier, this.score, this.lines);
+            this.scorePanel.add(normalScore, BorderLayout.CENTER);
+            this.scorePanel.revalidate();
+            this.scorePanel.repaint();
         }
     }
 

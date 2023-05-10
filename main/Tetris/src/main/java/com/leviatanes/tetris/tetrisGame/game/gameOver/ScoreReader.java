@@ -16,20 +16,14 @@ public class ScoreReader {
         String fileName = "main/Tetris/src/main/java/com/leviatanes/tetris/tetrisGame/game/gameOver/highScores.txt";
         String currentDir = System.getProperty("user.dir");
         String filePath = currentDir + File.separator + fileName;
-        System.out.println(filePath);
         File file = new File(filePath);
         try {
-            if (file.createNewFile()) {
-                System.out.println("El archivo ha sido creado exitosamente.");
-            } else {
-                System.out.println("El archivo ya existe.");
-            }
+            file.createNewFile();
         } catch (IOException e) {
             System.out.println("Error al crear el archivo: " + e.getMessage());
         }
 
         try {
-
             Scanner in = new Scanner(file);
             FileWriter writer = new FileWriter(file, true);
             in.close();
@@ -49,15 +43,10 @@ public class ScoreReader {
             }
         }
         String filePath = currentDir + "/" + fileName;
-        System.out.println(filePath);
         File file = new File(filePath);
         Scanner in = null;
         try {
-            if (file.createNewFile()) {
-                System.out.println("El archivo ha sido creado exitosamente.");
-            } else {
-                System.out.println("El archivo ya existe.");
-            }
+            file.createNewFile();
             in = new Scanner(file);
             String[] line = new String[MAX_SCORES];
             for (int i = 0; i < MAX_SCORES; i++) {
@@ -68,13 +57,11 @@ public class ScoreReader {
                 line[i] = in.nextLine();
             }
             for (i = 0; i < MAX_SCORES; i++) {
-                System.out.println(line[i]);
                 if (line[i].equals("")) {
                     break;
                 }
             }
             scores = new Score[i];
-            System.out.println("after gettin lines: " + i);
             for (i = 0; i < scores.length; i++) {
                 String[] parts = line[i].split(" ");
                 scores[i] = new Score(parts[0], Integer.parseInt(parts[1]));
@@ -101,7 +88,6 @@ public class ScoreReader {
         this.scores = readScores();
 
         String[][] scoresStrings = new String[this.scores.length][2];
-        System.out.println("scores length: " + this.scores.length);
         for (int i = 0; i < this.scores.length; i++) {
             scoresStrings[i][0] = this.scores[i].getName();
             scoresStrings[i][1] = Integer.toString(this.scores[i].getScore());
@@ -126,7 +112,6 @@ public class ScoreReader {
         this.scores = new Score[scoresStrings.length];
         scoresStrings = sort(scoresStrings);
         for (int i = 0; i < this.scores.length; i++) {
-            System.out.println(scoresStrings[i][0] + " " + scoresStrings[i][1]);
             this.scores[i] = new Score(scoresStrings[i][0], Integer.parseInt(scoresStrings[i][1]));
         }
         return scoresStrings;
@@ -141,11 +126,9 @@ public class ScoreReader {
             }
         }
         String filePath = currentDir + "/" + fileName;
-        System.out.println(filePath);
         try {
             FileWriter writer = new FileWriter(filePath);
             BufferedWriter bw = new BufferedWriter(writer);
-            System.out.println("Escribiendo");
             String linea = scores[0][0] + " " + scores[0][1];
             bw.write(linea);
             for (int i = 1; i < scores.length; i++) {

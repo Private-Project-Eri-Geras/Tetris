@@ -31,8 +31,17 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         // initComponents();
-
         this.initGame();
+    }
+
+    public Main(boolean b) {
+        this.setUndecorated(true);
+        this.setResizable(false);
+        width = 0;
+        height = 0;
+        tetrisPanel = null;
+        this.initGame();
+        this.setVisible(true);
     }
 
     private void getMaxResolution() {
