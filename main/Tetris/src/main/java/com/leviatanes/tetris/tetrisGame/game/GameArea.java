@@ -1067,11 +1067,11 @@ public class GameArea extends JPanel {
      * @param g Graphics
      */
     private void drawGhostBlock(Graphics g) {
-        if (this.block == null)
-            return;
         while (this.moveDownFlag || this.moveFlag || this.rotateFlag || this.checkToDropFlag || this.clearLinesFlag
                 || this.moveBlockToBottomFlag)
             ;
+        if (this.block == null)
+            return;
         if (ghostBlock == null)
             return;
         int yi;

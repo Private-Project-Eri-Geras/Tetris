@@ -1,5 +1,6 @@
 package com.leviatanes.tetris.tetrisGame.game.gameOver.scorePanel;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -7,8 +8,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import com.leviatanes.tetris.tetrisGame.game.gameOver.Score;
+import javax.swing.SwingConstants;
 
 public class HighScore extends JPanel {
     /** Label de score */
@@ -20,6 +20,18 @@ public class HighScore extends JPanel {
     private JLabel scoreLbl5;
     /** score del juego */
     private int score = 0;
+
+    // letter size
+    private final static int letterX = 10;
+    private final static int letterY = 30;
+    private final static int letterW = 14;
+    private final static int letterH = 20;
+    private final static int lXoffset = 18;
+
+    // Labels de seleccion de letras
+    private JLabel letter1;
+    private JLabel letter2;
+    private JLabel letter3;
 
     private int multiplier;
 
@@ -46,10 +58,10 @@ public class HighScore extends JPanel {
         System.out.println("Bounds " + this.getBounds());
         this.score = score2;
         initPanels();
+        this.setOpaque(false);
         revalidate();
         repaint();
         this.setVisible(true);
-        this.setOpaque(false);
     }
 
     private void initPanels() {
@@ -88,17 +100,43 @@ public class HighScore extends JPanel {
         this.add(scoreLbl3);
         this.add(scoreLbl4);
         this.add(scoreLbl5);
+
+        letter1 = new JLabel();
+        initLabel(letter1, letterX, letterY, letterW, letterH, "a");
+        this.add(letter1);
+        letter2 = new JLabel();
+        initLabel(letter2, letterX + lXoffset, letterY, letterW, letterH, "a");
+        this.add(letter2);
+        letter3 = new JLabel();
+        initLabel(letter3, letterX + lXoffset * 2, letterY, letterW, letterH, "a");
+        this.add(letter3);
     }
 
     /** Inicializa un label asignandole la imagen correspondiente */
-    private void initLabel(JLabel label, int x, int y, int width, int height, String imagePath) {
+    private void initLabel(JLabel label, int x, int y, int w, int h, String imagePath) {
         x = x * multiplier;
         y = y * multiplier;
-        width = width * multiplier;
-        height = height * multiplier;
-        label.setBounds(x, y, width, height);
-        System.out.println("Bounds " + x + " " + y + " " + width + " " + height);
-        getIcon(label, folderPath + imagePath, width, height);
+        w = w * multiplier;
+        h = h * multiplier;
+        label.setBounds(x, y, w, h);
+        System.out.println("Bounds " + x + " " + y + " " + w + " " + h);
+        if (imagePath.equals("a")) {
+            label.setText("A");
+            System.out.println("Label Text");
+            for (int i = 1;; i++) {
+                label.setFont(new java.awt.Font("Impact", 1, i));
+                int fontW = label.getFontMetrics(label.getFont()).stringWidth(label.getText());
+                int fontH = label.getFontMetrics(label.getFont()).getHeight();
+                if (fontW > w || fontH > h) {
+                    label.setFont(new java.awt.Font("Impact", 1, i - 1));
+                    break;
+                }
+
+            }
+            label.setHorizontalAlignment(SwingConstants.CENTER);
+        } else {
+            getIcon(label, folderPath + imagePath, w, h);
+        }
     }
 
     /** Obtiene un icono y lo escala para colocarlo */
@@ -109,6 +147,10 @@ public class HighScore extends JPanel {
         label.setIcon(new ImageIcon(scaledImage));
     }
 
+    public String getLetter() {
+        return letter1.getText() + letter2.getText() + letter3.getText();
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -117,6 +159,18 @@ public class HighScore extends JPanel {
         int y = (scoreY - 2) * multiplier;
         int width = scoreW * 5 * multiplier;
         int height = (scoreH + 4) * multiplier;
+        g.fillRect(x, y, width, height);
+        paintLetter(g, letter1);
+        paintLetter(g, letter2);
+        paintLetter(g, letter3);
+    }
+
+    private void paintLetter(Graphics g, JLabel label) {
+        System.out.println("Bounds " + label.getBounds());
+        int x = label.getBounds().x;
+        int y = label.getBounds().y;
+        int width = label.getBounds().width;
+        int height = label.getBounds().height;
         g.fillRect(x, y, width, height);
     }
 }
