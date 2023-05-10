@@ -1,6 +1,7 @@
 package com.leviatanes.tetris.tetrisGame.game.gameOver;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -38,10 +39,15 @@ public class GameOver extends JPanel {
         this.score = score;
     }
 
+    public void revalidation() {
+        this.initComponents();
+        this.repaint();
+    }
+
     private void initComponents() {
         this.setBounds(0, 0, width * multiplier, height * multiplier);
         this.setLayout(null);
-        this.setBackground(new Color(0, 0, 0, 125));
+        this.setOpaque(false);
         int x = gameOverX * multiplier;
         int y = gameOverY * multiplier;
         int w = gameOverW * multiplier;
@@ -78,5 +84,12 @@ public class GameOver extends JPanel {
         } else {
             this.lblGameOver.setText("GAME OVER");
         }
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.setColor(new Color(0, 0, 0, 150));
+        g.fillRect(0, 0, width * multiplier, height * multiplier);
     }
 }

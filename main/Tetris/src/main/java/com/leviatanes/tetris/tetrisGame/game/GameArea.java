@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.tetrinominos.*;
+import com.leviatanes.tetris.tetrisGame.TetrisPanel;
 import com.leviatanes.tetris.tetrisGame.game.gameOver.GameOver;
 import com.leviatanes.tetris.tetrisGame.game.sidePanels.*;
 
@@ -88,6 +89,8 @@ public class GameArea extends JPanel {
     private StatsPanel stats;
     /** panel de fin de juego */
     private GameOver gameOver;
+    /** panel de tetris fame */
+    private TetrisPanel tetrisPanel;
 
     /**
      * Constructor de la clase
@@ -137,6 +140,11 @@ public class GameArea extends JPanel {
                 this.background[2][i][j] = borderColor;
             }
         }
+    }
+
+    /** setea el tetris panel */
+    public void setTetrisPanel(TetrisPanel tetrisPanel) {
+        this.tetrisPanel = tetrisPanel;
     }
 
     /** @return boolean isHardDroped? */
