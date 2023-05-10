@@ -2,6 +2,8 @@ package com.leviatanes.tetris.tetrisGame.game.sidePanels;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
 
@@ -79,15 +81,19 @@ public class ShapeHolder extends javax.swing.JPanel {
     }
 
     public void setBlock(TetrisBlock block) {
-        String blockType = block.getType() + "shape";
-        // create a new instance of the block
-        // using generics checking the type of the block
-        // and casting it to the correct type
-        // and not using a deprecated method
-        Object newBlock = null;
+        String classPath = "com.leviatanes.tetris.tetrisGame.tetrisBlocks.tetrinominos.";
+        String blockType = classPath + block.getType() + "shape"; // conseguir el tipo de bloque que es
+        Object newBlock = null; // este objeto sera el nuevo bloque
+        Class<? extends TetrisBlock> blockClass = null;
+        Constructor<? extends TetrisBlock> constructor = null;
         try {
-            newBlock = Class.forName("com.leviatanes.tetris.tetrisGame.tetrisBlocks.tetrinominos." + blockType).newInstance();
-        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+            // crear una clase con el nombre del tipo de bloque
+            blockClass = Class.forName(blockType).asSubclass(TetrisBlock.class);
+            // crear el constructor de la calse
+            constructor = blockClass.getDeclaredConstructor();
+            newBlock = constructor.newInstance(); // asignar el bloque al resultado de llamar al constructor
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException
+                | InvocationTargetException e) {
             e.printStackTrace();
         }
         this.block = (TetrisBlock) newBlock;
