@@ -59,11 +59,11 @@ public class GameOver extends JPanel {
         this.lblGameOver.setVerticalAlignment(JLabel.CENTER);
         // ajustar el tamaño de la fuente al tamaño de la etiqueta
         for (int i = 1;; i++) {
-            this.lblGameOver.setFont(new java.awt.Font("Tahoma", 1, i));
+            this.lblGameOver.setFont(new java.awt.Font("Impact", 1, i));
             int fontW = lblGameOver.getFontMetrics(lblGameOver.getFont()).stringWidth(lblGameOver.getText());
             int fontH = lblGameOver.getFontMetrics(lblGameOver.getFont()).getHeight();
             if (fontW > w || fontH > h) {
-                this.lblGameOver.setFont(new java.awt.Font("Tahoma", 1, i - 1));
+                this.lblGameOver.setFont(new java.awt.Font("Impact", 1, i - 1));
                 break;
             }
         }
@@ -73,14 +73,20 @@ public class GameOver extends JPanel {
 
     public void endGame() {
         boolean isHighScore = false;
-        for (int i = 0; i < scores.length; i++) {
-            if (this.score > scores[i].getScore()) {
-                isHighScore = true;
-                break;
+        if (scores.length < 10)
+            isHighScore = true;
+        else
+            for (int i = 0; i < scores.length; i++) {
+                if (this.score > scores[i].getScore()) {
+                    isHighScore = true;
+                    break;
+                }
             }
-        }
+
         if (isHighScore) {
             this.lblGameOver.setText("HIGH SCORE");
+            Score score = new Score("bbb", this.score);
+            this.read.replaceScore(score);
         } else {
             this.lblGameOver.setText("GAME OVER");
         }

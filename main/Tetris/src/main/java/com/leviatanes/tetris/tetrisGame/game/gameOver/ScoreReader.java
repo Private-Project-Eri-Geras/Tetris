@@ -1,16 +1,16 @@
 package com.leviatanes.tetris.tetrisGame.game.gameOver;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
 public class ScoreReader {
     private static final int MAX_SCORES = 10;
-    private File file;
-    private Scanner in;
-    private FileWriter writer;
+    private Score[] scores;
 
     public ScoreReader() {
         String fileName = "main/Tetris/src/main/java/com/leviatanes/tetris/tetrisGame/game/gameOver/highScores.txt";
@@ -29,35 +29,60 @@ public class ScoreReader {
         }
 
         try {
-            this.in = new Scanner(file);
-            this.writer = new FileWriter(file, true);
+
+            Scanner in = new Scanner(file);
+            FileWriter writer = new FileWriter(file, true);
+            in.close();
+            writer.close();
         } catch (IOException e) {
             System.out.println("Error al abrir el archivo writer");
         }
 
     }
 
-    public void dispouse() {
-        this.in.close();
-        try {
-            this.writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public Score[] readScores() {
-        Score[] scores = new Score[MAX_SCORES];
-        String line;
-        int i = 0;
-        for (i = 0; i < MAX_SCORES && in.hasNext(); i++) {
-            line = in.nextLine();
-            String[] parts = line.split(" ");
-            scores[i] = new Score(parts[0], Integer.parseInt(parts[1]));
+        String fileName = "main/Tetris/src/main/java/com/leviatanes/tetris/tetrisGame/game/gameOver/highScores.txt";
+        String currentDir = System.getProperty("user.dir");
+        for (int i = 0; i < currentDir.length(); i++) {
+            if (currentDir.charAt(i) == 92) {
+                currentDir = currentDir.substring(0, i) + "/" + currentDir.substring(i + 1);
+            }
         }
-        for (int j = i + 1; j < MAX_SCORES; j++) {
-            scores[j] = new Score();
+        String filePath = currentDir + "/" + fileName;
+        System.out.println(filePath);
+        File file = new File(filePath);
+        Scanner in = null;
+        try {
+            if (file.createNewFile()) {
+                System.out.println("El archivo ha sido creado exitosamente.");
+            } else {
+                System.out.println("El archivo ya existe.");
+            }
+            in = new Scanner(file);
+            String[] line = new String[MAX_SCORES];
+            for (int i = 0; i < MAX_SCORES; i++) {
+                line[i] = "";
+            }
+            int i = 0;
+            for (i = 0; i < MAX_SCORES && in.hasNext(); i++) {
+                line[i] = in.nextLine();
+            }
+            for (i = 0; i < MAX_SCORES; i++) {
+                System.out.println(line[i]);
+                if (line[i].equals("")) {
+                    break;
+                }
+            }
+            scores = new Score[i];
+            System.out.println("after gettin lines: " + i);
+            for (i = 0; i < scores.length; i++) {
+                String[] parts = line[i].split(" ");
+                scores[i] = new Score(parts[0], Integer.parseInt(parts[1]));
+            }
+        } catch (IOException e) {
+            System.out.println("Error al crear el archivo: " + e.getMessage());
         }
+        in.close();
         return scores;
     }
 
@@ -71,50 +96,84 @@ public class ScoreReader {
     }
 
     private String[][] readAndReplace(Score score) {
-        try {
-            in = new Scanner(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        // busca el menor dato en this.scores
+        // y lo remplaza conel score dado
+        this.scores = readScores();
+
+        String[][] scoresStrings = new String[this.scores.length][2];
+        System.out.println("scores length: " + this.scores.length);
+        for (int i = 0; i < this.scores.length; i++) {
+            scoresStrings[i][0] = this.scores[i].getName();
+            scoresStrings[i][1] = Integer.toString(this.scores[i].getScore());
         }
-        String line;
-        String scores[][] = new String[MAX_SCORES][2];
-        int i = 0;
-        while (in.hasNext() && i < MAX_SCORES) {
-            line = in.nextLine();
-            scores[i][0] = line.split(" ")[0];
-            scores[i][1] = line.split(" ")[1];
-            i++;
+        scoresStrings = sort(scoresStrings);
+        if (scoresStrings.length == 0) {
+            scoresStrings = new String[1][2];
+            scoresStrings[0][0] = score.getName();
+            scoresStrings[0][1] = Integer.toString(score.getScore());
+        } else {
+            if (scoresStrings.length < MAX_SCORES) {
+                String[][] tmpString = scoresStrings;
+                scoresStrings = new String[scoresStrings.length + 1][2];
+                for (int i = 0; i < tmpString.length; i++) {
+                    scoresStrings[i][0] = tmpString[i][0];
+                    scoresStrings[i][1] = tmpString[i][1];
+                }
+            }
+            scoresStrings[scoresStrings.length - 1][0] = score.getName();
+            scoresStrings[scoresStrings.length - 1][1] = Integer.toString(score.getScore());
         }
-        scores[9][0] = score.getName();
-        scores[9][1] = Integer.toString(score.getScore());
-        return scores;
+        this.scores = new Score[scoresStrings.length];
+        scoresStrings = sort(scoresStrings);
+        for (int i = 0; i < this.scores.length; i++) {
+            System.out.println(scoresStrings[i][0] + " " + scoresStrings[i][1]);
+            this.scores[i] = new Score(scoresStrings[i][0], Integer.parseInt(scoresStrings[i][1]));
+        }
+        return scoresStrings;
     }
 
     private void writeScore(String[][] scores) {
+        String fileName = "main/Tetris/src/main/java/com/leviatanes/tetris/tetrisGame/game/gameOver/highScores.txt";
+        String currentDir = System.getProperty("user.dir");
+        for (int i = 0; i < currentDir.length(); i++) {
+            if (currentDir.charAt(i) == 92) {
+                currentDir = currentDir.substring(0, i) + "/" + currentDir.substring(i + 1);
+            }
+        }
+        String filePath = currentDir + "/" + fileName;
+        System.out.println(filePath);
         try {
-            writer = new FileWriter(file);
+            FileWriter writer = new FileWriter(filePath);
+            BufferedWriter bw = new BufferedWriter(writer);
+            System.out.println("Escribiendo");
+            String linea = scores[0][0] + " " + scores[0][1];
+            bw.write(linea);
+            for (int i = 1; i < scores.length; i++) {
+                linea = scores[i][0] + " " + scores[i][1];
+                bw.newLine();
+                bw.write(linea);
+            }
+            bw.close();
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        for (int i = 0; i < MAX_SCORES; i++) {
-            try {
-                writer.write(scores[i][0] + " " + scores[i][1] + "\n");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
 
     }
 
     private String[][] sort(String[][] scores) {
-        for (int i = 0; i < MAX_SCORES; i++) {
-            for (int j = i + 1; j < MAX_SCORES; j++) {
-                if (Integer.parseInt(scores[i][1]) < Integer.parseInt(scores[j][1])) {
-                    String[] temp = scores[i];
-                    scores[i] = scores[j];
-                    scores[j] = temp;
+        try {
+            for (int i = 0; i < scores.length; i++) {
+                for (int j = i + 1; j < scores.length; j++) {
+                    if (Integer.parseInt(scores[i][1]) < Integer.parseInt(scores[j][1])) {
+                        String[] temp = scores[i];
+                        scores[i] = scores[j];
+                        scores[j] = temp;
+                    }
                 }
             }
+        } catch (NullPointerException | NumberFormatException e) {
+
         }
         return scores;
     }

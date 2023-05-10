@@ -262,6 +262,7 @@ public class GameArea extends JPanel {
                     if (background[0][y][x] != darkColor) {
                         this.block = null;
                         this.gameOver.setScore(stats.getScore());
+                        this.gameOver.endGame();
                         this.gameOver.setVisible(true);
                         return true;
                     }
