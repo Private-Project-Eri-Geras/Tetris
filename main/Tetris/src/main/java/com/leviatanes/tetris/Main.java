@@ -49,8 +49,6 @@ public class Main extends javax.swing.JFrame {
         resolution[0][0] = BASE_WIDTH;
         resolution[0][1] = BASE_HEIGHT;
         for (multiplier = 1; multiplier < MATRIX_ROWS && resolution[multiplier - 1][1] < screenHeight; multiplier++) {
-            if (multiplier == 9)
-                break;
             resolution[multiplier][0] = resolution[0][0] * (multiplier + 1);
             resolution[multiplier][1] = resolution[0][1] * (multiplier + 1);
             width = resolution[multiplier - 1][0];
