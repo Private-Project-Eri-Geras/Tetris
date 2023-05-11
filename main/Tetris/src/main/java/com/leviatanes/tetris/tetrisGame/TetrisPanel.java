@@ -59,6 +59,7 @@ public class TetrisPanel extends javax.swing.JPanel {
 
         private void initGameComponents(int width, int height, int multiplier) {
                 this.setLayout(null);
+                this.setOpaque(false);
                 this.setBounds(0, 0, width, height);
                 this.setSize(width, height);
 
@@ -69,12 +70,13 @@ public class TetrisPanel extends javax.swing.JPanel {
                 nextShape.setBounds(nextShapeXoffset * multiplier, nextShapeYoffset * multiplier,
                                 nextShapeWidth * multiplier, nextShapeHeight * multiplier);
                 nextShape.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+                nextShape.setOpaque(false);
                 this.add(nextShape);
 
                 this.statsPanel = new StatsPanel(multiplier);
                 statsPanel.setBounds(statsHolderXoffset * multiplier, statsHolderYoffset * multiplier,
                                 statsHolderWidth * multiplier, statsHolderHeight * multiplier);
-
+                statsPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
                 this.add(statsPanel);
 
                 this.holdShape = new HoldPanel(multiplier);
