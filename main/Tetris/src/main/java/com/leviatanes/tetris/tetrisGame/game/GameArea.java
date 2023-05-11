@@ -854,8 +854,11 @@ public class GameArea extends JPanel {
             this.ghostBlock = null;
             return;
         }
+        // ghostBlock = new TetrisBlock(block.getBlock(), block.getBlockRotations(),
+        // block.getType(),
+        // new Color(199, 199, 199), new Color(223, 223, 223));
         ghostBlock = new TetrisBlock(block.getBlock(), block.getBlockRotations(), block.getType(),
-                new Color(199, 199, 199), new Color(223, 223, 223));
+                block.getDarkColor().darker().darker(), (block.getLightColor()).darker().darker());
         ghostBlock.setX(block.getX());
         ghostBlock.setY(block.getY());
         ghostBlock.setCurrentRotation(block.getCurrentRotation());
@@ -1016,8 +1019,8 @@ public class GameArea extends JPanel {
             return;
         int yi;
         int xi;
-        Color darkColor = new Color(199, 199, 199);
-        Color brigthColor = new Color(223, 223, 223);
+        Color darkColor = ghostBlock.getDarkColor();
+        Color brigthColor = ghostBlock.getLightColor();
         Color olColor = block.getBorderColor();
         int heigth = ghostBlock.getHeight();
         int width = ghostBlock.getWidth();
