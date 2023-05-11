@@ -66,7 +66,6 @@ public class SoundsPlayer {
     private static void playSound(String sound) {
         clipIndex = (clipIndex + 1) % soundClips.size();
         if (soundClips.get(clipIndex).isActive()) {
-            soundClips.get(clipIndex).close();
             return;
         }
         soundClips.get(clipIndex).close();
