@@ -131,7 +131,7 @@ public class GameControls implements KeyListener {
                 stashShape.setHoldedShape(gameArea.getHoldedBlock());
                 break;
             case mute:
-                SoundsPlayer.toggleMute();
+                SoundsPlayer.toggleMuteMain();
             default:
                 break;
         }
