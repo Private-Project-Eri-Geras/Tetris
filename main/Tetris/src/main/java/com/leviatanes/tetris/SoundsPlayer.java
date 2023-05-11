@@ -7,12 +7,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
 import java.io.BufferedInputStream;
@@ -155,38 +156,43 @@ public class SoundsPlayer {
             return;
         }
         // create new thread to play clip
-        Thread thread = new Thread(() -> {
-            try {
-                String path = soundPath + clipName;
-                InputStream audioSrc = SoundsPlayer.class.getResourceAsStream(path);
-                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioSrc);
-                Clip clip = AudioSystem.getClip();
-                clip.open(audioInputStream);
-                clip.start();
+        ExecutorService executor = Executors.newSingleThreadExecutor();
 
-                // add clip to list of playing clips
-                synchronized (playingClips) {
-                    playingClips.add(audioClip);
-                }
+        executor.submit(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String path = soundPath + clipName;
+                    InputStream audioSrc = SoundsPlayer.class.getResourceAsStream(path);
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioSrc);
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    clip.start();
 
-                // add listener to remove clip from list when it finishes playing
-                clip.addLineListener(new LineListener() {
-                    @Override
-                    public void update(LineEvent event) {
-                        if (event.getType() == LineEvent.Type.STOP) {
-                            clip.close();
-                            synchronized (playingClips) {
-                                playingClips.remove(audioClip);
+                    // add clip to list of playing clips
+                    synchronized (playingClips) {
+                        playingClips.add(audioClip);
+                    }
+
+                    // add listener to remove clip from list when it finishes playing
+                    clip.addLineListener(new LineListener() {
+                        @Override
+                        public void update(LineEvent event) {
+                            if (event.getType() == LineEvent.Type.STOP) {
+                                clip.close();
+                                synchronized (playingClips) {
+                                    playingClips.remove(audioClip);
+                                }
                             }
                         }
-                    }
-                });
+                    });
 
-            } catch (IOException | javax.sound.sampled.LineUnavailableException | UnsupportedAudioFileException e) {
-                e.printStackTrace();
+                } catch (IOException | javax.sound.sampled.UnsupportedAudioFileException
+                        | javax.sound.sampled.LineUnavailableException e) {
+                    e.printStackTrace();
+                }
             }
         });
-        thread.start();
     }
 
     public static void playGameMusic() {
@@ -208,7 +214,7 @@ public class SoundsPlayer {
             mainMusic.setLoopPoints(0, -1); // -1 indica que se repita indefinidamente
             mainMusic.loop(Clip.LOOP_CONTINUOUSLY);
             // establece el valor inicial de ganancia
-
+            setGain(0.78f);
             // inicia la reproducción del clip de audio
             mainMusic.start();
         } catch (Exception e) {
