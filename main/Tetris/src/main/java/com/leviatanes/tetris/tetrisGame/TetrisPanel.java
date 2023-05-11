@@ -1,5 +1,6 @@
 package com.leviatanes.tetris.tetrisGame;
 
+import com.leviatanes.tetris.SoundsPlayer;
 import com.leviatanes.tetris.tetrisGame.game.*;
 import com.leviatanes.tetris.tetrisGame.game.gameOver.GameOver;
 import com.leviatanes.tetris.tetrisGame.game.sidePanels.*;
@@ -49,6 +50,7 @@ public class TetrisPanel extends javax.swing.JPanel {
         }
 
         private void initGameComponents(int width, int height, int multiplier) {
+                SoundsPlayer.loadSoundPool();
                 this.setLayout(null);
                 this.setOpaque(false);
                 this.setBounds(0, 0, width, height);
