@@ -1,6 +1,5 @@
 package com.leviatanes.tetris.tetrisGame;
 
-import com.leviatanes.tetris.SoundsPlayer;
 import com.leviatanes.tetris.tetrisGame.game.*;
 import com.leviatanes.tetris.tetrisGame.game.gameOver.GameOver;
 import com.leviatanes.tetris.tetrisGame.game.sidePanels.*;

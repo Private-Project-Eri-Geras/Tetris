@@ -1,12 +1,5 @@
 package com.leviatanes.tetris.tetrisGame.game;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import java.io.File;
-import java.io.InputStream;
-
 import com.leviatanes.tetris.SoundsPlayer;
 import com.leviatanes.tetris.tetrisGame.game.sidePanels.StatsPanel;
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;

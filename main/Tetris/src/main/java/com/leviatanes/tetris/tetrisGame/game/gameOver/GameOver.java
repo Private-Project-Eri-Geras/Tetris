@@ -8,7 +8,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.leviatanes.tetris.SoundsPlayer;
-import com.leviatanes.tetris.tetrisGame.game.GameThread;
 
 import com.leviatanes.tetris.tetrisGame.game.gameOver.scorePanel.*;
 
