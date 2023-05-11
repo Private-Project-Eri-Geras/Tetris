@@ -3,6 +3,7 @@ package com.leviatanes.tetris.tetrisGame.game.sidePanels;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import com.leviatanes.tetris.tetrisGame.game.sidePanels.scorePanels.ScoreLabel;
 
 public class StatsPanel extends javax.swing.JPanel {
     /** Label de score */

@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import com.leviatanes.tetris.tetrisGame.game.sidePanels.ScoreLabel;
+import com.leviatanes.tetris.tetrisGame.game.sidePanels.scorePanels.ScoreLabel;
 
 public class HighScore extends JPanel {
     /** Label de score */
@@ -17,23 +17,6 @@ public class HighScore extends JPanel {
     /** score del juego */
     private int score = 0;
 
-    // letter size
-    private final static int letterX = 10;
-    private final static int letterY = 12;
-    private final static int letterW = 14;
-    private final static int letterH = 20;
-    private final static int lXoffset = 18;
-
-    // Labels de seleccion de letras
-    private JLabel letter1;
-    private JLabel letter2;
-    private JLabel letter3;
-
-    private int multiplier;
-
-    // offset para este panel
-    private final static int scorePanelW = 70;
-    private final static int scorePanelH = 50;
     // offset para el scoreLabel
     private final static int stxtX = 0;
     private final static int stxtY = 0;
@@ -45,6 +28,24 @@ public class HighScore extends JPanel {
     private final static int scW = 6;
     private final static int scH = 6;
     private final static int scXpad = 6;
+
+    // Labels de seleccion de letras
+    private JLabel letter1;
+    private JLabel letter2;
+    private JLabel letter3;
+
+    // letter size
+    private final static int letterX = 10;
+    private final static int letterY = 12;
+    private final static int letterW = 14;
+    private final static int letterH = 20;
+    private final static int lXoffset = 18;
+
+    private int multiplier;
+
+    // offset para este panel
+    private final static int scorePanelW = 70;
+    private final static int scorePanelH = 50;
 
     private final String folderPath = "/com/leviatanes/tetris/tetrisGame/game/sidePanels/images/";
 

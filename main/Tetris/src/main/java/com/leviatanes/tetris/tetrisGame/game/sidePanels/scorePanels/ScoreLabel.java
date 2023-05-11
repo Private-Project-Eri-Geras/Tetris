@@ -1,4 +1,4 @@
-package com.leviatanes.tetris.tetrisGame.game.sidePanels;
+package com.leviatanes.tetris.tetrisGame.game.sidePanels.scorePanels;
 
 import java.awt.Color;
 import java.awt.Graphics;
