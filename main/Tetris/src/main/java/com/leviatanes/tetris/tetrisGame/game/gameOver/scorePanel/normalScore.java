@@ -12,9 +12,11 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import com.leviatanes.tetris.Main;
+import com.leviatanes.tetris.tetrisGame.TetrisPanel;
 import com.leviatanes.tetris.tetrisGame.game.sidePanels.scorePanels.ScoreLabel;
 
 public class NormalScore extends JPanel {
+    private TetrisPanel tetrisPanel;
     /** Label de score */
     private ScoreLabel scoreLabel;
     // offset para el scoreLabel
@@ -169,6 +171,7 @@ public class NormalScore extends JPanel {
         menu.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+
                 new Main(true);
             }
         });
@@ -228,7 +231,7 @@ public class NormalScore extends JPanel {
         super.paintComponent(g);
         g.setColor(new Color(255, 255, 255, 200));
         int x = 40 * multiplier;
-        int y = 8 * multiplier;
+        int y = 26 * multiplier;
         int width = 30 * multiplier;
         int height = 10 * multiplier;
         g.fillRect(x, y, width, height);
