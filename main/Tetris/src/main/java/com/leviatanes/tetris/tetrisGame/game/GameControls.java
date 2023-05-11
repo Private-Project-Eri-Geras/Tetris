@@ -71,6 +71,10 @@ public class GameControls implements KeyListener {
     @Override
     /** Metodo no usado */
     public void keyTyped(KeyEvent key) {
+        if (key.getKeyChar() == 's' || key.getKeyChar() == 'S') {
+            gameThread.resetTime();
+            gameArea.moveDown();
+        }
     }
 
     /**
@@ -106,11 +110,6 @@ public class GameControls implements KeyListener {
             case rigth2:
             case rigth:
                 gameArea.moveRight();
-                break;
-            case down2:
-            case down:
-                gameArea.moveDown();
-                gameThread.resetTime(); // se resetea el tiempo para bajar el bloque
                 break;
             case shoftDrop:
                 gameThread.softDrop();
