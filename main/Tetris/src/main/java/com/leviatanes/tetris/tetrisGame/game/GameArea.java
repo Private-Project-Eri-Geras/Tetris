@@ -89,8 +89,8 @@ public class GameArea extends JPanel {
     private StatsPanel stats;
     /** panel de fin de juego */
     private GameOver gameOver;
-    /** panel de tetris fame */
-    private TetrisPanel tetrisPanel;
+    /** gameThread */
+    private GameThread gameThread;
 
     /**
      * Constructor de la clase
@@ -142,9 +142,9 @@ public class GameArea extends JPanel {
         }
     }
 
-    /** setea el tetris panel */
-    public void setTetrisPanel(TetrisPanel tetrisPanel) {
-        this.tetrisPanel = tetrisPanel;
+    /** set gameTrhead */
+    public void setGameThread(GameThread gameThread) {
+        this.gameThread = gameThread;
     }
 
     /** @return boolean isHardDroped? */
@@ -261,6 +261,7 @@ public class GameArea extends JPanel {
                     y = row + block.getY();
                     if (background[0][y][x] != darkColor) {
                         this.block = null;
+                        this.gameOver.setGameThread(this.gameThread);
                         this.gameOver.setPuntuation(stats.getScore(), stats.getLines());
                         this.gameOver.endGame();
                         this.gameOver.setVisible(true);
@@ -685,6 +686,7 @@ public class GameArea extends JPanel {
                             + " y " + (-rotationTest[currentRotation][i][1]));
             if (this.wallKickTest()) {
                 System.out.println("wallkick test passed, current rotation: " + this.block.getCurrentRotation());
+
                 return;
             }
         }

@@ -54,7 +54,7 @@ public class TetrisPanel extends javax.swing.JPanel {
                 // initComponents();
                 // inicializar componentes del juego
                 this.initGameComponents(width, height, multiplier);
-                gameArea.setTetrisPanel(this);
+                gameArea.setGameThread(gameThread);
         }
 
         private void initGameComponents(int width, int height, int multiplier) {

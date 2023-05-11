@@ -29,6 +29,7 @@ public class GameControls implements KeyListener {
     private static final int pause = 80;
     private static final int hold = 82;
     private static final int hold2 = 17;
+    private static final int mute = 77;
 
     @Override
     /**
@@ -48,6 +49,7 @@ public class GameControls implements KeyListener {
      * p = pausar juego (codigo 80)
      * r = hacer swap de piezas (codigo 82)
      * control = hacer swap de piezas (codigo 17)
+     * m = mutear juego (codigo 77)
      */
     public void keyPressed(KeyEvent key) {
         if (this.isPause(key)) // si se pulsa la tecla pausa se pausa el juego
@@ -68,7 +70,8 @@ public class GameControls implements KeyListener {
     @Override
     /** Metodo no usado */
     public void keyTyped(KeyEvent key) {
-
+        if (key.getKeyCode() == mute)
+            gameThread.toggleMute();
     }
 
     /**

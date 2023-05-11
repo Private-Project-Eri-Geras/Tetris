@@ -6,7 +6,7 @@ import java.awt.Graphics;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
+import com.leviatanes.tetris.tetrisGame.game.GameThread;
 
 import com.leviatanes.tetris.tetrisGame.game.gameOver.scorePanel.*;
 
@@ -27,18 +27,31 @@ public class GameOver extends JPanel {
     // multiplicador
     private int multiplier;
 
+    /** etiqueta de juego perdido */
     private JLabel lblGameOver;
+    /** panel de puntos */
     private JPanel scorePanel;
+    /** puntos actuales */
     private int score;
+    /** lineas actuales */
     private int lines;
+    /** vector de scres del txt */
     private Score scores[];
+    /** objeto de lectura del score */
     private ScoreReader read;
+
+    /** objeto del hilo para controlar el audio */
+    private GameThread gameThread;
 
     public GameOver(int multiplier) {
         this.multiplier = multiplier;
         this.read = new ScoreReader();
         this.initComponents();
 
+    }
+
+    public void setGameThread(GameThread gameThread) {
+        this.gameThread = gameThread;
     }
 
     public void setScore(int score) {
@@ -96,6 +109,7 @@ public class GameOver extends JPanel {
     }
 
     public void endGame() {
+        gameThread.setGain(gameThread.getGain() / 1.2f);
         boolean isHighScore = false;
         if (scores.length < 10)
             isHighScore = true;
@@ -106,7 +120,6 @@ public class GameOver extends JPanel {
                     break;
                 }
             }
-
         if (isHighScore) {
             this.lblGameOver.setText("HIGH SCORE");
             Score score = new Score("bbb", this.score);
@@ -118,7 +131,6 @@ public class GameOver extends JPanel {
             this.scorePanel.repaint();
         } else {
             this.lblGameOver.setText("GAME OVER");
-            Score score = new Score("bbb", this.score);
             System.out.println("Score" + this.score);
             NormalScore normalScore = new NormalScore(multiplier, this.score, this.lines);
             this.scorePanel.add(normalScore, BorderLayout.CENTER);
