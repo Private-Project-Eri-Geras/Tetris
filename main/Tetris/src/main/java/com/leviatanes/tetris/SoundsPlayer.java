@@ -287,4 +287,14 @@ public class SoundsPlayer {
         playSound("allClear.wav");
     }
 
+    /** highestScore */
+    public static void playHighestScore() {
+        playSound("highestScore.wav");
+    }
+
+    /** highScore */
+    public static void playHighScore() {
+        playSound("highScore.wav");
+    }
+
 }
