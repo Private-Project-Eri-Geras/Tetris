@@ -1,16 +1,14 @@
 package com.leviatanes.tetris;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
 
 public class SoundsPlayer {
     /** clip de musica principal */
@@ -25,65 +23,39 @@ public class SoundsPlayer {
     private static float minimum = 0f;
     /** path de la carpeta de sonidos */
     private static String soundsPath = "/com/leviatanes/tetris/tetrisGame/game/music/";
-    /** pool de sonidos */
-    private static Map<String, List<Clip>> soundPool;
-    /** pool loaded */
-    private static boolean poolLoaded = false;
-
-    public static void loadSoundPool() {
-        if (poolLoaded)
-            return;
-        poolLoaded = true;
-        soundPool = new HashMap<>();
-
-        // Cargar los clips en el pool
-        loadClip("allClear.wav");
-        loadClip("fall.wav");
-        loadClip("hardDrop.wav");
-        loadClip("highestScore.wav");
-        loadClip("highScore.wav");
-        loadClip("hold.wav");
-        loadClip("levelUp.wav");
-        loadClip("menu.wav");
-        loadClip("move.wav");
-        loadClip("ok.wav");
-        loadClip("pause.wav");
-        loadClip("results.wav");
-        loadClip("rotate.wav");
-        loadClip("single.wav");
-        loadClip("softDrop.wav");
-        loadClip("tetris.wav");
-        loadClip("triple.wav");
-        loadClip("Tsipn.wav");
-    }
-
-    private static void loadClip(String filename) {
-        try {
-            List<Clip> clips = new ArrayList<>();
-            String clipPath = soundsPath + filename;
-            AudioInputStream audioInputStream = AudioSystem
-                    .getAudioInputStream(SoundsPlayer.class.getResourceAsStream(clipPath));
-            for (int i = 0; i < 5; i++) { // Cargar 5 instancias de cada clip en el pool
-                Clip clip = AudioSystem.getClip();
-                clip.open(audioInputStream);
-                clips.add(clip);
-            }
-            soundPool.put(filename, clips);
-        } catch (Exception e) {
-            System.out.println("Error al cargar el clip " + filename + ": " + e.getMessage());
-        }
-    }
 
     private static void playSound(String sound) {
-        List<Clip> clips = soundPool.get(sound);
-        if (clips != null) {
-            for (Clip clip : clips) {
-                if (!clip.isRunning()) {
-                    clip.setFramePosition(0);
-                    clip.start();
-                    break;
+        try {
+            // Concatena la ruta base con el nombre del archivo
+            String path = "/com/leviatanes/tetris/tetrisGame/game/music/" + sound;
+            InputStream audioSrc = SoundsPlayer.class.getResourceAsStream(path);
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioSrc);
+
+            // Crea el clip de audio y abre el flujo de audio
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+
+            // Inicia la reproducción del clip de audio
+            clip.start();
+
+            // Espera hasta que el clip termine de reproducirse
+            clip.addLineListener(new LineListener() {
+                @Override
+                public void update(LineEvent event) {
+                    if (event.getType() == LineEvent.Type.STOP) {
+                        // Cierra el clip y libera la memoria
+                        clip.close();
+                        try {
+                            audioSrc.close();
+                            audioInputStream.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
-            }
+            });
+        } catch (Exception e) {
+            System.out.println("Error al reproducir el archivo de audio: " + e.getMessage());
         }
     }
 
