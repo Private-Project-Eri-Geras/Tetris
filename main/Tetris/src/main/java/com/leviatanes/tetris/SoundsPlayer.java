@@ -184,7 +184,6 @@ public class SoundsPlayer {
         if (mainMusic == null)
             return;
         mainMusic.stop();
-        mainMusic.close();
         mainMusic = null;
     }
 
