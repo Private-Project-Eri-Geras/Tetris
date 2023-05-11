@@ -175,6 +175,13 @@ public class GameThread extends Thread {
     }
 
     /**
+     * Resetea le tiempo de espera
+     */
+    public void resetTime() {
+        startTime = System.currentTimeMillis();
+    }
+
+    /**
      * Devuelve el tiempo transcurrido
      * 
      * @return long el tiempo transcurrido

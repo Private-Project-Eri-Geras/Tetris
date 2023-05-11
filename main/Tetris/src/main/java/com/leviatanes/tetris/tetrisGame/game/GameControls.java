@@ -108,6 +108,7 @@ public class GameControls implements KeyListener {
             case down2:
             case down:
                 gameArea.moveDown();
+                gameThread.resetTime(); // se resetea el tiempo para bajar el bloque
                 break;
             case shoftDrop:
                 gameThread.softDrop();
