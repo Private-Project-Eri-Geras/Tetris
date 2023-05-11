@@ -208,11 +208,11 @@ public class NormalScore extends JPanel {
                 int fontH = label.getFontMetrics(label.getFont()).getHeight();
                 if (fontW > w || fontH > h) {
                     label.setFont(new java.awt.Font("Impact", 0, i - 1));
+                    label.setHorizontalAlignment(SwingConstants.CENTER);
                     break;
                 }
 
             }
-            label.setHorizontalAlignment(SwingConstants.CENTER);
         }
     }
 

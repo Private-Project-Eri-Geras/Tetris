@@ -298,8 +298,9 @@ public class GameArea extends JPanel {
             this.moveDownFlag = false; // !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
             return false;
         }
-        if (this.hardDropFlag == false)
-            SoundsPlayer.playSoftDrop();
+        if (this.hardDropFlag == false) {
+            // SoundsPlayer.playSoftDrop();
+        }
         this.block.moveDown();
         setGhostBlock();
         repaint();
@@ -312,7 +313,7 @@ public class GameArea extends JPanel {
     public void hardDrop() {
         this.hardDropFlag = true;
         this.drop();
-        SoundsPlayer.playHardDrop();
+        // SoundsPlayer.playHardDrop();
     }
 
     /**
@@ -488,7 +489,7 @@ public class GameArea extends JPanel {
             return false;
         }
         this.block.moveLeft();
-        SoundsPlayer.playMove();
+        // SoundsPlayer.playMove();
         this.moveFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         setGhostBlock();
         repaint();
@@ -558,7 +559,7 @@ public class GameArea extends JPanel {
             return false;
         }
         this.block.moveRight();
-        SoundsPlayer.playMove();
+        // SoundsPlayer.playMove();
         this.moveFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         setGhostBlock();
         repaint();
@@ -659,7 +660,7 @@ public class GameArea extends JPanel {
      */
     private void checkRotate() {
         if (this.block.getType() == 'O') {
-            SoundsPlayer.playRotate();
+            // SoundsPlayer.playRotate();
             return;
         }
         int[][][] rotationTest;
@@ -683,7 +684,7 @@ public class GameArea extends JPanel {
                             + " y " + (-rotationTest[currentRotation][i][1]));
             if (this.wallKickTest()) {
                 System.out.println("wallkick test passed, current rotation: " + this.block.getCurrentRotation());
-                SoundsPlayer.playRotate();
+                // SoundsPlayer.playRotate();
                 return;
             }
         }
@@ -768,7 +769,7 @@ public class GameArea extends JPanel {
      */
     private void checkRotateBack() {
         if (this.block.getType() == 'O') {
-            SoundsPlayer.playRotate();
+            // SoundsPlayer.playRotate();
             return;
         }
         int[][][] rotationTest;
@@ -793,7 +794,7 @@ public class GameArea extends JPanel {
                             + " y " + (-rotationTest[currentRotation][i][1]));
             if (this.wallKickTest()) {
                 System.out.println("wallkick test passed, current rotation: " + this.block.getCurrentRotation());
-                SoundsPlayer.playRotate();
+                // SoundsPlayer.playRotate();
                 return;
             }
         }
@@ -856,16 +857,16 @@ public class GameArea extends JPanel {
         }
         switch (linesCleared) {
             case 1:
-                SoundsPlayer.playSingle();
+                // SoundsPlayer.playSingle();
                 break;
             case 2:
-                SoundsPlayer.playSingle();
+                // SoundsPlayer.playSingle();
                 break;
             case 3:
-                SoundsPlayer.playTriple();
+                // SoundsPlayer.playTriple();
                 break;
             case 4:
-                SoundsPlayer.playTetris();
+                // SoundsPlayer.playTetris();
                 break;
             default:
         }

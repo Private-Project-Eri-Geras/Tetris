@@ -101,7 +101,7 @@ public class ScoreLabel extends JPanel {
     private void initPanels() {
         scoreTextLbl = new JLabel();
         this.add(scoreTextLbl);
-        this.initLabel(scoreTextLbl, textX, textY, textW, textH, "score.png");
+        this.initLabel(scoreTextLbl, textX, textY, textW, textH, "Score.png");
         String pointsStr = Integer.toString(score);
         while (pointsStr.length() < 5) {
             pointsStr = "0" + pointsStr;
