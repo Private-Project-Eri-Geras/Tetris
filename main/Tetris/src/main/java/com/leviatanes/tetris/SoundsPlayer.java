@@ -2,13 +2,18 @@ package com.leviatanes.tetris;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineListener;
+import javax.sound.sampled.LineUnavailableException;
 
 public class SoundsPlayer {
     /** clip de musica principal */
@@ -23,40 +28,68 @@ public class SoundsPlayer {
     private static float minimum = 0f;
     /** path de la carpeta de sonidos */
     private static String soundsPath = "/com/leviatanes/tetris/tetrisGame/game/music/";
+    private static List<Clip> soundClips = new ArrayList<>();
+    private static Map<String, AudioInputStream> soundMap = new HashMap<>();
+    private static List<Thread> hilos = new ArrayList<>();
+    private static AudioInputStream soundStream = null;
+    private static Clip clip = null;
+    private static Thread hilo = null;
+    private static int clipIndex = 0;
+
+    static {
+        // Inicializamos la lista de clips con 20 elementos
+        for (int i = 0; i < 10; i++) {
+            try {
+                Clip clip = AudioSystem.getClip();
+                soundClips.add(clip);
+                hilos.add(new Thread());
+            } catch (Exception e) {
+                System.out.println("Error al crear el clip: " + e.getMessage());
+            }
+        }
+        String asound = null;
+        try {
+            for (String sound : Arrays.asList("allClear.wav", "fall.wav", "hardDrop.wav", "highestScore.wav",
+                    "highScore.wav", "hold.wav", "levelUp.wav", "move.wav", "ok.wav", "pause.wav", "results.wav",
+                    "rotate.wav", "single.wav", "softDrop.wav", "tetris.wav", "triple.wav", "Tspin.wav")) {
+                asound = sound;
+                URL audioSrc = SoundsPlayer.class.getResource(soundsPath + sound);
+                AudioInputStream soundStream = AudioSystem.getAudioInputStream(audioSrc);
+                soundStream.mark(Integer.MAX_VALUE); // Marcar el stream para poder resetearlo más tarde
+                soundMap.put(sound, soundStream);
+            }
+        } catch (Exception e) {
+            System.out.println("Error al cargar el sonido " + asound + ": " + e.getMessage());
+        }
+    }
 
     private static void playSound(String sound) {
-        try {
-            // Concatena la ruta base con el nombre del archivo
-            String path = "/com/leviatanes/tetris/tetrisGame/game/music/" + sound;
-            InputStream audioSrc = SoundsPlayer.class.getResourceAsStream(path);
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioSrc);
-
-            // Crea el clip de audio y abre el flujo de audio
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-
-            // Inicia la reproducción del clip de audio
-            clip.start();
-
-            // Espera hasta que el clip termine de reproducirse
-            clip.addLineListener(new LineListener() {
-                @Override
-                public void update(LineEvent event) {
-                    if (event.getType() == LineEvent.Type.STOP) {
-                        // Cierra el clip y libera la memoria
-                        clip.close();
-                        try {
-                            audioSrc.close();
-                            audioInputStream.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            });
-        } catch (Exception e) {
-            System.out.println("Error al reproducir el archivo de audio: " + e.getMessage());
+        clip = soundClips.get(clipIndex);
+        clip.close();
+        soundStream = soundMap.get(sound);
+        hilo = hilos.get(clipIndex);
+        clipIndex = (clipIndex + 1) % soundClips.size();
+        if (hilo.isAlive()) {
+            clip.close();
+            hilo.interrupt();
         }
+        hilo = new Thread(() -> {
+            if (soundStream != null) {
+                try {
+                    soundStream.reset();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    clip.open(soundStream);
+                    clip.start();
+                } catch (LineUnavailableException | IOException e) {
+                    System.out.println("Error al cargar el clip " + sound + ": " + e.getMessage());
+                }
+            }
+
+        });
+        hilo.start();
     }
 
     public static void playGameMusic() {
