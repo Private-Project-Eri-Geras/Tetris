@@ -38,7 +38,7 @@ public class SoundsPlayer {
 
     static {
         // Inicializamos la lista de clips con 20 elementos
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 26; i++) {
             try {
                 Clip clip = AudioSystem.getClip();
                 soundClips.add(clip);
@@ -64,14 +64,19 @@ public class SoundsPlayer {
     }
 
     private static void playSound(String sound) {
+        clipIndex = (clipIndex + 1) % soundClips.size();
+        if (soundClips.get(clipIndex).isActive()) {
+            soundClips.get(clipIndex).close();
+            return;
+        }
+        soundClips.get(clipIndex).close();
         clip = soundClips.get(clipIndex);
         clip.close();
         soundStream = soundMap.get(sound);
         hilo = hilos.get(clipIndex);
-        clipIndex = (clipIndex + 1) % soundClips.size();
         if (hilo.isAlive()) {
-            clip.close();
             hilo.interrupt();
+            clip.close();
         }
         hilo = new Thread(() -> {
             if (soundStream != null) {
@@ -111,7 +116,7 @@ public class SoundsPlayer {
             mainMusic.setLoopPoints(0, -1); // -1 indica que se repita indefinidamente
             mainMusic.loop(Clip.LOOP_CONTINUOUSLY);
             // establece el valor inicial de ganancia
-            setGain(0.88f);
+            setGain(0.78f);
 
             // inicia la reproducción del clip de audio
             mainMusic.start();
@@ -263,4 +268,25 @@ public class SoundsPlayer {
     public static void playPause() {
         playSound("pause.wav");
     }
+
+    /** Settle */
+    public static void playFall() {
+        playSound("fall.wav");
+    }
+
+    /** Hold */
+    public static void playHold() {
+        playSound("hold.wav");
+    }
+
+    /** Leveling up */
+    public static void playLevelUp() {
+        playSound("levelUp.wav");
+    }
+
+    /** all clear */
+    public static void playAllClear() {
+        playSound("allClear.wav");
+    }
+
 }

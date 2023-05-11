@@ -143,6 +143,8 @@ public class ShapeHolder extends javax.swing.JPanel {
         Color olColor = block.getBorderColor();
         if (holdAllowed == false) {
             darkColor = darkColor.darker();
+            darkColor = darkColor.darker();
+            brigthColor = brigthColor.darker();
             brigthColor = brigthColor.darker();
             olColor = olColor.darker();
         }
