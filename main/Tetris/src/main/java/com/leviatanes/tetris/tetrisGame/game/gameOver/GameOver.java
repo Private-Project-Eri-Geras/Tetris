@@ -114,22 +114,57 @@ public class GameOver extends JPanel {
                     break;
                 }
             }
-        if (isHighScore && this.score > 0) {
-            this.lblGameOver.setText("HIGH SCORE");
-            Score score = new Score("bbb", this.score);
-            System.out.println("Score" + this.score);
-            this.read.replaceScore(score);
-            HighScore highScore = new HighScore(multiplier, this.score);
-            this.scorePanel.add(highScore, BorderLayout.CENTER);
-            this.scorePanel.revalidate();
-            this.scorePanel.repaint();
-        } else {
-            this.lblGameOver.setText("GAME OVER");
-            System.out.println("Score" + this.score);
-            NormalScore normalScore = new NormalScore(multiplier, this.score, this.lines);
-            this.scorePanel.add(normalScore, BorderLayout.CENTER);
-            this.scorePanel.revalidate();
-            this.scorePanel.repaint();
+        if (this.score == 0 || isHighScore == false)
+            loseGame();
+        else
+            highScore();
+
+    }
+
+    private void loseGame() {
+        this.lblGameOver.setText("GAME OVER");
+        System.out.println("Score" + this.score);
+        NormalScore normalScore = new NormalScore(multiplier, this.score, this.lines);
+        this.scorePanel.add(normalScore, BorderLayout.CENTER);
+        this.scorePanel.revalidate();
+        this.scorePanel.repaint();
+    }
+
+    private void highScore() {
+        this.lblGameOver.setText("YOU ARE THE GOAT");
+        boolean isGoat = true;
+        for (int i = scores.length - 1; i >= 0; i--) {
+            if (score < scores[i].getScore()) {
+                this.lblGameOver.setText("YOU ARE THE NUMBER " + (i + 2) + "!");
+                isGoat = false;
+                break;
+            }
+        }
+        setLabelText(lblGameOver);
+        Score score = new Score("bbb", this.score);
+        System.out.println("Score" + this.score);
+        this.read.replaceScore(score);
+        HighScore highScore = new HighScore(multiplier, this.score);
+        this.scorePanel.add(highScore, BorderLayout.CENTER);
+        this.scorePanel.revalidate();
+        this.scorePanel.repaint();
+        if (isGoat)
+            SoundsPlayer.playHighestScore();
+        else
+            SoundsPlayer.playHighScore();
+    }
+
+    private void setLabelText(JLabel label) {
+        int w = label.getWidth();
+        int h = label.getHeight();
+        for (int i = 1;; i++) {
+            label.setFont(new java.awt.Font("Impact", 1, i));
+            int fontW = label.getFontMetrics(label.getFont()).stringWidth(label.getText());
+            int fontH = label.getFontMetrics(label.getFont()).getHeight();
+            if (fontW > w || fontH > h) {
+                label.setFont(new java.awt.Font("Impact", 1, i - 1));
+                break;
+            }
         }
     }
 
