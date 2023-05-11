@@ -12,11 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import com.leviatanes.tetris.Main;
-import com.leviatanes.tetris.tetrisGame.TetrisPanel;
 import com.leviatanes.tetris.tetrisGame.game.sidePanels.scorePanels.ScoreLabel;
 
 public class NormalScore extends JPanel {
-    private TetrisPanel tetrisPanel;
     /** Label de score */
     private ScoreLabel scoreLabel;
     // offset para el scoreLabel
