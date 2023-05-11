@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.tetrinominos.*;
-import com.leviatanes.tetris.tetrisGame.TetrisPanel;
 import com.leviatanes.tetris.tetrisGame.game.gameOver.GameOver;
 import com.leviatanes.tetris.tetrisGame.game.sidePanels.*;
 
@@ -89,8 +88,6 @@ public class GameArea extends JPanel {
     private StatsPanel stats;
     /** panel de fin de juego */
     private GameOver gameOver;
-    /** gameThread */
-    private GameThread gameThread;
 
     /**
      * Constructor de la clase
@@ -140,11 +137,6 @@ public class GameArea extends JPanel {
                 this.background[2][i][j] = borderColor;
             }
         }
-    }
-
-    /** set gameTrhead */
-    public void setGameThread(GameThread gameThread) {
-        this.gameThread = gameThread;
     }
 
     /** @return boolean isHardDroped? */
@@ -261,7 +253,6 @@ public class GameArea extends JPanel {
                     y = row + block.getY();
                     if (background[0][y][x] != darkColor) {
                         this.block = null;
-                        this.gameOver.setGameThread(this.gameThread);
                         this.gameOver.setPuntuation(stats.getScore(), stats.getLines());
                         this.gameOver.endGame();
                         this.gameOver.setVisible(true);

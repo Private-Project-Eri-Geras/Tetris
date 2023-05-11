@@ -6,6 +6,8 @@ import java.awt.Graphics;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import com.leviatanes.tetris.SoundsPlayer;
 import com.leviatanes.tetris.tetrisGame.game.GameThread;
 
 import com.leviatanes.tetris.tetrisGame.game.gameOver.scorePanel.*;
@@ -40,18 +42,11 @@ public class GameOver extends JPanel {
     /** objeto de lectura del score */
     private ScoreReader read;
 
-    /** objeto del hilo para controlar el audio */
-    private GameThread gameThread;
-
     public GameOver(int multiplier) {
         this.multiplier = multiplier;
         this.read = new ScoreReader();
         this.initComponents();
 
-    }
-
-    public void setGameThread(GameThread gameThread) {
-        this.gameThread = gameThread;
     }
 
     public void setScore(int score) {
@@ -109,7 +104,7 @@ public class GameOver extends JPanel {
     }
 
     public void endGame() {
-        gameThread.setGain(gameThread.getGain() / 1.2f);
+        SoundsPlayer.fadeOutMain();
         boolean isHighScore = false;
         if (scores.length < 10)
             isHighScore = true;

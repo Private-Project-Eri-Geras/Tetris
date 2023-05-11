@@ -3,6 +3,7 @@ package com.leviatanes.tetris.tetrisGame.game;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import com.leviatanes.tetris.SoundsPlayer;
 import com.leviatanes.tetris.tetrisGame.game.sidePanels.*;
 
 public class GameControls implements KeyListener {
@@ -70,8 +71,6 @@ public class GameControls implements KeyListener {
     @Override
     /** Metodo no usado */
     public void keyTyped(KeyEvent key) {
-        if (key.getKeyCode() == mute)
-            gameThread.toggleMute();
     }
 
     /**
@@ -131,7 +130,8 @@ public class GameControls implements KeyListener {
                 stashShape.setHoldAllowed(false);
                 stashShape.setHoldedShape(gameArea.getHoldedBlock());
                 break;
-
+            case mute:
+                SoundsPlayer.toggleMute();
             default:
                 break;
         }

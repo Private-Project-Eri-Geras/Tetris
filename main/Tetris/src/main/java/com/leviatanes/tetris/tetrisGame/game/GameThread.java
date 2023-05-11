@@ -7,6 +7,7 @@ import javax.sound.sampled.Clip;
 import java.io.File;
 import java.io.InputStream;
 
+import com.leviatanes.tetris.SoundsPlayer;
 import com.leviatanes.tetris.tetrisGame.game.sidePanels.StatsPanel;
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
 
@@ -30,15 +31,6 @@ public class GameThread extends Thread {
     private long endTime;
     /** tiempo transcurrido */
     private long elapsedTime;
-    /** clip de musica principal */
-    private Clip clip;
-    /** control de ganancia de la musica */
-    private FloatControl gainControl;
-    /** bandera de musica silenciada */
-    private boolean muted = false;
-    /** ganancia anterior */
-    private float previousGain;
-    /** numero maximo de rotaciones */
     private static final int maxRotations = 15;
 
     /**
@@ -58,7 +50,7 @@ public class GameThread extends Thread {
 
     public void run() {
         int linesClearedAtOnce = 0;
-        this.playMusic();
+        SoundsPlayer.playGameMusic();
         while (true) {
             System.out.println("    run");
             if (this.spawn())
@@ -84,87 +76,6 @@ public class GameThread extends Thread {
             System.out.println("    reset run");
         }
         System.out.println("    end run");
-    }
-
-    public void playMusic() {
-        try {
-            // carga el archivo de audio
-            String path = "/com/leviatanes/tetris/tetrisGame/game/music/mainTheme.wav";
-            InputStream audioSrc = getClass().getResourceAsStream(path);
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioSrc);
-
-            // crea el clip de audio
-            clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-
-            // control de ganancia
-            gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            // configura el loop del clip de audio
-            clip.setLoopPoints(0, -1); // -1 indica que se repita indefinidamente
-            clip.loop(Clip.LOOP_CONTINUOUSLY);
-            // establece el valor inicial de ganancia
-            this.setGain(0.88f);
-
-            // inicia la reproducción del clip de audio
-            clip.start();
-
-        } catch (Exception e) {
-            System.out.println("Error al reproducir el archivo de audio: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Activa o desactiva la musica
-     */
-    public void toggleMute() {
-        if (muted) {
-            // si el audio estaba muteado, restaura el valor de ganancia previo
-            gainControl.setValue(previousGain);
-            muted = false;
-        } else {
-            // si el audio estaba sonando, guarda el valor de ganancia actual y lo pone en
-            // mute
-            previousGain = gainControl.getValue();
-            gainControl.setValue(0.0f);
-            muted = true;
-        }
-    }
-
-    /**
-     * set de la ganancia
-     * entre 0 y 1
-     * 0 es silenciado
-     * 1 es el maximo
-     * 
-     * @param gain
-     */
-    public void setGain(float gain) {
-        if (gainControl != null) {
-            // asegurarse de que la ganancia no sea menor que 0 o mayor que 1
-            gain = Math.max(0, Math.min(1, gain));
-            gainControl
-                    .setValue(gainControl.getMinimum() + (gainControl.getMaximum() - gainControl.getMinimum()) * gain);
-        }
-    }
-
-    /**
-     * Retorna la ganancia actual
-     * entre 0 y 1
-     * 0 es silenciado
-     * 1 es el maximo
-     * 
-     * @return float
-     */
-    public float getGain() {
-        if (gainControl != null) {
-            float maxGain = gainControl.getMaximum();
-            float minGain = gainControl.getMinimum();
-            float range = maxGain - minGain;
-            float currentGain = gainControl.getValue();
-            return (currentGain - minGain) / range;
-        } else {
-            return 0f;
-        }
     }
 
     /**
