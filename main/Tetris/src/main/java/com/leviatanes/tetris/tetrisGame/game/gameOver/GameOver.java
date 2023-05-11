@@ -115,7 +115,7 @@ public class GameOver extends JPanel {
                     break;
                 }
             }
-        if (isHighScore) {
+        if (isHighScore && this.score > 0) {
             this.lblGameOver.setText("HIGH SCORE");
             Score score = new Score("bbb", this.score);
             System.out.println("Score" + this.score);
