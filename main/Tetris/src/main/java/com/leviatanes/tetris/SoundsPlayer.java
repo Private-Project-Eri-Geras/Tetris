@@ -9,18 +9,41 @@ import javax.sound.sampled.FloatControl;
 
 public class SoundsPlayer {
     /** clip de musica principal */
-    private static Clip clip = null;
+    private static Clip mainMusic = null;
     /** control de ganancia de la musica */
     private static FloatControl gainControl = null;
     /** bandera de musica silenciada */
     private static boolean muted = false;
     /** ganancia anterior */
     private static float previousGain = 0f;
+    /** private static minimum */
+    private static float minimum = 0f;
+    /** path de la carpeta de sonidos */
+    private static String soundsPath = "/com/leviatanes/tetris/tetrisGame/game/music/";
+
+    private static void playSound(String sound) {
+        try {
+            // carga el archivo de audio
+            String path = soundsPath + sound;
+            InputStream audioSrc = SoundsPlayer.class.getResourceAsStream(path);
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioSrc);
+
+            // crea el clip de audio
+            mainMusic = AudioSystem.getClip();
+            mainMusic.open(audioInputStream);
+
+            // inicia la reproducción del clip de audio
+            mainMusic.start();
+
+        } catch (Exception e) {
+            System.out.println("Error al reproducir el archivo de audio: " + e.getMessage());
+        }
+    }
 
     public static void playGameMusic() {
         try {
             // carga el archivo de audio
-            String path = "/com/leviatanes/tetris/tetrisGame/game/music/mainTheme.wav";
+            String path = soundsPath + "mainTheme.wav";
             InputStream audioSrc = SoundsPlayer.class.getResourceAsStream(path);
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioSrc);
 
@@ -30,6 +53,8 @@ public class SoundsPlayer {
 
             // control de ganancia
             gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            minimum = gainControl.getMinimum();
+
             // configura el loop del clip de audio
             clip.setLoopPoints(0, -1); // -1 indica que se repita indefinidamente
             clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -84,27 +109,33 @@ public class SoundsPlayer {
     /**
      * Activa o desactiva la musica
      */
-    public static void toggleMute() {
+    public static void toggleMuteMain() {
+
         if (muted) {
             // si el audio estaba muteado, restaura el valor de ganancia previo
             gainControl.setValue(previousGain);
-            muted = false;
         } else {
             // si el audio estaba sonando, guarda el valor de ganancia actual y lo pone en
             // mute
             previousGain = gainControl.getValue();
-            gainControl.setValue(0.0f);
-            muted = true;
+            gainControl.setValue(minimum);
         }
+        muted = !muted;
     }
 
-    /**
-     * Detiene la musica
-     */
+    /** Detiene la musica */
     public static void stopMain() {
-        if (clip != null) {
-            clip.stop();
-        }
+        if (mainMusic == null)
+            return;
+        mainMusic.stop();
+
+    }
+
+    /** reproduce la musica de nuevo */
+    public static void resumeMain() {
+        if (mainMusic == null)
+            return;
+        mainMusic.start();
     }
 
     /**
@@ -130,7 +161,53 @@ public class SoundsPlayer {
         }).start();
     }
 
-    /**
-     * 
-     */
+    /** reproduce el sonido de mover */
+    public static void playMove() {
+        playSound("move.wav");
+    }
+
+    /** reproduce el sonido de mover para abajo */
+    public static void playSoftDrop() {
+        playSound("softDrop.wav");
+    }
+
+    /** reproduce el sonido de girar */
+    public static void playRotate() {
+        playSound("rotate.wav");
+    }
+
+    /** reproduce el sonido de HardDrop */
+    public static void playHardDrop() {
+        playSound("hardDrop.wav");
+    }
+
+    /** single */
+    public static void playSingle() {
+        playSound("single.wav");
+    }
+
+    /** double */
+    public static void playDouble() {
+        // playSound("double.wav");
+    }
+
+    /** triple */
+    public static void playTriple() {
+        playSound("triple.wav");
+    }
+
+    /** tetris */
+    public static void playTetris() {
+        playSound("tetris.wav");
+    }
+
+    /** tspin */
+    public static void playTspin() {
+        playSound("Tspin.wav");
+    }
+
+    /** Pausa */
+    public static void playPause() {
+        playSound("pause.wav");
+    }
 }
