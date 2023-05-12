@@ -830,6 +830,14 @@ public class GameArea extends JPanel {
         if (level > actualLevel) {
             stats.updateLevel(level);
             GameThread.updateWaitingTime(level * level);
+            try {
+                if (linesClear == 4)
+                    Thread.sleep(800);
+                else
+                    Thread.sleep(150);
+            } catch (InterruptedException e) {
+                System.out.println("Error en la espera de la actualizacion de nivel");
+            }
             SoundsPlayer.playLevelUp();
         }
     }
