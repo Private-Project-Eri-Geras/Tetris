@@ -213,7 +213,6 @@ public class SoundsPlayer {
             mainMusic.setLoopPoints(0, -1); // -1 indica que se repita indefinidamente
             mainMusic.loop(Clip.LOOP_CONTINUOUSLY);
             // establece el valor inicial de ganancia
-            setGain(0.78f);
             // inicia la reproducción del clip de audio
             mainMusic.start();
         } catch (Exception e) {
