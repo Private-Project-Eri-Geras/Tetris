@@ -947,6 +947,12 @@ public class GameArea extends JPanel {
             }
         }
         this.block = null;
+        if (hardDropFlag)
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         SoundsPlayer.playFall();
     }
 
