@@ -1,7 +1,6 @@
 package com.leviatanes.tetris.tetrisGame.game;
 
 import com.leviatanes.tetris.SoundsPlayer;
-import com.leviatanes.tetris.tetrisGame.game.sidePanels.StatsPanel;
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
 
 public class GameThread extends Thread {

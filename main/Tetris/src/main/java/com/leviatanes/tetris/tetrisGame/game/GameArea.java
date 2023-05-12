@@ -10,7 +10,6 @@ import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.tetrinominos.*;
 import com.leviatanes.tetris.SoundsPlayer;
 import com.leviatanes.tetris.tetrisGame.game.gameOver.GameOver;
-import com.leviatanes.tetris.tetrisGame.game.gameOver.Score;
 import com.leviatanes.tetris.tetrisGame.game.sidePanels.*;
 
 public class GameArea extends JPanel {
@@ -34,18 +33,6 @@ public class GameArea extends JPanel {
     // ===========[ BANDERAS DE SECCIONES CRITICAS ]================//
     /** Bandera de rotacion */
     private boolean rotateFlag = false;
-    /** Bandera de movimiento abajo */
-    private boolean moveDownFlag = false;
-    /** Bandera de movimiento izquierda derecha */
-    private boolean moveFlag = false;
-    /** Bandera de bloque soltado */
-    private boolean dropedFalg = false;
-    /** Bandera de revision si hay que soltar el bloque */
-    private boolean checkToDropFlag = false;
-    /** Bandera de limpado de lineas */
-    private boolean clearLinesFlag = false;
-    /** Bandera para mover el bloque al fondo */
-    private boolean moveBlockToBottomFlag = false;
     /** Bandera de spawneo */
     private boolean spawnFlag = false;
 
@@ -285,9 +272,7 @@ public class GameArea extends JPanel {
             return false;
         }
         // bansera critica
-        this.moveDownFlag = true; // !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         if (this.checkBottom()) {
-            this.moveDownFlag = false; // !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
             return false;
         }
         if (this.hardDropFlag == false) {
@@ -296,8 +281,6 @@ public class GameArea extends JPanel {
         this.block.moveDown();
         setGhostBlock();
         repaint();
-        // bansera critica
-        this.moveDownFlag = false; // !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         return true;
     }
 
@@ -316,11 +299,9 @@ public class GameArea extends JPanel {
         if (this.block == null) {
             return;
         }
-        this.dropedFalg = true; // !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         while (this.moveDown())
             ;
         this.blockDropped = true;
-        this.dropedFalg = false; // !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         setGhostBlock();
         repaint();
     }
@@ -333,13 +314,10 @@ public class GameArea extends JPanel {
      */
     public boolean checkBottom() throws ArrayIndexOutOfBoundsException {
         // espera a que se termine la seccion critica
-        this.moveDownFlag = true;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         if (this.block == null) {
-            this.moveDownFlag = false;
             return true;
         }
         if (this.block.getBottomEdge() == this.rows) {
-            this.moveDownFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
             return true;
         }
         // obtencion de datos del bloque
@@ -354,7 +332,6 @@ public class GameArea extends JPanel {
                         x = col + block.getX();
                         y = row + block.getY() + 1;
                         if (background[0][y][x] != darkColor) {
-                            this.moveDownFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
                             return true;
                         }
                         break;
@@ -368,12 +345,10 @@ public class GameArea extends JPanel {
                 if (y < 0)
                     break;
                 if (background[0][y][x] != darkColor) {
-                    this.moveDownFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
                     return true;
                 }
             }
         }
-        this.moveDownFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         return false;
     }
 
@@ -391,15 +366,12 @@ public class GameArea extends JPanel {
         if (this.block == null) {
             return false;
         }
-        this.checkToDropFlag = true;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         if (block.getType() == 'I') {
             if (this.block.getBottomEdge() + 2 >= this.rows) {
-                this.checkToDropFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
                 return true;
             }
         } else {
             if (this.block.getBottomEdge() + 1 >= this.rows) {
-                this.checkToDropFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
                 return true;
             }
         }
@@ -408,7 +380,6 @@ public class GameArea extends JPanel {
         int h = this.block.getHeight();
         int x, y;// se utilizaran para sacar el offsetverdadero y comparar correctamente
         if (this.checkBottom()) {
-            this.checkToDropFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
             return true;
         }
         if (block.getType() != 'I') {
@@ -418,7 +389,6 @@ public class GameArea extends JPanel {
                         x = col + block.getX();
                         y = row + block.getY() + 1;
                         if (background[0][y][x] != darkColor || background[0][y + 1][x] != darkColor) {
-                            this.checkToDropFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
                             return true;
                         }
                         break;
@@ -433,12 +403,10 @@ public class GameArea extends JPanel {
                     break;
                 if (background[0][y][x] != darkColor || background[0][y + 1][x] != darkColor
                         || background[0][y + 2][x] != darkColor) {
-                    this.checkToDropFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
                     return true;
                 }
             }
         }
-        this.checkToDropFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         return false;
     }
 
@@ -452,14 +420,11 @@ public class GameArea extends JPanel {
         if (this.block == null) {
             return false;
         }
-        this.moveFlag = true;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         if (this.checkLeft()) {
-            this.moveFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
             return false;
         }
         this.block.moveLeft();
         SoundsPlayer.playMove();
-        this.moveFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         setGhostBlock();
         repaint();
         return true;
@@ -515,14 +480,11 @@ public class GameArea extends JPanel {
         if (this.block == null) {
             return false;
         }
-        this.moveFlag = true;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         if (this.checkRight()) {
-            this.moveFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
             return false;
         }
         this.block.moveRight();
         SoundsPlayer.playMove();
-        this.moveFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         setGhostBlock();
         repaint();
         return true;
@@ -774,7 +736,6 @@ public class GameArea extends JPanel {
      */
     public int clearLines() {
         // esperar a secciones criticas
-        this.clearLinesFlag = true;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         int linesCleared = 0;
         boolean fillLine = true;
         for (int row = this.rows - 1; row >= 0; row--) {
@@ -794,7 +755,6 @@ public class GameArea extends JPanel {
             }
         }
         this.updateStats(linesCleared);
-        this.clearLinesFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
         return linesCleared;
     }
 
