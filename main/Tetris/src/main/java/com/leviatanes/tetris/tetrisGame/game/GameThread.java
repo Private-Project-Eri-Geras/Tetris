@@ -249,6 +249,7 @@ public class GameThread extends Thread {
         if (level > actualLevel) {
             statsPanel.updateLevel(level);
             this.waitingTime -= level * level;
+            SoundsPlayer.playLevelUp();
         }
     }
 
