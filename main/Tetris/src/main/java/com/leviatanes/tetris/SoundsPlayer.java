@@ -164,10 +164,9 @@ public class SoundsPlayer {
             public void run() {
                 try {
                     String path = soundPath + clipName;
-                    AudioInputStream audioInputStream = AudioSystem
-                            .getAudioInputStream(SoundsPlayer.class.getResourceAsStream(path));
                     Clip clip = AudioSystem.getClip();
-                    clip.open(audioInputStream);
+                    clip.open(AudioSystem
+                            .getAudioInputStream(SoundsPlayer.class.getResourceAsStream(path)));
                     clip.start();
 
                     // add clip to list of playing clips
