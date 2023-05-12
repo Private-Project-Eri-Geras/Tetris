@@ -8,13 +8,11 @@ public class GameThread extends Thread {
     /** bandera de juego pausado */
     private boolean paused;
     /** tiempo de espera normal */
-    private int waitingTime;
+    private static int waitingTime;
     /** tiempo de espera real */
     private int actualSpeed;
     /** game area para llamar a las funciones necesarias */
     private GameArea gameArea;
-    /** nos permite modificar las estadisticas */
-    private StatsPanel statsPanel;
     /** contador de rotaciones permitidas */
     private int rotationCount;
     /** tiempo de inicio */
@@ -33,19 +31,18 @@ public class GameThread extends Thread {
      * @param tetrisPanel Panel de tetris tendra la informacion del juego a
      *                    actualizar
      */
-    public GameThread(GameArea gameArea, StatsPanel statsPanel) {
+    public GameThread(GameArea gameArea) {
         this.gameArea = gameArea;
-        this.statsPanel = statsPanel;
         this.paused = false;
-        this.waitingTime = 1000;
-        this.actualSpeed = this.waitingTime;
+        waitingTime = 1000;
+        this.actualSpeed = waitingTime;
     }
 
     public void run() {
-        int linesClearedAtOnce = 0;
         SoundsPlayer.playGameMusic();
         while (true) {
             System.out.println("    run");
+            actualSpeed = waitingTime;
             if (this.spawn())
                 break;
 
@@ -58,14 +55,8 @@ public class GameThread extends Thread {
             }
 
             System.out.println("    aft while moveDown");
-            if (settleBlock()) {
-                linesClearedAtOnce = gameArea.clearLines();
-                statsPanel.updateLines(linesClearedAtOnce);
-                scoring(linesClearedAtOnce);
-                leveling();
-
-                gameArea.repaint();
-            }
+            if (settleBlock())
+                gameArea.clearLines();
             System.out.println("    reset run");
         }
         System.out.println("    end run");
@@ -143,6 +134,7 @@ public class GameThread extends Thread {
             while (gameArea.moveDown())
                 ;
             gameArea.moveBlockToBackGround();
+            gameArea.repaint();
             return true;
         }
         gameArea.disableBlockDropped();
@@ -153,14 +145,14 @@ public class GameThread extends Thread {
      * Acelera la velocidad de caida a 1/10 de la velocidad actual
      */
     public void softDrop() {
-        this.actualSpeed = this.waitingTime / 20;
+        this.actualSpeed = waitingTime / 20;
     }
 
     /**
      * Restablece la velocidad de caida a la velocidad normal
      */
     public void restoreGameSpeed() {
-        this.actualSpeed = this.waitingTime;
+        this.actualSpeed = waitingTime;
     }
 
     /**
@@ -210,50 +202,6 @@ public class GameThread extends Thread {
     }
 
     /**
-     * Calcula y actualiza el score por linea
-     * single = 10 * (level)
-     * double = 30 * (level)
-     * triple = 50 * (level)
-     * tetris = 80 * (level)
-     */
-    private void scoring(int linesClearedAtOnce) {
-        int level = statsPanel.getLevel();
-        int score = 0;
-        switch (linesClearedAtOnce) {
-            case 1:
-                score += 10 * level;
-                break;
-            case 2:
-                score += 30 * level;
-                break;
-            case 3:
-                score += 50 * level;
-                break;
-            case 4:
-                score += 80 * level;
-                break;
-        }
-        statsPanel.updateScore(score);
-    }
-
-    /**
-     * Calcula y actualiza el nivel
-     * 10 lineas = 1 nivel
-     */
-    private void leveling() {
-        int lines = statsPanel.getLines();
-        if (lines == 0)
-            return;
-        int actualLevel = statsPanel.getLevel();
-        int level = lines / 10 + 1;
-        if (level > actualLevel) {
-            statsPanel.updateLevel(level);
-            this.waitingTime -= level * level;
-            SoundsPlayer.playLevelUp();
-        }
-    }
-
-    /**
      * Genera un bloque nuevo
      * y verifica que no sea game over
      */
@@ -268,5 +216,9 @@ public class GameThread extends Thread {
             gameArea.repaint();
         }
         return false;
+    }
+
+    public static void updateWaitingTime(int value) {
+        waitingTime -= value;
     }
 }

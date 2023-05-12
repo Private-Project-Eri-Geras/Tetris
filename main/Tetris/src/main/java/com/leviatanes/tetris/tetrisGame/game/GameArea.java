@@ -10,6 +10,7 @@ import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.tetrinominos.*;
 import com.leviatanes.tetris.SoundsPlayer;
 import com.leviatanes.tetris.tetrisGame.game.gameOver.GameOver;
+import com.leviatanes.tetris.tetrisGame.game.gameOver.Score;
 import com.leviatanes.tetris.tetrisGame.game.sidePanels.*;
 
 public class GameArea extends JPanel {
@@ -792,23 +793,45 @@ public class GameArea extends JPanel {
                 repaint();
             }
         }
-        switch (linesCleared) {
+        this.updateStats(linesCleared);
+        this.clearLinesFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
+        return linesCleared;
+    }
+
+    private void updateStats(int linesClear) {
+        if (linesClear == 0)
+            return;
+        int level = this.stats.getLevel();
+        int score = 0;
+        switch (linesClear) {
             case 1:
+                score = 10 * level;
                 SoundsPlayer.playSingle();
                 break;
             case 2:
+                score = 30 * level;
                 SoundsPlayer.playSingle();
                 break;
             case 3:
+                score = 50 * level;
                 SoundsPlayer.playTriple();
                 break;
             case 4:
+                score = 100 * level;
                 SoundsPlayer.playTetris();
                 break;
             default:
         }
-        this.clearLinesFlag = false;// !!!!!!!!!!! BANDERA CRITICA !!!!!!!!!!!!!
-        return linesCleared;
+        this.stats.updateScore(score);
+        this.stats.updateLines(linesClear);
+        int lines = stats.getLines();
+        int actualLevel = stats.getLevel();
+        level = lines / 10 + 1;
+        if (level > actualLevel) {
+            stats.updateLevel(level);
+            GameThread.updateWaitingTime(level * level);
+            SoundsPlayer.playLevelUp();
+        }
     }
 
     /**
