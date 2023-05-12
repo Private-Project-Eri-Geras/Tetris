@@ -28,6 +28,8 @@ public class SoundsPlayer {
 
     private static List<myAudioClip> playingClips = new ArrayList<>();
 
+    private static ExecutorService executor = Executors.newSingleThreadExecutor();
+
     private static float minimum = 0f;
     private static float previousGain = 0f;
     private static Clip mainMusic = null;
@@ -156,15 +158,14 @@ public class SoundsPlayer {
             return;
         }
         // create new thread to play clip
-        ExecutorService executor = Executors.newSingleThreadExecutor();
 
         executor.submit(new Runnable() {
             @Override
             public void run() {
                 try {
                     String path = soundPath + clipName;
-                    InputStream audioSrc = SoundsPlayer.class.getResourceAsStream(path);
-                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioSrc);
+                    AudioInputStream audioInputStream = AudioSystem
+                            .getAudioInputStream(SoundsPlayer.class.getResourceAsStream(path));
                     Clip clip = AudioSystem.getClip();
                     clip.open(audioInputStream);
                     clip.start();
