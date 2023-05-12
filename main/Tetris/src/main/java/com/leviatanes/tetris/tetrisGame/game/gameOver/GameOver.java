@@ -134,7 +134,7 @@ public class GameOver extends JPanel {
         this.lblGameOver.setText("YOU ARE THE GOAT");
         boolean isGoat = true;
         for (int i = scores.length - 1; i >= 0; i--) {
-            if (score < scores[i].getScore()) {
+            if (score <= scores[i].getScore()) {
                 this.lblGameOver.setText("YOU ARE THE NUMBER " + (i + 2) + "!");
                 isGoat = false;
                 break;
