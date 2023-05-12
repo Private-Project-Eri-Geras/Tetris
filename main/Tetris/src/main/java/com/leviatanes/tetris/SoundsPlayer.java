@@ -21,7 +21,6 @@ import com.leviatanes.tetris.soundPlayer.myAudioClip;
 
 public class SoundsPlayer {
 
-    private static final int MAX_CLIPS = 25;
     private static int clipIdCounter = 0;
 
     private static Map<String, myAudioClip> clips = new HashMap<>();
@@ -73,7 +72,7 @@ public class SoundsPlayer {
             clip.open(audioInputStream);
 
             // Crear el objeto AudioClip
-            int id = clipIdCounter++ % MAX_CLIPS;
+            int id = clipIdCounter++;
             myAudioClip audioClip = new myAudioClip(clip, id);
 
             // Agregar el objeto AudioClip al mapa de clips
