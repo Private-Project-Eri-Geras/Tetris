@@ -33,8 +33,6 @@ public class GameArea extends JPanel {
     // ===========[ BANDERAS DE SECCIONES CRITICAS ]================//
     /** Bandera de rotacion */
     private boolean rotateFlag = false;
-    /** Bandera de spawneo */
-    private boolean spawnFlag = false;
 
     /**
      * matriz del color de fondo
@@ -182,15 +180,11 @@ public class GameArea extends JPanel {
         return this.rotateFlag;
     }
 
-    /** @return bandera de seccion critica */
-    public boolean getSpawnedFlag() {
-        return this.spawnFlag;
-    }
-    //
-    //
-    //
-    //
-    //
+    // private int blockCounter = 0;
+    // private TetrisBlock[] testBlocks = { new Jshape(), new Lshape(), new
+    // Ishape(), new Oshape(),
+    // new Sshape(),
+    // new Tshape(), new Zshape() };
 
     /** Spawnea un bloque aleatorio entre I, J, L, O, S, T, Z */
     public void spawnBlock() {
