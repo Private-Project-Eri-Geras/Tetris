@@ -3,6 +3,15 @@ package com.leviatanes.tetris.tetrisGame.game;
 import com.leviatanes.tetris.SoundsPlayer;
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
 
+/**
+ * Clase que controla el hilo de ejecucion del juego
+ * haciendo que el bloque baje el bloque
+ * controla la velocidad del juego y el spawn de los bloques
+ * 
+ * @author Eriarer (Abraham)
+ * 
+ * @see GameArea
+ */
 public class GameThread extends Thread {
     /** bandera de juego pausado */
     private boolean paused;

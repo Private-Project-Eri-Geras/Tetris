@@ -12,6 +12,40 @@ import com.leviatanes.tetris.SoundsPlayer;
 import com.leviatanes.tetris.tetrisGame.game.gameOver.GameOver;
 import com.leviatanes.tetris.tetrisGame.game.sidePanels.*;
 
+/**
+ * !! CONTROL DEL JUEGO !!
+ * Lleva el control y gestion de todo el juego
+ * actualizando:
+ * - tablero {@link GameArea}
+ * - bloque actual {@link TetrisBlock}
+ * - bloque siguiente {@link NextPanel}
+ * - hold {@link HoldPanel}
+ * - puntaje {@link StatsPanel}
+ * - lineas {@link StatsPanel}
+ * - nivel {@link StatsPanel}
+ * - velocidad {@link GameThread}
+ * - terminar el juego {@link GameOver}
+ * - llamada a sonidos {@link SoundsPlayer}
+ * Lleva acabo la logica del juego y validaciones
+ * 
+ * @implNote {@link GameControls} y {@link GameThread} se encarga de la llamada
+ *           de los metodos
+ * 
+ * @author Leonardo
+ * @author Eriarer (Abraham)
+ * @author Gerardo
+ * @author Mariana
+ * 
+ * @see GameControls
+ * @see GameArea
+ * @see TetrisBlock
+ * @see NextPanel
+ * @see HoldPanel
+ * @see StatsPanel
+ * @see GameThread
+ * @see GameOver
+ * @see SoundsPlayer
+ */
 public class GameArea extends JPanel {
     /** Ancho de la pantalla */
     private int width;

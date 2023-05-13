@@ -19,6 +19,14 @@ import javax.sound.sampled.LineListener;
 import java.io.BufferedInputStream;
 import com.leviatanes.tetris.soundPlayer.myAudioClip;
 
+/**
+ * Clase que se encarga de reproducir los sonidos del juego.
+ * Busca la optimizacion en tiempo de ejecucion, por lo que
+ * los sonidos se cargan en memoria al inicio del programa
+ * y se reproducen desde ahi.
+ * 
+ * @author Eriarer (Abraham)
+ */
 public class SoundsPlayer {
 
     private static int clipIdCounter = 0;

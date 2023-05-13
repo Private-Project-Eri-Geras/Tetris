@@ -9,6 +9,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+/**
+ * [ SCORE ]
+ * Se encarga de mostrar un panel con el puntaje
+ * ordenandolo segun las coordenadas que se le
+ * pasen
+ * 
+ * @author Leonardo
+ * @author Eriarer (Abraham)
+ */
 public class ScoreLabel extends JPanel {
 
     // label SCORE

@@ -6,6 +6,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * [FILE READER]
+ * Lee los puntajes de un archivo de texto
+ * permite reemplazar un puntaje por otro
+ * y ordenar los puntuajes en caso de que
+ * haya sido modificados externamente
+ * 
+ * @author Eriarer (Abraham)
+ * 
+ * @see Score
+ */
 public class ScoreReader {
     private static final int MAX_SCORES = 10;
     private Score[] scores;
@@ -158,5 +169,4 @@ public class ScoreReader {
         }
         return scores;
     }
-
 }

@@ -4,6 +4,24 @@ import com.leviatanes.tetris.tetrisGame.game.*;
 import com.leviatanes.tetris.tetrisGame.game.gameOver.GameOver;
 import com.leviatanes.tetris.tetrisGame.game.sidePanels.*;
 
+/**
+ * [CLASS TETRIS PANEL]
+ * Panel principal del juego, contiene todos los componentes del juego
+ * 
+ * @author Leonardo
+ * @author Eriarer (Abraham)
+ * @author Gerardo
+ * @author Mariana
+ * 
+ * @see GameArea
+ * @see GameControls
+ * @see GameThread
+ * @see NextPanel
+ * @see StatsPanel
+ * @see HoldPanel
+ * @see GameOver
+ * 
+ */
 public class TetrisPanel extends javax.swing.JPanel {
         /** lleva el control del juego */
         private GameArea gameArea;

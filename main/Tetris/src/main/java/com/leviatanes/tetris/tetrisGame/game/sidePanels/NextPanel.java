@@ -7,6 +7,16 @@ import javax.swing.JLabel;
 
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
 
+/**
+ * [ PANEL DE LA PIEZA SIGUIENTE ]
+ * Se encarga de mostrar un panel con la pieza siguiente
+ * 
+ * @author Leonardo
+ * @author Eriarer (Abraham)
+ * 
+ * @see ShapeHolder
+ * @see TetrisBlock
+ */
 public class NextPanel extends javax.swing.JPanel {
     /** Label de la pieza siguiente */
     private JLabel nextShapeLabel;

@@ -6,6 +6,12 @@ import java.awt.event.KeyListener;
 import com.leviatanes.tetris.SoundsPlayer;
 import com.leviatanes.tetris.tetrisGame.game.sidePanels.*;
 
+/**
+ * Clase que lee las teclas presionadas por el usuario y
+ * ejecuta las acciones correspondientes
+ * 
+ * @author Gerardo
+ */
 public class GameControls implements KeyListener {
     private GameArea gameArea;
     private GameThread gameThread;

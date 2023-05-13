@@ -5,6 +5,18 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import com.leviatanes.tetris.tetrisGame.game.sidePanels.scorePanels.ScoreLabel;
 
+/**
+ * [ STATS ]
+ * Se encarga de mostrar un panel con las estadisticas
+ * del juego segun el jugador avanza en el juego
+ * 
+ * @author Leonardo
+ * @author Eriarer
+ * @author Gerardo
+ * @author Mariana
+ * 
+ * @see ScoreLabel
+ */
 public class StatsPanel extends javax.swing.JPanel {
     /** Label de score */
     private ScoreLabel scoreLabel;

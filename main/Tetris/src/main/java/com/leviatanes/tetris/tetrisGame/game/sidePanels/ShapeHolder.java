@@ -7,6 +7,12 @@ import java.lang.reflect.InvocationTargetException;
 
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
 
+/**
+ * {@link ShapeHolder}
+ * Panel que se encarga de dibujar las piezas en un panel extra
+ * 
+ * @author Eriarer (Abraham)
+ */
 public class ShapeHolder extends javax.swing.JPanel {
     /** TetrisBlock Actual */
     private TetrisBlock block;
