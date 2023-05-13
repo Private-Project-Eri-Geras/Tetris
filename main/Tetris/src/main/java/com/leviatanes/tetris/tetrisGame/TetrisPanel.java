@@ -61,8 +61,6 @@ public class TetrisPanel extends javax.swing.JPanel {
         private final int statsHolderHeight = 56;
 
         public TetrisPanel(int width, int height, int multiplier) {
-                // initComponents();
-                // inicializar componentes del juego
                 this.initGameComponents(width, height, multiplier);
         }
 

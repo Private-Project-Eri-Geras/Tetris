@@ -259,7 +259,8 @@ public class HighScore extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 GameOver.highScoreEnd();
-                new Main(true);
+                // ========================== MENU ===========================//
+                System.exit(0);
             }
         });
         // Listener para iluminar el label cuando el mouse entra

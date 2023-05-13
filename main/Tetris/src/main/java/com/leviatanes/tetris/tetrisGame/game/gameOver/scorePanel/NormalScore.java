@@ -190,8 +190,8 @@ public class NormalScore extends JPanel {
         menu.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
-                new Main(true);
+                // ========================== MENU ===========================//
+                System.exit(0);
             }
         });
         // iluminar el boton cuando el mouse esta encima

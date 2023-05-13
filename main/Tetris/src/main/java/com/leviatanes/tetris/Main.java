@@ -38,16 +38,6 @@ public class Main extends javax.swing.JFrame {
         this.initGame();
     }
 
-    public Main(boolean b) {
-        this.setUndecorated(true);
-        this.setResizable(false);
-        width = 0;
-        height = 0;
-        tetrisPanel = null;
-        this.initGame();
-        this.setVisible(true);
-    }
-
     private void getMaxResolution() {
         resolution = new int[MATRIX_ROWS][MATRIX_COLUMNS];
         resolution[0][0] = BASE_WIDTH;

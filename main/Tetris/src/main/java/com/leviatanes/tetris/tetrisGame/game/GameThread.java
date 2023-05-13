@@ -47,7 +47,16 @@ public class GameThread extends Thread {
     }
 
     public void run() {
-        SoundsPlayer.playGameMusic();
+        do {
+            do {
+                SoundsPlayer.playGameMusic();
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } while (!SoundsPlayer.getMainMusic().isRunning());
+        } while (SoundsPlayer.getMainMusic() == null);
         while (true) {
             System.out.println("    run");
             actualSpeed = waitingTime;

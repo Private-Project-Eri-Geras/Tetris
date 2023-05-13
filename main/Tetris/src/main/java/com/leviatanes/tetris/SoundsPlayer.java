@@ -196,6 +196,7 @@ public class SoundsPlayer {
     }
 
     public static void playGameMusic() {
+        stopMain();
         try {
             // carga el archivo de audio
             String path = soundPath + "mainTheme.wav";
@@ -275,11 +276,15 @@ public class SoundsPlayer {
         muted = !muted;
     }
 
+    private static float gain;
+
     /** Detiene la musica */
     public static void stopMain() {
         if (mainMusic == null)
             return;
+        gain = 0;
         mainMusic.stop();
+        mainMusic.close();
         mainMusic = null;
     }
 
@@ -290,20 +295,28 @@ public class SoundsPlayer {
         mainMusic.start();
     }
 
+    /** regresa el clip mainMusic */
+    public static Clip getMainMusic() {
+        return mainMusic;
+    }
+
     /**
      * baja el volumen de la musica lentamente
      * hasta dejarla en 0
      */
     public static void fadeOutMain() {
+        if (mainMusic == null)
+            return;
         new Thread(new Runnable() {
             @Override
             public void run() {
-                float gain = getGain();
-                while (gain > 0) {
+
+                gain = getGain();
+                while (gain > 0.2) {
                     gain -= 0.01f;
                     setGain(gain);
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(30);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
