@@ -7,9 +7,18 @@ import java.awt.Toolkit;
 import java.io.InputStream;
 
 import com.leviatanes.tetris.tetrisGame.TetrisPanel;
+import com.leviatanes.menus.*;
 
+/**
+ * Main class
+ * ventana principal del juego
+ * 
+ * @author Leonardo
+ * @author Eriarer 
+ */
 public class Main extends javax.swing.JFrame {
     private TetrisPanel tetrisPanel;
+    private Minicio menuIni;
 
     // Constants screen res
     final int BASE_WIDTH = 90;
@@ -35,10 +44,27 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         // initComponents();
         initFont();
-        this.initGame();
+
+        this.setLayout(null);
+        // obtener resolucion maxima
+        this.getMaxResolution();
+        
+        // generar centro de pantalla para el panel
+        this.generateCenter();
+        this.setSize(width, height);
+
+        this.setUndecorated(true);
+        this.setResizable(false);
+
+        this.MenuInicio();
+
+
+        this.revalidate();
+        this.repaint();
+
     }
 
-    private void getMaxResolution() {
+    public void getMaxResolution() {
         resolution = new int[MATRIX_ROWS][MATRIX_COLUMNS];
         resolution[0][0] = BASE_WIDTH;
         resolution[0][1] = BASE_HEIGHT;
@@ -84,22 +110,25 @@ public class Main extends javax.swing.JFrame {
         }
     }
 
-    private void initGame() {
-        // obtener resolucion maxima
-        this.getMaxResolution();
-        // generar centro de pantalla para el panel
-        this.generateCenter();
+    public void initGame() {
+        this.remove(menuIni);
         // inicializar el juego
-        this.setResizable(false);
-        this.setSize(width, height);
         this.tetrisPanel = new TetrisPanel(width, height, multiplier);
         this.add(tetrisPanel);
-        this.setUndecorated(true);
-
         this.addKeyListener(tetrisPanel.getGameControls());
+        this.revalidate();
+        this.repaint();
+    }
+
+    private void MenuInicio(){
+        //Se inicializa el menu de inicio
+        menuIni = new Minicio(width, height, multiplier, this);
+        this.add(menuIni);
+        System.out.println("MenuInicio fin");
     }
 
     public static void main(String args[]) {
         new Main().setVisible(true);
+        System.out.println("Main fin");
     }
 }
