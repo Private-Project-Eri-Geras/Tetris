@@ -15,6 +15,19 @@ import com.leviatanes.tetris.tetrisGame.game.gameOver.GameOver;
 import com.leviatanes.tetris.Main;
 import com.leviatanes.tetris.tetrisGame.game.sidePanels.scorePanels.ScoreLabel;
 
+/**
+ * [ HIGH SCORE ]
+ * Esta clase es un panel que se encarga de mostrar
+ * una ventana interactiva para que el usuario pueda
+ * ingresar su nombre y guardar su puntaje en el
+ * archivo de puntajes.
+ * 
+ * @author Leonardo
+ * @author Eriarer (Abraham)
+ * 
+ * @see GameOver
+ * @see ScoreLabel
+ */
 public class HighScore extends JPanel {
     /** Label de score */
     private ScoreLabel scoreLabel;
@@ -81,15 +94,12 @@ public class HighScore extends JPanel {
     private Color menuColor;
     private Color baseColor = new Color(255, 255, 255, 100);
     private Color hoverColor = new Color(255, 255, 255, 255);
-    private boolean ended = false;
 
     public HighScore(int multiplier, int score) {
         this.setLayout(null);
         this.multiplier = multiplier;
         this.setBounds(0, 0, scorePanelW * multiplier, scorePanelH * multiplier);
         this.score = score;
-        ended = false;
-        System.out.println(" Iniciando con score= " + this.score + " score 2= " + score);
         initPanels();
         initButtons();
         this.setOpaque(false);
@@ -105,9 +115,11 @@ public class HighScore extends JPanel {
 
         letter1 = new JLabel();
         letter1Color = new Color(48, 48, 48, 255);
-        // añadir mause click listener
+        // Listener para registrar clicks del mouse
         letter1.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
+                // Button1 = click izquierdo
+                // Button3 = click derecho
                 if (evt.getButton() == MouseEvent.BUTTON1) {
                     mouseClick(letter1);
                 } else if (evt.getButton() == MouseEvent.BUTTON3) {
@@ -115,12 +127,16 @@ public class HighScore extends JPanel {
                 }
             }
         });
+        // Listener para registrar cuando el mouse entra al label
+        // iluminar el label
         letter1.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent evt) {
                 letter1Color = hoverColor;
                 repaint();
             }
         });
+        // Listener para registrar cuando el mouse sale del label
+        // oscurecer el label
         letter1.addMouseListener(new MouseAdapter() {
             public void mouseExited(MouseEvent evt) {
                 letter1Color = baseColor;
@@ -132,6 +148,9 @@ public class HighScore extends JPanel {
 
         letter2 = new JLabel();
         letter2Color = new Color(48, 48, 48, 255);
+        // Listener para registrar clicks del mouse
+        // Button1 = click izquierdo
+        // Button3 = click derecho
         letter2.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
                 if (evt.getButton() == MouseEvent.BUTTON1) {
@@ -141,12 +160,16 @@ public class HighScore extends JPanel {
                 }
             }
         });
+        // Listener para registrar cuando el mouse entra al label
+        // iluminar el label
         letter2.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent evt) {
                 letter2Color = hoverColor;
                 repaint();
             }
         });
+        // Listener para registrar cuando el mouse sale del label
+        // oscurecer el label
         letter2.addMouseListener(new MouseAdapter() {
             public void mouseExited(MouseEvent evt) {
                 letter2Color = baseColor;
@@ -158,6 +181,9 @@ public class HighScore extends JPanel {
 
         letter3 = new JLabel();
         letter3Color = new Color(48, 48, 48, 255);
+        // Listener para registrar clicks del mouse
+        // Button1 = click izquierdo
+        // Button3 = click derecho
         letter3.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
                 if (evt.getButton() == MouseEvent.BUTTON1) {
@@ -167,12 +193,16 @@ public class HighScore extends JPanel {
                 }
             }
         });
+        // Listener para registrar cuando el mouse entra al label
+        // iluminar el label
         letter3.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent evt) {
                 letter3Color = hoverColor;
                 repaint();
             }
         });
+        // Listener para registrar cuando el mouse sale del label
+        // oscurecer el label
         letter3.addMouseListener(new MouseAdapter() {
             public void mouseExited(MouseEvent evt) {
                 letter3Color = baseColor;
@@ -182,16 +212,21 @@ public class HighScore extends JPanel {
         initLabel(letter3, letterX + lXoffset * 2, letterY, letterW, letterH, "A");
         this.add(letter3);
 
+        // Label para mostrar guia de que hacer
         caption = new JLabel();
         initLabel(caption, capX, capY, capW, capH, "CLICK TO SET NAME");
         this.add(caption);
     }
 
+    /**
+     * Inicializa los "botones" para salir y volver al menu
+     */
     private void initButtons() {
         exit = new JLabel();
         this.add(exit);
         this.initLabel(exit, exitX, exitY, exitW, exitH, "EXIT");
         exitColor = baseColor;
+        // Listener para registrar clicks del mouse
         exit.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -199,6 +234,7 @@ public class HighScore extends JPanel {
                 System.exit(0);
             }
         });
+        // Listener para iluminar el label cuando el mouse entra
         exit.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -206,6 +242,7 @@ public class HighScore extends JPanel {
                 repaint();
             }
         });
+        // Listener para oscurecer el label cuando el mouse sale
         exit.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseExited(MouseEvent e) {
@@ -217,6 +254,7 @@ public class HighScore extends JPanel {
         this.add(menu);
         this.initLabel(menu, menuX, menuY, menuW, menuH, "MENU");
         menuColor = baseColor;
+        // Listener para registrar clicks del mouse
         menu.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -224,6 +262,7 @@ public class HighScore extends JPanel {
                 new Main(true);
             }
         });
+        // Listener para iluminar el label cuando el mouse entra
         menu.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -231,6 +270,7 @@ public class HighScore extends JPanel {
                 repaint();
             }
         });
+        // Listener para oscurecer el label cuando el mouse sale
         menu.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseExited(MouseEvent e) {
@@ -238,10 +278,6 @@ public class HighScore extends JPanel {
                 repaint();
             }
         });
-    }
-
-    public boolean isEnded() {
-        return ended;
     }
 
     /** Inicializa un label asignandole la imagen correspondiente */
@@ -258,6 +294,7 @@ public class HighScore extends JPanel {
         }
     }
 
+    /** Coloca una letra en el label */
     private void mouseClick(JLabel label) {
         char auxLetter = label.getText().charAt(0);
         auxLetter++;
@@ -267,6 +304,7 @@ public class HighScore extends JPanel {
         setLetter(label, auxLetter + "", letterW * multiplier, letterH * multiplier);
     }
 
+    /** Coloca una letra en el label */
     private void mouseClickR(JLabel label) {
         char auxLetter = label.getText().charAt(0);
         auxLetter--;
@@ -284,6 +322,7 @@ public class HighScore extends JPanel {
         label.setIcon(new ImageIcon(scaledImage));
     }
 
+    /** Coloca una letra en el label y ajustarla al tamaño correspondiente */
     private void setLetter(JLabel label, String letter, int w, int h) {
         label.setText(letter);
         for (int i = 1;; i++) {
@@ -298,6 +337,7 @@ public class HighScore extends JPanel {
         label.setHorizontalAlignment(SwingConstants.CENTER);
     }
 
+    /** Regresa el nombre conformado por las 3 letras */
     public String getName() {
         return letter1.getText() + letter2.getText() + letter3.getText();
     }
@@ -330,6 +370,7 @@ public class HighScore extends JPanel {
         g.fillRect(x, y, width, height);
     }
 
+    /** pita los labels */
     private void paintLetter(Graphics g, JLabel label, Color color) {
         g.setColor(color);
         int x = label.getBounds().x;
@@ -337,6 +378,5 @@ public class HighScore extends JPanel {
         int width = label.getBounds().width;
         int height = label.getBounds().height;
         g.fillRect(x, y, width, height);
-
     }
 }

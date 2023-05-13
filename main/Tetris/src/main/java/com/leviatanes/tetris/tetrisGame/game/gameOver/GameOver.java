@@ -11,6 +11,22 @@ import com.leviatanes.tetris.SoundsPlayer;
 
 import com.leviatanes.tetris.tetrisGame.game.gameOver.scorePanel.*;
 
+/**
+ * [GAME OVER]
+ * Este panel se encarga de mostrar el menu final
+ * y controlar cual de los dos menus se muestra
+ * dependiendo de si el usuario consiguió un highscore o no
+ * La clase se apoya de un Score [String int] para gestionar los puntajes
+ * y esto los lee de un archivo de texto apoyandose de la clase ScoreReader
+ * 
+ * @autor Leonardo
+ * @autor Eriarer (Abraham)
+ * 
+ * @see NormalScore
+ * @see HighScore
+ * @see ScoreReader
+ * @see Score
+ */
 public class GameOver extends JPanel {
     // base resolution
     private static final int width = 90;
@@ -106,18 +122,27 @@ public class GameOver extends JPanel {
         scores = read.readScores();
     }
 
+    /**
+     * Empieza el proceso para termiar el juego
+     * llamando a los paneles correspondientes
+     * segun el puntaje obtenido
+     */
     public void endGame() {
         SoundsPlayer.fadeOutMain();
         boolean isHighScore = false;
-        if (scores.length < 10)
+        if (scores.length < 10) {// inicio iff
             isHighScore = true;
-        else
+        } else {
+            // busca si el puntaje es mayor a alguno de los 10
             for (int i = 0; i < scores.length; i++) {
                 if (actualScore > scores[i].getScore()) {
                     isHighScore = true;
                     break;
                 }
             }
+        }
+        // fin if
+        // si el score es 0 o no es highscore se pierde
         if (actualScore == 0 || isHighScore == false)
             loseGame();
         else
@@ -125,18 +150,30 @@ public class GameOver extends JPanel {
 
     }
 
+    /**
+     * Muestra el panel del fin del juego
+     * en caso de que el usuario haya perdido
+     * o no haya conseguido un highscore
+     */
     private void loseGame() {
         this.lblGameOver.setText("GAME OVER");
-        System.out.println("Score" + actualScore);
         NormalScore normalScore = new NormalScore(multiplier, actualScore, this.lines);
         this.scorePanel.add(normalScore, BorderLayout.CENTER);
         this.scorePanel.revalidate();
         this.scorePanel.repaint();
     }
 
+    /**
+     * Muestra el panel del fin del juego
+     * en caso de que el usuario haya conseguido
+     * un highscore y lo muestra en pantalla
+     * llama a la clase HighScore la cual
+     * terminara el juego llamando al metodo {@link #highScoreEnd()}
+     */
     private void highScore() {
-
         this.lblGameOver.setText("YOU ARE THE GOAT");
+        // busca descartar la idea de que es el mejor puntaje
+        // si no lo es se busca en que posicion quedo
         for (int i = scores.length - 1; i >= 0; i--) {
             if (actualScore <= scores[i].getScore()) {
                 this.lblGameOver.setText("YOU ARE THE NUMBER " + (i + 2) + "!");
@@ -144,22 +181,31 @@ public class GameOver extends JPanel {
                 break;
             }
         }
-        setLabelText(lblGameOver);
-        highScore = new HighScore(multiplier, actualScore);
-        this.scorePanel.add(highScore, BorderLayout.CENTER);
-        this.scorePanel.revalidate();
-        this.scorePanel.repaint();    
-    }
-
-    public static void highScoreEnd(){
-        Score score = new Score(highScore.getName(), actualScore);
-        read.replaceScore(score);
-        System.out.println("Score final" + score);
+        // reproduce un sonido
         if (isGoat)
             SoundsPlayer.playHighestScore();
         else
             SoundsPlayer.playHighScore();
+        setLabelText(lblGameOver);
+        highScore = new HighScore(multiplier, actualScore);
+        this.scorePanel.add(highScore, BorderLayout.CENTER);
+        this.scorePanel.revalidate();
+        this.scorePanel.repaint();
     }
+
+    /**
+     * Termina completamente el juego
+     * metodo exclusivamente llamado por la clase {@link HighScore}
+     * remplace el puntaje en el archivo txt consiguiento
+     * el nombre ingresado por el usuario
+     * el puntaje conseguido
+     */
+    public static void highScoreEnd() {
+        Score score = new Score(highScore.getName(), actualScore);
+        read.replaceScore(score);
+    }
+
+    /** pone un texto en el label ajustando su tamaño */
     private void setLabelText(JLabel label) {
         int w = label.getWidth();
         int h = label.getHeight();

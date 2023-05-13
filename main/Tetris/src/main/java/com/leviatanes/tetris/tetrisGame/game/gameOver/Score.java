@@ -1,5 +1,12 @@
 package com.leviatanes.tetris.tetrisGame.game.gameOver;
 
+/**
+ * [STRUCT SCORE]
+ * Lleva el nombre y el puntaje de un jugador
+ * 
+ * @author Leonardo
+ * @author Eriarer (Abraham)
+ */
 public class Score {
     private int score;
     private String name;

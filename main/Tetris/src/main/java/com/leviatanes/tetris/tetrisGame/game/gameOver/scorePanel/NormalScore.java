@@ -14,6 +14,18 @@ import javax.swing.SwingConstants;
 import com.leviatanes.tetris.Main;
 import com.leviatanes.tetris.tetrisGame.game.sidePanels.scorePanels.ScoreLabel;
 
+/**
+ * [ SCORE ]
+ * Se encarga de mostrar un menú final el cual
+ * muestra el puntaje y lineas total que el
+ * usuario consiguió a lo largo de la ejecución
+ * 
+ * @author Leonardo
+ * @author Eriarer (Abraham)
+ * 
+ * @see GameOver
+ * @see ScoreLabel
+ */
 public class NormalScore extends JPanel {
     /** Label de score */
     private ScoreLabel scoreLabel;
@@ -66,10 +78,13 @@ public class NormalScore extends JPanel {
     private final static int menuW = 15;
     private final static int menuH = 8;
 
+    /** boton de salida */
     private JLabel exit;
     private Color exitColor;
+    /** boton de regresar al menu */
     private JLabel menu;
     private Color menuColor;
+    /** ruta de las imagenes */
     private final String folderPath = "/com/leviatanes/tetris/tetrisGame/game/sidePanels/images/";
 
     private Color baseColor = new Color(255, 255, 255, 200);
@@ -79,28 +94,30 @@ public class NormalScore extends JPanel {
         this.setLayout(null);
         this.multiplier = multiplier;
         this.setBounds(0, 0, scorePanelW * multiplier, scorePanelH * multiplier);
-        System.out.println("Bounds " + this.getBounds());
         this.score = score2;
         this.lines = lines2;
         initPanels();
-        this.setOpaque(false);
-        revalidate();
-        repaint();
-        this.setVisible(true);
     }
 
+    /** constructor extraido para mas "legibilidad" */
     private void initPanels() {
         initScrose();
         initLinesCleared();
         initButtons();
+        setOpaque(false);
+        revalidate();
+        repaint();
+        setVisible(true);
     }
 
+    /** Inicializa el panel de score */
     private void initScrose() {
         scoreLabel = new ScoreLabel(stxtX, stxtY, stxtW, stxtH, scX, scY, scW, scH, scXpad, score, multiplier,
                 0, 0, 70, 50, true);
         this.add(scoreLabel);
     }
 
+    /** Inicializa el panel de lineas */
     private void initLinesCleared() {
         linesTextLbl = new JLabel();
         this.add(linesTextLbl);
@@ -122,7 +139,6 @@ public class NormalScore extends JPanel {
                 linesClearedLbl = new JLabel();
                 initLabel(linesClearedLbl, reallinesClearedX, linesClearedY, linesClearedW, linesClearedH,
                         linesStr.charAt(i - 1) + ".png");
-                linesClearedLbl.setBackground(Color.WHITE);
                 // conseguir el linesClearedLbl con el nombre de linesClearedStr
                 java.lang.reflect.Field field = this.getClass().getDeclaredField(linesClearedStr);
                 field.setAccessible(true);
@@ -137,17 +153,20 @@ public class NormalScore extends JPanel {
         this.add(linesLbl3);
     }
 
+    /** Inicializa los "botones" */
     private void initButtons() {
         exit = new JLabel();
         this.add(exit);
         this.initLabel(exit, exitX, exitY, exitW, exitH, "EXIT");
         exitColor = baseColor;
+        // registrar el click del mouse
         exit.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.exit(0);
             }
         });
+        // iluminar el boton cuando el mouse esta encima
         exit.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -155,6 +174,7 @@ public class NormalScore extends JPanel {
                 repaint();
             }
         });
+        // volver a la normalidad cuando el mouse sale
         exit.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseExited(MouseEvent e) {
@@ -166,6 +186,7 @@ public class NormalScore extends JPanel {
         this.add(menu);
         this.initLabel(menu, menuX, menuY, menuW, menuH, "MENU");
         menuColor = baseColor;
+        // registrar el click del mouse
         menu.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -173,6 +194,7 @@ public class NormalScore extends JPanel {
                 new Main(true);
             }
         });
+        // iluminar el boton cuando el mouse esta encima
         menu.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -180,6 +202,7 @@ public class NormalScore extends JPanel {
                 repaint();
             }
         });
+        // volver a la normalidad cuando el mouse sale
         menu.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseExited(MouseEvent e) {
@@ -202,6 +225,7 @@ public class NormalScore extends JPanel {
 
         } else {
             label.setText(imagePath);
+            // se le asigna la fuente mas grande posible para que quepa en el label
             for (int i = 1;; i++) {
                 label.setFont(new java.awt.Font("Impact", 0, i));
                 int fontW = label.getFontMetrics(label.getFont()).stringWidth(label.getText());
@@ -212,7 +236,7 @@ public class NormalScore extends JPanel {
                     break;
                 }
 
-            }
+            } // fin for
         }
     }
 
