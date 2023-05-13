@@ -212,16 +212,12 @@ public class GameThread extends Thread {
     /**
      * Genera un bloque nuevo
      * y verifica que no sea game over
+     * si se pudo spawnear el bloque devuelve false
      */
     private boolean spawn() {
         if (gameArea.getBlock() == null) {
-            gameArea.spawnBlock();
-            while (gameArea.getSpawnedFlag())
-                ;
-            if (gameArea.isGameOver()) {
+            if (!gameArea.spawnBlock())
                 return true;
-            }
-            gameArea.repaint();
         }
         return false;
     }
