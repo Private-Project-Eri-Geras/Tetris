@@ -33,6 +33,8 @@ public class GameArea extends JPanel {
     // ===========[ BANDERAS DE SECCIONES CRITICAS ]================//
     /** Bandera de rotacion */
     private boolean rotateFlag = false;
+    /** Bandera de spawneo */
+    private boolean spawnFlag = false;
 
     /**
      * matriz del color de fondo
@@ -124,6 +126,11 @@ public class GameArea extends JPanel {
                 this.background[2][i][j] = borderColor;
             }
         }
+    }
+
+    /** retorna el spawned Flag */
+    public boolean getSpawnedFlag() {
+        return this.spawnFlag;
     }
 
     /** @return boolean isHardDroped? */
