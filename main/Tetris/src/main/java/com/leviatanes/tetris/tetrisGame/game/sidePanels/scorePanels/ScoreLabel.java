@@ -243,7 +243,7 @@ public class ScoreLabel extends JPanel {
     private void updateLbl4(String scoreValue) {
         String imageName;
         imageName = scoreValue.charAt(0) + ".png";
-        setIcon(scoreLbl1, folderPath + imageName, scoreW, scoreH);
+        setIcon(scoreLbl2, folderPath + imageName, scoreW, scoreH);
 
         System.out.println(scoreValue);
         updateLbl3(scoreValue.substring(1, scoreValue.length()));
@@ -253,7 +253,7 @@ public class ScoreLabel extends JPanel {
     private void updateLbl5(String scoreValue) {
         String imageName;
         imageName = scoreValue.charAt(0) + ".png";
-        setIcon(scoreLbl5, folderPath + imageName, scoreW, scoreH);
+        setIcon(scoreLbl1, folderPath + imageName, scoreW, scoreH);
 
         System.out.println(scoreValue);
         updateLbl4(scoreValue.substring(1, scoreValue.length()));
