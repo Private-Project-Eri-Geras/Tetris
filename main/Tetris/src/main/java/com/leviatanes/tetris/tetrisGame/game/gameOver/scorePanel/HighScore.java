@@ -47,7 +47,7 @@ public class HighScore extends JPanel {
     private final static int letterW = 14;
     private final static int letterH = 20;
     private final static int lXoffset = 18;
-    
+
     private int multiplier;
 
     // offset para este panel
@@ -74,8 +74,6 @@ public class HighScore extends JPanel {
     private final static int capY = 33;
     private final static int capW = 50;
     private final static int capH = 8;
-    
-
 
     private JLabel exit;
     private Color exitColor;
@@ -105,15 +103,14 @@ public class HighScore extends JPanel {
                 0, 0, 70, 50, true);
         this.add(scoreLabel);
 
-
         letter1 = new JLabel();
-        letter1Color = new Color(110, 110, 110, 255);
-        //añadir mause  click listener
+        letter1Color = new Color(48, 48, 48, 255);
+        // añadir mause click listener
         letter1.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                if(evt.getButton() == MouseEvent.BUTTON1){
+                if (evt.getButton() == MouseEvent.BUTTON1) {
                     mouseClick(letter1);
-                }else if(evt.getButton() == MouseEvent.BUTTON3){
+                } else if (evt.getButton() == MouseEvent.BUTTON3) {
                     mouseClickR(letter1);
                 }
             }
@@ -133,14 +130,13 @@ public class HighScore extends JPanel {
         initLabel(letter1, letterX, letterY, letterW, letterH, "A");
         this.add(letter1);
 
-
         letter2 = new JLabel();
-        letter2Color = new Color(110, 110, 110, 255);
+        letter2Color = new Color(48, 48, 48, 255);
         letter2.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                if(evt.getButton() == MouseEvent.BUTTON1){
+                if (evt.getButton() == MouseEvent.BUTTON1) {
                     mouseClick(letter2);
-                }else if(evt.getButton() == MouseEvent.BUTTON3){
+                } else if (evt.getButton() == MouseEvent.BUTTON3) {
                     mouseClickR(letter2);
                 }
             }
@@ -160,14 +156,13 @@ public class HighScore extends JPanel {
         initLabel(letter2, letterX + lXoffset, letterY, letterW, letterH, "A");
         this.add(letter2);
 
-
         letter3 = new JLabel();
-        letter3Color = new Color(110, 110, 110, 255);
+        letter3Color = new Color(48, 48, 48, 255);
         letter3.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                if(evt.getButton() == MouseEvent.BUTTON1){
+                if (evt.getButton() == MouseEvent.BUTTON1) {
                     mouseClick(letter3);
-                }else if(evt.getButton() == MouseEvent.BUTTON3){
+                } else if (evt.getButton() == MouseEvent.BUTTON3) {
                     mouseClickR(letter3);
                 }
             }
@@ -248,7 +243,7 @@ public class HighScore extends JPanel {
     public boolean isEnded() {
         return ended;
     }
-    
+
     /** Inicializa un label asignandole la imagen correspondiente */
     private void initLabel(JLabel label, int x, int y, int w, int h, String imagePath) {
         x = x * multiplier;
@@ -263,24 +258,24 @@ public class HighScore extends JPanel {
         }
     }
 
-    private void mouseClick(JLabel label){
+    private void mouseClick(JLabel label) {
         char auxLetter = label.getText().charAt(0);
         auxLetter++;
-        if(auxLetter > 'Z'){
+        if (auxLetter > 'Z') {
             auxLetter = 'A';
         }
-        setLetter(label, auxLetter+"", letterW*multiplier, letterH*multiplier);
+        setLetter(label, auxLetter + "", letterW * multiplier, letterH * multiplier);
     }
 
-    private void mouseClickR(JLabel label){
+    private void mouseClickR(JLabel label) {
         char auxLetter = label.getText().charAt(0);
         auxLetter--;
-        if(auxLetter < 'A'){
+        if (auxLetter < 'A') {
             auxLetter = 'Z';
         }
-        setLetter(label, auxLetter+"", letterW*multiplier, letterH*multiplier);
+        setLetter(label, auxLetter + "", letterW * multiplier, letterH * multiplier);
     }
-    
+
     /** Obtiene un icono y lo escala para colocarlo */
     private void getIcon(JLabel label, String imagePath, int width, int height) {
         ImageIcon image = new ImageIcon(getClass().getResource(imagePath));
@@ -289,18 +284,18 @@ public class HighScore extends JPanel {
         label.setIcon(new ImageIcon(scaledImage));
     }
 
-    private void setLetter(JLabel label, String letter, int w, int h){
+    private void setLetter(JLabel label, String letter, int w, int h) {
         label.setText(letter);
-            for (int i = 1;; i++) {
-                label.setFont(new java.awt.Font("Impact", 1, i));
-                int fontW = label.getFontMetrics(label.getFont()).stringWidth(label.getText());
-                int fontH = label.getFontMetrics(label.getFont()).getHeight();
-                if (fontW > w || fontH > h) {
-                    label.setFont(new java.awt.Font("Impact", 1, i - 1));
-                    break;
-                }
+        for (int i = 1;; i++) {
+            label.setFont(new java.awt.Font("Impact", 1, i));
+            int fontW = label.getFontMetrics(label.getFont()).stringWidth(label.getText());
+            int fontH = label.getFontMetrics(label.getFont()).getHeight();
+            if (fontW > w || fontH > h) {
+                label.setFont(new java.awt.Font("Impact", 1, i - 1));
+                break;
             }
-            label.setHorizontalAlignment(SwingConstants.CENTER);
+        }
+        label.setHorizontalAlignment(SwingConstants.CENTER);
     }
 
     public String getName() {
@@ -327,10 +322,10 @@ public class HighScore extends JPanel {
         g.setColor(menuColor);
         g.fillRect(x, y, width, height);
 
-        x = capX  * multiplier;
-        y = capY  * multiplier;
-        width = capW  * multiplier;
-        height = capH  * multiplier;
+        x = capX * multiplier;
+        y = capY * multiplier;
+        width = capW * multiplier;
+        height = capH * multiplier;
         g.setColor(new Color(255, 255, 255, 200));
         g.fillRect(x, y, width, height);
     }
@@ -342,6 +337,6 @@ public class HighScore extends JPanel {
         int width = label.getBounds().width;
         int height = label.getBounds().height;
         g.fillRect(x, y, width, height);
-        
+
     }
 }
