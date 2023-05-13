@@ -66,14 +66,14 @@ public class NormalScore extends JPanel {
     private final static int menuW = 15;
     private final static int menuH = 8;
 
-    JLabel exit;
-    Color exitColor;
-    JLabel menu;
-    Color menuColor;
+    private JLabel exit;
+    private Color exitColor;
+    private JLabel menu;
+    private Color menuColor;
     private final String folderPath = "/com/leviatanes/tetris/tetrisGame/game/sidePanels/images/";
 
-    Color baseColor = new Color(255, 255, 255, 200);
-    Color hoverColor = new Color(255, 255, 255, 255);
+    private Color baseColor = new Color(255, 255, 255, 200);
+    private Color hoverColor = new Color(255, 255, 255, 255);
 
     public NormalScore(int multiplier, int score2, int lines2) {
         this.setLayout(null);
