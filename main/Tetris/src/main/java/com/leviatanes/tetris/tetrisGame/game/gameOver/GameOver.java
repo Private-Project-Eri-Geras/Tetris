@@ -30,34 +30,38 @@ public class GameOver extends JPanel {
 
     /** etiqueta de juego perdido */
     private JLabel lblGameOver;
+    /** highscore */
+    private static HighScore highScore = null;
     /** panel de puntos */
     private JPanel scorePanel;
     /** puntos actuales */
-    private int score;
+    private static int actualScore = 0;
+    /** goat */
+    private static boolean isGoat = true;
     /** lineas actuales */
     private int lines;
     /** vector de scres del txt */
     private Score scores[];
     /** objeto de lectura del score */
-    private ScoreReader read;
+    private static ScoreReader read;
 
     public GameOver(int multiplier) {
         this.multiplier = multiplier;
-        this.read = new ScoreReader();
+        read = new ScoreReader();
         this.initComponents();
 
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setActualScore(int score1) {
+        actualScore = score1;
     }
 
     public void setLines(int lines) {
         this.lines = lines;
     }
 
-    public void setPuntuation(int score, int lines) {
-        this.score = score;
+    public void setPuntuation(int score1, int lines) {
+        actualScore = score1;
         this.lines = lines;
     }
 
@@ -74,7 +78,7 @@ public class GameOver extends JPanel {
         int y = gameOverY * multiplier;
         int w = gameOverW * multiplier;
         int h = gameOverH * multiplier;
-        this.lblGameOver = new JLabel("GAME OVER");
+        this.lblGameOver = new JLabel();
         this.lblGameOver.setBounds(x, y, w, h);
         this.lblGameOver.setForeground(Color.WHITE);
         this.lblGameOver.setHorizontalAlignment(JLabel.CENTER);
@@ -109,12 +113,12 @@ public class GameOver extends JPanel {
             isHighScore = true;
         else
             for (int i = 0; i < scores.length; i++) {
-                if (this.score > scores[i].getScore()) {
+                if (actualScore > scores[i].getScore()) {
                     isHighScore = true;
                     break;
                 }
             }
-        if (this.score == 0 || isHighScore == false)
+        if (actualScore == 0 || isHighScore == false)
             loseGame();
         else
             highScore();
@@ -123,37 +127,39 @@ public class GameOver extends JPanel {
 
     private void loseGame() {
         this.lblGameOver.setText("GAME OVER");
-        System.out.println("Score" + this.score);
-        NormalScore normalScore = new NormalScore(multiplier, this.score, this.lines);
+        System.out.println("Score" + actualScore);
+        NormalScore normalScore = new NormalScore(multiplier, actualScore, this.lines);
         this.scorePanel.add(normalScore, BorderLayout.CENTER);
         this.scorePanel.revalidate();
         this.scorePanel.repaint();
     }
 
     private void highScore() {
+
         this.lblGameOver.setText("YOU ARE THE GOAT");
-        boolean isGoat = true;
         for (int i = scores.length - 1; i >= 0; i--) {
-            if (score <= scores[i].getScore()) {
+            if (actualScore <= scores[i].getScore()) {
                 this.lblGameOver.setText("YOU ARE THE NUMBER " + (i + 2) + "!");
                 isGoat = false;
                 break;
             }
         }
         setLabelText(lblGameOver);
-        Score score = new Score("bbb", this.score);
-        System.out.println("Score" + this.score);
-        this.read.replaceScore(score);
-        HighScore highScore = new HighScore(multiplier, this.score);
+        highScore = new HighScore(multiplier, actualScore);
         this.scorePanel.add(highScore, BorderLayout.CENTER);
         this.scorePanel.revalidate();
-        this.scorePanel.repaint();
+        this.scorePanel.repaint();    
+    }
+
+    public static void highScoreEnd(){
+        Score score = new Score(highScore.getName(), actualScore);
+        read.replaceScore(score);
+        System.out.println("Score final" + score);
         if (isGoat)
             SoundsPlayer.playHighestScore();
         else
             SoundsPlayer.playHighScore();
     }
-
     private void setLabelText(JLabel label) {
         int w = label.getWidth();
         int h = label.getHeight();
