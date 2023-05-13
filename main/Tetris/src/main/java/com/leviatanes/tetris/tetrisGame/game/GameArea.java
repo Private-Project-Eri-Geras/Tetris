@@ -160,6 +160,8 @@ public class GameArea extends JPanel {
                 this.background[2][i][j] = borderColor;
             }
         }
+        Random random = new Random();
+        this.nextBlock = blocks[random.nextInt(blocks.length)];
     }
 
     /** retorna el spawned Flag */
@@ -227,25 +229,30 @@ public class GameArea extends JPanel {
     // new Sshape(),
     // new Tshape(), new Zshape() };
 
-    /** Spawnea un bloque aleatorio entre I, J, L, O, S, T, Z */
-    public void spawnBlock() {
+    /**
+     * Spawnea un bloque aleatorio entre I, J, L, O, S, T, Z
+     * 
+     * @return ture si se puede spawnear
+     */
+    public boolean spawnBlock() {
         this.blockDropped = false;
         this.spawnFlag = true;
         Random random = new Random();
-        if (this.nextBlock == null) {
-            this.block = blocks[random.nextInt(blocks.length)];
-            this.nextBlock = blocks[random.nextInt(blocks.length)];
-        } else {
-            this.block = nextBlock;
-            this.nextBlock = blocks[random.nextInt(blocks.length)];
-        }
+        this.block = nextBlock;
         block.spawn(this.colums);
+
+        if (isGameOver())
+            return false;
+
+        this.nextBlock = blocks[random.nextInt(blocks.length)];
         nextShape.setNextShape(this.nextBlock);
         holdShape.setHoldAllowed(true);
         this.hardDropFlag = false;
         setGhostBlock();
-        repaint();
         this.spawnFlag = false;
+
+        repaint();
+        return true;
     }
 
     /**
