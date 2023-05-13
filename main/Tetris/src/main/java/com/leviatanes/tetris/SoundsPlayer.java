@@ -17,7 +17,6 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
 import java.io.BufferedInputStream;
-import com.leviatanes.tetris.soundPlayer.myAudioClip;
 
 /**
  * Clase que se encarga de reproducir los sonidos del juego.
@@ -29,11 +28,9 @@ import com.leviatanes.tetris.soundPlayer.myAudioClip;
  */
 public class SoundsPlayer {
 
-    private static int clipIdCounter = 0;
+    private static Map<String, Clip> clips = new HashMap<>();
 
-    private static Map<String, myAudioClip> clips = new HashMap<>();
-
-    private static List<myAudioClip> playingClips = new ArrayList<>();
+    private static List<Clip> playingClips = new ArrayList<>();
 
     private static ExecutorService executor = Executors.newSingleThreadExecutor();
 
@@ -79,12 +76,8 @@ public class SoundsPlayer {
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
 
-            // Crear el objeto AudioClip
-            int id = clipIdCounter++;
-            myAudioClip audioClip = new myAudioClip(clip, id);
-
             // Agregar el objeto AudioClip al mapa de clips
-            clips.put(sound, audioClip);
+            clips.put(sound, clip);
 
         } catch (Exception e) {
             throw new RuntimeException("No se pudo cargar el archivo de sonido: " + sound, e);
@@ -160,7 +153,7 @@ public class SoundsPlayer {
     }
 
     private static void playSound(String clipName) {
-        myAudioClip audioClip = clips.get(clipName);
+        Clip audioClip = clips.get(clipName);
         if (audioClip == null) {
             return;
         }
