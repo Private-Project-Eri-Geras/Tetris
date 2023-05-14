@@ -5,6 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import com.leviatanes.tetris.SoundsPlayer;
 
 public class SettingsMenu extends JFrame {
     // Background
@@ -101,7 +105,49 @@ public class SettingsMenu extends JFrame {
         backButton = initButton(panelBack, "BACK", 21, 0, 36, 6);
 
         // Listeners
+        resolutionComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = resolutionComboBox.getSelectedIndex();
+                // ===============PENDIENTE DE IMPLEMENTAR================ //
+                setSize(resolution[index][0], resolution[index][1]);
+                setLocationRelativeTo(null);
+            }
+        });
 
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // ===============PENDIENTE DE IMPLEMENTAR================ //
+            }
+        });
+
+        controlsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // ===============PENDIENTE DE IMPLEMENTAR================ //
+            }
+        });
+
+        musicVolumeSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                if (!musicVolumeSlider.getValueIsAdjusting()) {
+                    float value = (float) musicVolumeSlider.getValue() / 100;
+                    SoundsPlayer.setMusicVol(value);
+                }
+            }
+        });
+
+        soundEffectsVolumeSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                if (!soundEffectsVolumeSlider.getValueIsAdjusting()) {
+                    float value = (float) soundEffectsVolumeSlider.getValue() / 100;
+                    SoundsPlayer.setSfxVol(value);
+                }
+            }
+        });
     }
 
     private JPanel initPanel(int x, int y, int width, int height) {
