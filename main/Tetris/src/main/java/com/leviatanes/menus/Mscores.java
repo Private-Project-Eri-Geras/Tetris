@@ -1,11 +1,13 @@
 package com.leviatanes.menus;
 
 import java.util.List;//Para poder usar clases genericas
+import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import com.leviatanes.tetris.Main;
 import com.leviatanes.tetris.tetrisGame.game.gameOver.*;
@@ -14,32 +16,49 @@ public class Mscores extends JPanel {
     private Main main;
     private JLabel titulo;
     private JLabel tituloCol;// titulo de las columnas
+    private String cadena;
     private Score[] scores;
     private List<JLabel> filas = new ArrayList<>();// filas de los scores
     private JLabel mensaje;// mensaje de que no hay scores
     private JLabel btnbBack;// Botón para regresar al menú principal
+    private JLabel btnReset;// Botón para resetear los scores
+    private JPanel fondoPanel;
+    private escalaImag escal= new escalaImag();
 
-    // Offset btnBack
-
-    private final int btnBackWidht = 10;
-    private final int btnBackHeight = 10;
     // Offset para el titulo
     private final int tituloXoffset = 33;
-    private final int tituloYoffset = 5;
+    private final int tituloYoffset = 3;
     private final int tituloWidht = 24;
     private final int tituloHeight = 8;
 
+    //Offset para el fondoPanel
+    private final int fondoXoffset = 15;
+    private final int fondoYoffset = 13;
+    private final int fondoWidht = 60;
+    private final int fondoHeight = 52;
+
     // Offset para el titulo de las columnas
     private final int tituloColXoffset = 15;
-    private final int tituloColYoffset = 18;
+    private final int tituloColYoffset = 13;
     private final int tituloColWidht = 60;
-    private final int tituloColHeight = 6;
+    private final int tituloColHeight = 5;
 
     // Offset para las filas
     private final int filaXoffset = 15;
-    private int filaYoffset = 27;// Se va sumando 5
+    private final int filaYoffset = 20;// Se va sumando 5 para cada fila
     private final int filaWidht = 60;
-    private final int filaHeight = 5;
+    private final int filaHeight = 4;
+
+    // Offset btnBack
+    private final int btnBackXoffset = 28;
+    private final int btnBackYoffset = 66;
+   private final int btnBackWidht = 11;
+   private final int btnBackHeight = 10;
+   //Offset btnReset
+   private final int btnResetXoffset = 50;
+   //private final int btnResetYoffset = 65;
+   //private final int btnResetWidht = 9;
+   //private final int btnResetHeight = 8;
 
     public Mscores(int width, int height, int multiplier, Main main) {
         this.main = main;
@@ -47,14 +66,17 @@ public class Mscores extends JPanel {
         initPanel(width, height, multiplier);
     }
 
-    public void setFilas() {
+    public void setFilas() {//llena las columnas de rank, name y score
         scores = new ScoreReader().getScores();
-        filas.clear();// limpia el contenido de las filas de scores
         try {
             if (scores.length != 0) {
                 for (int i = 0; i < scores.length; i++) {
                     // Añadiendo filas según el número de scores registrados
-                    filas.add(new JLabel(" " + scores[i].getName() + "\t" + scores[i].getScore()));
+                  cadena=String.format("%2s %5s %5s",Integer.toString(i+1),scores[i].getName(),Integer.toString(scores[i].getScore()));
+                    //obtener el mayor tamaño de fuente que quepa en la columna
+                    JLabel label= new JLabel (cadena);
+                    label.setHorizontalAlignment(SwingConstants.CENTER);
+                    filas.add(label);
                 }
             }
         } catch (Exception e) {
@@ -67,12 +89,13 @@ public class Mscores extends JPanel {
     public void initPanel(int width, int height, int multiplier) {
         this.setLayout(null);
         this.setBounds(0, 0, width, height);
-        setBackground(new java.awt.Color(142, 76, 236));
-
+        setBackground(new Color(45, 85, 194));
         int x, y, w, h;
 
         // Agregando los componentes
+            // Titulo //
         titulo = new JLabel("SCORES");
+        titulo.setForeground(Color.ORANGE);
         x = tituloXoffset * multiplier;
         y = tituloYoffset * multiplier;
         w = tituloWidht * multiplier;
@@ -80,50 +103,88 @@ public class Mscores extends JPanel {
         titulo.setBounds(x, y, w, h);
         this.adjustFontSize(titulo, "Impact", w, h);
         this.add(titulo);
-        btnbBack = new JLabel();
-        btnbBack.setText("Back");
 
-        w = btnBackWidht * multiplier;
-        h = btnBackHeight * multiplier;
-        btnbBack.setBounds(0, 0, w, h);
-        this.adjustFontSize(btnbBack, "Impact", w, h);
-        btnbBack.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                main.MenuInicio();
-            }
+        //Agregandole un fondo
+        fondoPanel = new JPanel();
+        x = fondoXoffset * multiplier;
+        y = fondoYoffset * multiplier;
+        w = fondoWidht * multiplier;
+        h = fondoHeight * multiplier;
+        fondoPanel.setBounds(x, y, w, h);
+        fondoPanel.setBackground(new Color(0, 143, 150));
 
-        });
-
-        this.adjustFontSize(btnbBack, "Impact", w, h);
-        this.add(btnbBack);
-        tituloCol = new JLabel("Rank\tName\tScore ");
+            //Filas de los scores//
         x = tituloColXoffset * multiplier;
         y = tituloColYoffset * multiplier;
         w = tituloColWidht * multiplier;
         h = tituloColHeight * multiplier;
-        tituloCol.setBounds(x, y, w, h);
-        // SetBounds de las filas
-        x = filaXoffset * multiplier;
-        y = filaYoffset * multiplier;
-        w = filaWidht * multiplier;
-        h = filaHeight * multiplier;
 
         if (scores == null) {// Imprime un mensaje si no hay scores
-            mensaje = new JLabel("Empty Scores");
+            mensaje = new JLabel("\t Empty Scores");
             mensaje.setBounds(x, y, w, h);
             this.adjustFontSize(mensaje, "Impact", w, h);
-            this.add(mensaje);
-        } else {
+            fondoPanel.add(mensaje);
+        } else {//Si hay Scores registrados
+            cadena= String.format("%s %7s %11s","Rank"," Name","Score");
+            tituloCol = new JLabel(cadena);
+            tituloCol.setForeground(Color.white);
+            tituloCol.setHorizontalAlignment(SwingConstants.CENTER);
+            tituloCol.setBounds(x, y, w, h);
+            this.adjustFontSize(tituloCol, "Impact", w, h);
+            fondoPanel.add(tituloCol);
+
+            x = filaXoffset * multiplier;
+            y = filaYoffset * multiplier;
+            w = filaWidht * multiplier;
+            h = filaHeight * multiplier;
             for (int i = 0; i < scores.length; i++) {
                 // Añadiendo filas según el número de scores registrados
                 filas.get(i).setBounds(x, y, w, h);
-                this.adjustFontSize(filas.get(i), "Impact", w, h);
-                this.add(filas.get(i));
-                y += 5;
+                filas.get(i).setForeground(Color.white);
+                filas.get(i).setOpaque(true);
+                if(i%2==0){
+                    filas.get(i).setBackground (new Color(20, 20, 20));
+                }
+                else{
+                    filas.get(i).setBackground (new Color(40, 40, 40));
+                }
+                this.adjustFontSize(filas.get(i), "Lucida Console", w, h);
+                fondoPanel.add(filas.get(i));
+                y += 5 * multiplier;
             }
         }
 
+        this.add(fondoPanel);//agrega el fondo
+            //Boton Back to Menu//
+            btnbBack = new JLabel();
+            x= btnBackXoffset * multiplier;
+            y = btnBackYoffset * multiplier;
+            w = btnBackWidht * multiplier;
+            h = btnBackHeight * multiplier;
+            btnbBack.setBounds(x, y, w, h);
+            escal.escalarLabel(btnbBack, "/com/leviatanes/images/FondoT.png", multiplier);
+            btnbBack.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    main.MenuInicio();
+                }
+    
+            });
+            this.add(btnbBack);
+                //Boton Reset//
+            btnReset = new JLabel();
+            x= btnResetXoffset * multiplier;
+            btnReset.setBounds(x, y, w, h);
+            escal.escalarLabel(btnReset, "/com/leviatanes/images/FondoT.png", multiplier);
+            btnReset.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                   
+                }
+    
+            });
+            this.add(btnReset);
+            
         this.revalidate();
         this.repaint();
         this.setVisible(true);
