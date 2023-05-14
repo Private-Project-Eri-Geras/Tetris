@@ -187,6 +187,18 @@ public class ScoreReader {
     public Score[] getScores() {
         if (scores == null) {
             scores = readScores();
+            if(scores != null){
+                String[][] scoresString = new String[scores.length][2]; 
+                for (int i = 0; i < scores.length; i++) {
+                    scoresString[i][0] = scores[i].getName();
+                    scoresString[i][1] = Integer.toString(scores[i].getScore()); 
+                }
+                scoresString = sort(scoresString);
+                scores = new Score[scoresString.length];
+                for (int i = 0; i < scores.length; i++) {
+                    scores[i] = new Score(scoresString[i][0], Integer.parseInt(scoresString[i][1]));
+                }
+            }
         }
         return scores;
     }
