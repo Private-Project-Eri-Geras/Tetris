@@ -3,6 +3,8 @@ package com.leviatanes.menus;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -12,188 +14,162 @@ import com.leviatanes.tetris.Main;
 import com.leviatanes.tetris.SoundsPlayer;
 
 public class SettingsMenu extends JPanel {
-    // Main
     private Main main;
-
-    // Background
-
-    // Title
     private JLabel titleLabel;
-
-    // Resolution
-    private JLabel resolutionLabel;
-    private JComboBox<String> resolutionComboBox;
-
-    // Music volume
+    private JLabel resLabel;
+    private JComboBox<String> resComboBox;
     private JLabel musicVolumeLabel;
     private JSlider musicVolumeSlider;
-
-    // Sound effects volume
     private JLabel soundEffectsVolumeLabel;
     private JSlider soundEffectsVolumeSlider;
-
-    // Controls button
     private JButton controlsButton;
-
-    // Back to main menu
     private JButton backButton;
-
-    // Panels
-    private JPanel mainPanel;
-
-    private JPanel panelResolution;
-    private JPanel panelMusic;
-    private JPanel panelSoundEffects;
-    private JPanel panelControls;
-    private JPanel panelBack;
 
     private int multiplier;
 
-    private void initComponents(int[][] resolution, int multiplier) {
-        // Multiplier
+    public SettingsMenu(int whidth, int height, int[][] resolution, int multiplier, Main main) {
+        this.setLayout(null);
+        this.setBounds(0, 0, whidth, height);
+        this.main = main;
         this.multiplier = multiplier;
+        initComponents(resolution);
+        this.revalidate();
+        this.repaint();
+        this.setVisible(true);
 
-        // Window
-        setSize(90 * multiplier, 80 * multiplier);
+    }
 
-        // ========[PANELES]========//
-        // MainPanel
-        mainPanel = new JPanel();
-        mainPanel.setLayout(null);
-        add(mainPanel);
+    public void initComponents(int[][] resolution) {
+        // ============ [TITLE LABEL] ============ //
+        titleLabel = new JLabel("SETTINGS");
+        titleLabel.setBounds(0, 6 * multiplier, 90 * multiplier, 10 * multiplier);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 5 * multiplier));
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        this.add(titleLabel);
 
-        // PanelResolution
-        panelResolution = initPanel(6, 18, 78, 6);
+        // ============ [RESOLUTION] ============ //
+        resLabel = new JLabel("RESOLUTION:");
+        resLabel.setBounds(6 * multiplier, 18 * multiplier, 36 * multiplier, 6 * multiplier);
+        resLabel.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
+        resLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        this.add(resLabel);
 
-        // PanelMusic
-        panelMusic = initPanel(6, 32, 78, 6);
-
-        // PanelSoundEffects
-        panelSoundEffects = initPanel(6, 42, 78, 6);
-
-        // PanelControls
-        panelControls = initPanel(6, 54, 78, 6);
-
-        // PanelBack
-        panelBack = initPanel(6, 66, 78, 6);
-
-        // ========[COMPONENTES]========//
-        // Title
-        titleLabel = initLabel(mainPanel, "Settings", 6, 6, 78, 6, 5, true);
-
-        // Resolution
-        resolutionLabel = initLabel(panelResolution, "Resolution:", 0, 0, 36, 6, 3, false);
-        resolutionComboBox = initComboBox(panelResolution, 42, 0, 36, 6);
+        resComboBox = new JComboBox<String>();
+        resComboBox.setBounds(42 * multiplier, 18 * multiplier, 36 * multiplier, 6 * multiplier);
+        resComboBox.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
+        this.add(resComboBox);
 
         for (int i = 0; i < resolution.length; i++) {
-            resolutionComboBox.addItem(resolution[i][0] + "x" + resolution[i][1]);
+            resComboBox.addItem(resolution[i][0] + "x" + resolution[i][1]);
         }
-        resolutionComboBox.setSelectedIndex(7);
 
-        // Music volume
-        musicVolumeLabel = initLabel(panelMusic, "Music volume:", 0, 0, 36, 6, 3, false);
-        musicVolumeSlider = initSlider(panelMusic, 42, 0, 36, 6);
+        // ============ [MUSIC VOLUME] ============ //
+        musicVolumeLabel = new JLabel("MUSIC VOLUME:");
+        musicVolumeLabel.setBounds(6 * multiplier, 32 * multiplier, 36 * multiplier, 6 * multiplier);
+        musicVolumeLabel.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
+        musicVolumeLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        this.add(musicVolumeLabel);
 
-        // Sound effects volume
-        soundEffectsVolumeLabel = initLabel(panelSoundEffects, "Sound effects volume:", 0, 0, 36, 6, 3, false);
-        soundEffectsVolumeSlider = initSlider(panelSoundEffects, 42, 0, 36, 6);
-
-        // Controls button
-        controlsButton = initButton(panelControls, "CONTROLS", 21, 0, 36, 6);
-
-        // Back to main menu
-        backButton = initButton(panelBack, "BACK", 21, 0, 36, 6);
-
-        // Listeners
-        resolutionComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int index = resolutionComboBox.getSelectedIndex();
-                // ===============PENDIENTE DE IMPLEMENTAR================ //
-                setSize(resolution[index][0], resolution[index][1]);
-            }
-        });
-
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // ===============PENDIENTE DE IMPLEMENTAR================ //
-            }
-        });
-
-        controlsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // ===============PENDIENTE DE IMPLEMENTAR================ //
-            }
-        });
+        musicVolumeSlider = new JSlider();
+        musicVolumeSlider.setBounds(42 * multiplier, 32 * multiplier, 36 * multiplier, 6 * multiplier);
+        musicVolumeSlider.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
+        musicVolumeSlider.setMaximum(100);
+        musicVolumeSlider.setMinimum(0);
+        musicVolumeSlider.setValue(100); // ============= [ PENDIENTE ] ============= //
 
         musicVolumeSlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                if (!musicVolumeSlider.getValueIsAdjusting()) {
-                    float value = (float) musicVolumeSlider.getValue() / 100;
-                    SoundsPlayer.setMusicVol(value);
-                }
+                if (!musicVolumeSlider.getValueIsAdjusting())
+                    SoundsPlayer.setMusicVol(musicVolumeSlider.getValue());
             }
         });
+
+        this.add(musicVolumeSlider);
+
+        // ============ [SOUND EFFECTS VOLUME] ============ //
+        soundEffectsVolumeLabel = new JLabel("SFX VOLUME:");
+        soundEffectsVolumeLabel.setBounds(6 * multiplier, 42 * multiplier, 36 * multiplier, 6 * multiplier);
+        soundEffectsVolumeLabel.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
+        soundEffectsVolumeLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        this.add(soundEffectsVolumeLabel);
+
+        soundEffectsVolumeSlider = new JSlider();
+        soundEffectsVolumeSlider.setBounds(42 * multiplier, 42 * multiplier, 36 * multiplier, 6 * multiplier);
+        soundEffectsVolumeSlider.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
+        soundEffectsVolumeSlider.setMaximum(100);
+        soundEffectsVolumeSlider.setMinimum(0);
+        soundEffectsVolumeSlider.setValue(100); // ============= [ PENDIENTE ] ============= //
 
         soundEffectsVolumeSlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                if (!soundEffectsVolumeSlider.getValueIsAdjusting()) {
-                    float value = (float) soundEffectsVolumeSlider.getValue() / 100;
-                    SoundsPlayer.setSfxVol(value);
-                }
+                if (!soundEffectsVolumeSlider.getValueIsAdjusting())
+                    SoundsPlayer.setSfxVol(soundEffectsVolumeSlider.getValue());
             }
         });
-    }
 
-    private JPanel initPanel(int x, int y, int width, int height) {
-        JPanel panel = new JPanel();
-        panel.setBounds(x * multiplier, y * multiplier, width * multiplier, height * multiplier);
-        panel.setLayout(null);
-        mainPanel.add(panel);
-        return panel;
-    }
+        this.add(soundEffectsVolumeSlider);
 
-    private JLabel initLabel(JPanel panel, String text, int x, int y, int w, int h, int fontSize, boolean isCenter) {
-        JLabel label = new JLabel(text);
-        label.setBounds(x * multiplier, y * multiplier, w * multiplier, h * multiplier);
-        label.setFont(new Font("Arial", Font.BOLD, fontSize * multiplier));
-        if (isCenter)
-            label.setHorizontalAlignment(SwingConstants.CENTER);
-        panel.add(label);
-        return label;
-    }
+        // ============ [CONTROLS BUTTON] ============ //
+        controlsButton = new JButton("CONTROLS");
+        controlsButton.setBounds(27 * multiplier, 52 * multiplier, 36 * multiplier, 6 * multiplier);
+        controlsButton.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
+        controlsButton.setHorizontalAlignment(SwingConstants.CENTER);
 
-    private <T> JComboBox<T> initComboBox(JPanel panel, int x, int y, int w, int h) {
-        JComboBox<T> comboBox = new JComboBox<>();
-        comboBox.setBounds(x * multiplier, y * multiplier, w * multiplier, h * multiplier);
-        comboBox.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
-        panel.add(comboBox);
-        return comboBox;
-    }
+        controlsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // ============= [ PENDIENTE ] ============= //
+            }
+        });
 
-    private JSlider initSlider(JPanel panel, int x, int y, int w, int h) {
-        JSlider slider = new JSlider();
-        slider.setBounds(x * multiplier, y * multiplier, w * multiplier, h * multiplier);
-        slider.setMinimum(0);
-        slider.setMaximum(100);
-        panel.add(slider);
-        return slider;
-    }
+        controlsButton.setForeground(Color.BLACK);
+        controlsButton.setBackground(new Color(200, 200, 200));
 
-    private JButton initButton(JPanel panle, String text, int x, int y, int w, int h) {
-        JButton button = new JButton(text);
-        button.setBounds(x * multiplier, y * multiplier, w * multiplier, h * multiplier);
-        button.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
-        panle.add(button);
-        return button;
-    }
+        controlsButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                controlsButton.setBackground(Color.WHITE);
+            }
 
-    public SettingsMenu(int[][] resolution, int multiplier, Main main) {
-        this.main = main;
-        initComponents(resolution, multiplier);
+            @Override
+            public void mouseExited(MouseEvent e) {
+                controlsButton.setBackground(new Color(200, 200, 200));
+            }
+        });
+
+        this.add(controlsButton);
+
+        // ============ [BACK BUTTON] ============ //
+        backButton = new JButton("BACK");
+        backButton.setBounds(27 * multiplier, 64 * multiplier, 36 * multiplier, 6 * multiplier);
+        backButton.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
+        backButton.setHorizontalAlignment(SwingConstants.CENTER);
+
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                main.MenuInicio();
+            }
+        });
+
+        backButton.setForeground(Color.BLACK);
+        backButton.setBackground(new Color(200, 200, 200));
+
+        backButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                backButton.setBackground(Color.WHITE);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                backButton.setBackground(new Color(200, 200, 200));
+            }
+        });
+
+        this.add(backButton);
+
     }
 }

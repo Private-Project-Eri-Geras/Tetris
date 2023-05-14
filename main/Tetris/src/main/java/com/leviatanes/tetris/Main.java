@@ -202,7 +202,7 @@ public class Main extends javax.swing.JFrame {
             this.remove(settingsMenu);
             settingsMenu = null;
         }
-        settingsMenu = new SettingsMenu(resolution, multiplier, this);
+        settingsMenu = new SettingsMenu(width, height, resolution, multiplier, this);
         this.add(settingsMenu);
         this.revalidate();
         this.repaint();
