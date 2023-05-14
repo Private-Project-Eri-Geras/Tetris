@@ -208,10 +208,6 @@ public class SoundsPlayer {
         volume = Math.max(0, Math.min(1, volume));
         // se hace la conversion
         sfxVol = sfxControl.getMinimum() + (sfxControl.getMaximum() - sfxControl.getMinimum()) * volume;
-        for (Clip clip : clips.values()) {
-            FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            control.setValue(sfxVol);
-        }
         // se reproduce un sonido para probar el volumen
         playOk();
     }
@@ -230,6 +226,8 @@ public class SoundsPlayer {
                     String path = soundPath + clipName;
                     Clip clip = AudioSystem.getClip();
                     clip.open(AudioSystem.getAudioInputStream(SoundsPlayer.class.getResourceAsStream(path)));
+                    FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                    control.setValue(sfxVol);
                     clip.start();
 
                     // add clip to list of playing clips
