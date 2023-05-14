@@ -104,36 +104,70 @@ public class Minicio extends javax.swing.JPanel {//El panel de inicio
         this.adjustFontSize(playBtn, playBtn.getFont().getFontName(), w, h);
         this.add(playBtn);
         // =====================[SCORE]=======================
+        scoreBtn = new JLabel();
+        scoreBtn.setBackground(new java.awt.Color(38, 185, 193));
+        scoreBtn.setOpaque(true);
+        scoreBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                /* ======================= [PENDIENTE] ======================= */
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                scoreBtnMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                scoreBtnMouseExited(evt);
+            }
+        });
         y= scorePHolderYoffset * multiplier;
-        scoreP.setBounds(x, y, w, h);
-        this.add(scoreP);
         scoreBtn.setBounds(0, 0, w, h);
+        setText(scoreBtn, "SCORE");
         this.adjustFontSize(scoreBtn, scoreBtn.getFont().getFontName(), w, h);
-        scoreP.add(scoreBtn);
-        scoreP.revalidate();
-        scoreP.repaint();
+        this.add(scoreBtn);
         scoreBtn.setVisible(true);
         System.out.println("\nSCORE: w:" + scoreP.getWidth() + ", h" + scoreP.getHeight() + ", x:" + scoreP.getX() + ", y:" + scoreP.getY());
         // =====================[CONFIG]=======================
+        configBtn = new JLabel();
+        configBtn.setBackground(new java.awt.Color(38, 185, 193));
+        configBtn.setOpaque(true);
+        configBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                /* ======================= [PENDIENTE] ======================= */
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                configBtnMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                configBtnMouseExited(evt);
+            }
+        });
         y= configPHolderYoffset * multiplier;
-        configP.setBounds(x,y, w, h);
-        this.add(configP);
         configBtn.setBounds(0, 0, w, h);
+        setText(configBtn, "CONFIG");
         this.adjustFontSize(configBtn, configBtn.getFont().getFontName(), w, h);
-        configP.add(configBtn);
-        configBtn.revalidate();
-        configBtn.repaint();
+        this.add(configBtn);
         configBtn.setVisible(true);
         System.out.println("\nCONFIG: w:" + configP.getWidth() + ", h" + configP.getHeight() + ", x:" + configP.getX() + ", y:" + configP.getY());
         // =====================[EXIT]=======================
+        exitBtn = new JLabel();
+        exitBtn.setBackground(new java.awt.Color(38, 185, 193));
+        exitBtn.setOpaque(true);
+        exitBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                System.exit(0);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                exitBtnMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                exitBtnMouseExited(evt);
+            }
+        });
+
         y= exitPHolderYoffset * multiplier;
-        exitP.setBounds(x, y, w, h);
-        this.add(exitP);
         exitBtn.setBounds(0, 0, w, h);
+        setText(exitBtn, "EXIT");
         this.adjustFontSize(exitBtn, exitBtn.getFont().getFontName(), w, h);
-        exitP.add(exitBtn);
-        exitP.revalidate();
-        exitP.repaint();
+        this.add(exitBtn);
         exitP.setVisible(true);
         System.out.println("\nEXIT: w:" + exitP.getWidth() + ", h" + exitP.getHeight() + ", x:" + exitP.getX() + ", y:" + exitP.getY());
         
