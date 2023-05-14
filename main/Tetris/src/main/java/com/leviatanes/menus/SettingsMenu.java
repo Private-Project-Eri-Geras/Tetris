@@ -192,21 +192,8 @@ public class SettingsMenu extends JPanel {
         return button;
     }
 
-    public SettingsMenu(int[][] resolution, int multiplier) {
-        initComponents(resolution, multiplier);
-    }
-
     public SettingsMenu(int[][] resolution, int multiplier, Main main) {
         this.main = main;
         initComponents(resolution, multiplier);
     }
-
-    public static void main(String[] args) {
-        int[][] resolution = { { 640, 480 }, { 800, 600 }, { 1024, 768 }, { 1280, 720 }, { 1280, 1024 }, { 1366, 768 },
-                { 1600, 900 }, { 1920, 1080 } };
-        int multiplier = 5;
-        SettingsMenu settingsMenu = new SettingsMenu(resolution, multiplier);
-        settingsMenu.setVisible(true);
-    }
-
 }
