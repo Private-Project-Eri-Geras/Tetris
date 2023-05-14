@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.leviatanes.tetris.Main;
 import com.leviatanes.tetris.SoundsPlayer;
 
 import com.leviatanes.tetris.tetrisGame.game.gameOver.scorePanel.*;
@@ -60,8 +61,10 @@ public class GameOver extends JPanel {
     private Score scores[];
     /** objeto de lectura del score */
     private static ScoreReader read;
+    private Main main;
 
-    public GameOver(int multiplier) {
+    public GameOver(int multiplier, Main main) {
+        this.main = main;
         this.multiplier = multiplier;
         read = new ScoreReader();
         this.initComponents();
@@ -157,7 +160,7 @@ public class GameOver extends JPanel {
      */
     private void loseGame() {
         this.lblGameOver.setText("GAME OVER");
-        NormalScore normalScore = new NormalScore(multiplier, actualScore, this.lines);
+        NormalScore normalScore = new NormalScore(multiplier, actualScore, this.lines,this.main);
         this.scorePanel.add(normalScore, BorderLayout.CENTER);
         this.scorePanel.revalidate();
         this.scorePanel.repaint();
@@ -187,7 +190,7 @@ public class GameOver extends JPanel {
         else
             SoundsPlayer.playHighScore();
         setLabelText(lblGameOver);
-        highScore = new HighScore(multiplier, actualScore);
+        highScore = new HighScore(multiplier, actualScore,main);
         this.scorePanel.add(highScore, BorderLayout.CENTER);
         this.scorePanel.revalidate();
         this.scorePanel.repaint();

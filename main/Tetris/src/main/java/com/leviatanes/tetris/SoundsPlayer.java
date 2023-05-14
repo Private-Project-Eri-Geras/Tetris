@@ -57,7 +57,7 @@ public class SoundsPlayer {
     /** control de ganancia para el sonido */
     private static FloatControl sfxControl = null;
     /** constante de la ruta de los audios */
-    private static final String soundPath = "/com/leviatanes/tetris/tetrisGame/game/music/";
+    private static final String soundPath = "/com/leviatanes/music/";
 
     static {
         loadClip("allClear.wav");
@@ -78,8 +78,8 @@ public class SoundsPlayer {
         loadClip("triple.wav");
         loadClip("Tspin.wav");
 
-        InputStream audioSrc = SoundsPlayer.class.getResourceAsStream(soundPath);
         try {
+            InputStream audioSrc = SoundsPlayer.class.getResourceAsStream(soundPath + "mainTheme.wav");
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioSrc);
 			// crea el clip de audio
 			mainMusic = AudioSystem.getClip();

@@ -60,7 +60,7 @@ public class Minicio extends javax.swing.JPanel {//El panel de inicio
         titulo.setBounds(x, y, w, h);
         System.out.println("\nTITULO: w:" + titulo.getWidth() + ", h" + titulo.getHeight() + ", x:" + titulo.getX() + ", y:" + titulo.getY());
         
-        escal.escalarLabel(titulo, "/com/leviatanes/imag/Tetris.png", multiplier);
+        escal.escalarLabel(titulo, "/com/leviatanes/images/Tetris.png", multiplier);
         this.add(titulo);
         // =====================[FONDOS]=======================
         fondo1 = new JLabel();
@@ -70,14 +70,14 @@ public class Minicio extends javax.swing.JPanel {//El panel de inicio
         h = fondoHolderHeight * multiplier;
         fondo1.setBounds(x, y, w, h);
         System.out.println("\nFONDO1: w:" + fondo1.getWidth() + ", h" + fondo1.getHeight() + ", x:" + fondo1.getX() + ", y:" + fondo1.getY());
-        escal.escalarLabel(fondo1, "/com/leviatanes/imag/FondoT.png", multiplier);
+        escal.escalarLabel(fondo1, "/com/leviatanes/images/FondoT.png", multiplier);
         this.add(fondo1);
         
         fondo2 = new JLabel();
         x = fondo2HolderXoffset * multiplier;
         fondo2.setBounds(x, y, w, h);
         System.out.println("\nFondo2: w: " + fondo2.getWidth() + ", h: " + fondo2.getHeight()+", x:" + fondo2.getX() + ", y:" + fondo2.getY());
-        escal.escalarLabel(fondo2, "/com/leviatanes/imag/FondoT.png", multiplier);
+        escal.escalarLabel(fondo2, "/com/leviatanes/images/FondoT.png", multiplier);
         this.add(fondo2);
         // =====================[BOTONES]=======================
         // =====================[PLAY]=======================
@@ -89,10 +89,10 @@ public class Minicio extends javax.swing.JPanel {//El panel de inicio
                 main.initGame();
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                playBtnMouseEntered(evt);
+                mouseEntry(playBtn);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                playBtnMouseExited(evt);
+                mouseExit(playBtn);
             }
         });
         x = btnPHolderXoffset * multiplier;
@@ -109,22 +109,22 @@ public class Minicio extends javax.swing.JPanel {//El panel de inicio
         scoreBtn.setOpaque(true);
         scoreBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                /* ======================= [PENDIENTE] ======================= */
+                main.menuScore();
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                scoreBtnMouseEntered(evt);
+                mouseEntry(scoreBtn);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                scoreBtnMouseExited(evt);
+                mouseExit(scoreBtn);
             }
         });
         y= scorePHolderYoffset * multiplier;
-        scoreBtn.setBounds(0, 0, w, h);
+        scoreBtn.setBounds(x, y, w, h);
         setText(scoreBtn, "SCORE");
         this.adjustFontSize(scoreBtn, scoreBtn.getFont().getFontName(), w, h);
         this.add(scoreBtn);
         scoreBtn.setVisible(true);
-        System.out.println("\nSCORE: w:" + scoreP.getWidth() + ", h" + scoreP.getHeight() + ", x:" + scoreP.getX() + ", y:" + scoreP.getY());
+        System.out.println("\nSCORE: w:" + w + ", h" + h + ", x:" + x + ", y:" + y);
         // =====================[CONFIG]=======================
         configBtn = new JLabel();
         configBtn.setBackground(new java.awt.Color(38, 185, 193));
@@ -134,14 +134,14 @@ public class Minicio extends javax.swing.JPanel {//El panel de inicio
                 /* ======================= [PENDIENTE] ======================= */
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                configBtnMouseEntered(evt);
+                mouseEntry(configBtn);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                configBtnMouseExited(evt);
+                mouseExit(configBtn);
             }
         });
         y= configPHolderYoffset * multiplier;
-        configBtn.setBounds(0, 0, w, h);
+        configBtn.setBounds(x, y, w, h);
         setText(configBtn, "CONFIG");
         this.adjustFontSize(configBtn, configBtn.getFont().getFontName(), w, h);
         this.add(configBtn);
@@ -156,15 +156,15 @@ public class Minicio extends javax.swing.JPanel {//El panel de inicio
                 System.exit(0);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                exitBtnMouseEntered(evt);
+                mouseEntry(exitBtn);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                exitBtnMouseExited(evt);
+                mouseExit(exitBtn);
             }
         });
 
         y= exitPHolderYoffset * multiplier;
-        exitBtn.setBounds(0, 0, w, h);
+        exitBtn.setBounds(x, y, w, h);
         setText(exitBtn, "EXIT");
         this.adjustFontSize(exitBtn, exitBtn.getFont().getFontName(), w, h);
         this.add(exitBtn);
@@ -239,14 +239,7 @@ public class Minicio extends javax.swing.JPanel {//El panel de inicio
         scoreBtn.setFont(new java.awt.Font("Impact", 0, 36)); // NOI18N
         scoreBtn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         scoreBtn.setText("SCORE");
-        scoreBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                scoreBtnMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                scoreBtnMouseExited(evt);
-            }
-        });
+        
 
         javax.swing.GroupLayout scorePLayout = new javax.swing.GroupLayout(scoreP);
         scoreP.setLayout(scorePLayout);
@@ -264,14 +257,7 @@ public class Minicio extends javax.swing.JPanel {//El panel de inicio
         configBtn.setFont(new java.awt.Font("Impact", 0, 36)); // NOI18N
         configBtn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         configBtn.setText("CONFIG");
-        configBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                configBtnMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                configBtnMouseExited(evt);
-            }
-        });
+        
 
         javax.swing.GroupLayout configPLayout = new javax.swing.GroupLayout(configP);
         configP.setLayout(configPLayout);
@@ -289,17 +275,7 @@ public class Minicio extends javax.swing.JPanel {//El panel de inicio
         exitBtn.setFont(new java.awt.Font("Impact", 0, 36)); // NOI18N
         exitBtn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         exitBtn.setText("EXIT");
-        exitBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                exitBtnMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                exitBtnMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                exitBtnMouseExited(evt);
-            }
-        });
+        
 
         javax.swing.GroupLayout exitPLayout = new javax.swing.GroupLayout(exitP);
         exitP.setLayout(exitPLayout);
@@ -380,7 +356,7 @@ public class Minicio extends javax.swing.JPanel {//El panel de inicio
         label.setBackground(new java.awt.Color(38, 185, 193));
     }
 
-
+/* 
     private void playBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playBtnMouseEntered
         //Camabio de color del botón
         playBtn.setBackground(new java.awt.Color(46, 83, 197));
@@ -431,6 +407,9 @@ public class Minicio extends javax.swing.JPanel {//El panel de inicio
             //De momento solo inicializa el juego
             
     }//GEN-LAST:event_playBtnMouseClicked
+
+*/
+
     /*private void printImage(JLabel label, String ruta){//Para ajusstar la imagen al JLabel
         ImageIcon imagen= new ImageIcon(ruta);
         ImageIcon icono= new ImageIcon(imagen.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT));

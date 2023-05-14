@@ -73,7 +73,7 @@ public class StatsPanel extends javax.swing.JPanel {
     private final static int linesW = 4;
     private final static int linesH = 4;
 
-    private final String folderPath = "/com/leviatanes/tetris/tetrisGame/game/sidePanels/images/";
+    private final String folderPath = "/com/leviatanes/images/";
 
     public StatsPanel(int multiplier) {
         this.setLayout(null);

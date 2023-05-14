@@ -1,5 +1,6 @@
 package com.leviatanes.tetris.tetrisGame;
 
+import com.leviatanes.tetris.Main;
 import com.leviatanes.tetris.tetrisGame.game.*;
 import com.leviatanes.tetris.tetrisGame.game.gameOver.GameOver;
 import com.leviatanes.tetris.tetrisGame.game.sidePanels.*;
@@ -60,7 +61,10 @@ public class TetrisPanel extends javax.swing.JPanel {
         private final int statsHolderWidth = 24;
         private final int statsHolderHeight = 56;
 
-        public TetrisPanel(int width, int height, int multiplier) {
+        private Main main;
+
+        public TetrisPanel(int width, int height, int multiplier, Main main) {
+                this.main = main;
                 this.initGameComponents(width, height, multiplier);
         }
 
@@ -70,7 +74,7 @@ public class TetrisPanel extends javax.swing.JPanel {
                 this.setBounds(0, 0, width, height);
                 this.setSize(width, height);
 
-                this.gameOver = new GameOver(multiplier);
+                this.gameOver = new GameOver(multiplier, this.main);
                 this.add(gameOver);
 
                 this.nextShape = new NextPanel(multiplier);

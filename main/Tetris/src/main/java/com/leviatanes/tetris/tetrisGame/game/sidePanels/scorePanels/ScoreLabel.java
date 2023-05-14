@@ -47,7 +47,7 @@ public class ScoreLabel extends JPanel {
     private int h;
     private int multiplier;
 
-    private final String folderPath = "/com/leviatanes/tetris/tetrisGame/game/sidePanels/images/";
+    private final String folderPath = "/com/leviatanes/images/";
 
     private int score;
     boolean drawBG;
