@@ -14,7 +14,12 @@ import com.leviatanes.menus.*;
  * ventana principal del juego
  * 
  * @author Leonardo
- * @author Eriarer 
+ * @author Eriarer (Abraham)
+ * @author Gerardo
+ * @author Mariana
+ * 
+ * @see TetrisPanel
+ * @see Minicio
  */
 public class Main extends javax.swing.JFrame {
     private TetrisPanel tetrisPanel;
@@ -110,6 +115,7 @@ public class Main extends javax.swing.JFrame {
         }
     }
 
+    /** Inicializa el juego y eliminqa el menu de inicio*/
     public void initGame() {
         this.remove(menuIni);
         // inicializar el juego
@@ -125,6 +131,28 @@ public class Main extends javax.swing.JFrame {
         menuIni = new Minicio(width, height, multiplier, this);
         this.add(menuIni);
         System.out.println("MenuInicio fin");
+    }
+
+    //Setters de higth, whidth y multiplier (variables que definen el tamaño de la ventana)
+    public void setHeight(int height) {
+        this.height = height;
+    }
+    public void setWidth(int width) {
+        this.width = width;
+    }
+    public void setMultiplier(int multiplier) {
+        this.multiplier = multiplier;
+    }
+
+    //Getters de  higth, whidth y multiplier
+    public int getHeight() {
+        return height;
+    }
+    public int getWidth() {
+        return width;
+    }
+    public int getMultiplier() {
+        return multiplier;
     }
 
     public static void main(String args[]) {
