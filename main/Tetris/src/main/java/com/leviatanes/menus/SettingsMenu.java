@@ -15,6 +15,9 @@ import com.leviatanes.tetris.SoundsPlayer;
 
 public class SettingsMenu extends JPanel {
     private Main main;
+
+    // ============ [COMPONENTS] ============ //
+    // {Main Menu}
     private JLabel titleLabel;
     private JLabel resLabel;
     private JComboBox<String> resComboBox;
@@ -24,14 +27,19 @@ public class SettingsMenu extends JPanel {
     private JSlider soundEffectsVolumeSlider;
     private JButton controlsButton;
     private JButton backButton;
+    // {Controls Menu}
+    private JLabel controlsTitleLabel;
+    private JButton controlsbackButton;
 
     private int multiplier;
+    private boolean isToggleMenus;
 
     public SettingsMenu(int whidth, int height, int[][] resolution, int multiplier, Main main) {
         this.setLayout(null);
         this.setBounds(0, 0, whidth, height);
         this.main = main;
         this.multiplier = multiplier;
+        this.isToggleMenus = false;
         initComponents(resolution);
         this.revalidate();
         this.repaint();
@@ -40,6 +48,11 @@ public class SettingsMenu extends JPanel {
     }
 
     public void initComponents(int[][] resolution) {
+        initSettings(resolution);
+        initControls();
+    }
+
+    private void initSettings(int[][] resolution) {
         // ============ [TITLE LABEL] ============ //
         titleLabel = new JLabel("SETTINGS");
         titleLabel.setBounds(0, 6 * multiplier, 90 * multiplier, 10 * multiplier);
@@ -80,8 +93,9 @@ public class SettingsMenu extends JPanel {
         musicVolumeSlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                if (!musicVolumeSlider.getValueIsAdjusting())
-                    SoundsPlayer.setMusicVol(musicVolumeSlider.getValue());
+                if (!musicVolumeSlider.getValueIsAdjusting()) {
+                    SoundsPlayer.setMusicVol(((float) musicVolumeSlider.getValue()) / 100f);
+                }
             }
         });
 
@@ -104,8 +118,9 @@ public class SettingsMenu extends JPanel {
         soundEffectsVolumeSlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                if (!soundEffectsVolumeSlider.getValueIsAdjusting())
-                    SoundsPlayer.setSfxVol(soundEffectsVolumeSlider.getValue());
+                if (!soundEffectsVolumeSlider.getValueIsAdjusting()) {
+                    SoundsPlayer.setSfxVol(((float) soundEffectsVolumeSlider.getValue()) / 100f);
+                }
             }
         });
 
@@ -120,7 +135,7 @@ public class SettingsMenu extends JPanel {
         controlsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // ============= [ PENDIENTE ] ============= //
+                toggleMenus();
             }
         });
 
@@ -170,6 +185,75 @@ public class SettingsMenu extends JPanel {
         });
 
         this.add(backButton);
+    }
 
+    private void initControls() {
+        // ============ [CONTROLS TITLE LABEL] ============ //
+        controlsTitleLabel = new JLabel("CONTROLS");
+        controlsTitleLabel.setBounds(0, 6 * multiplier, 90 * multiplier, 10 * multiplier);
+        controlsTitleLabel.setFont(new Font("Arial", Font.BOLD, 5 * multiplier));
+        controlsTitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        // ============ [CONTROLS BACK BUTTON] ============ //
+        controlsbackButton = new JButton("BACK TO SETTINGS");
+        controlsbackButton.setBounds(27 * multiplier, 64 * multiplier, 36 * multiplier, 6 * multiplier);
+        controlsbackButton.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
+        controlsbackButton.setHorizontalAlignment(SwingConstants.CENTER);
+
+        controlsbackButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                toggleMenus();
+            }
+        });
+
+        controlsbackButton.setForeground(Color.BLACK);
+        controlsbackButton.setBackground(new Color(200, 200, 200));
+
+        controlsbackButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                controlsbackButton.setBackground(Color.WHITE);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                controlsbackButton.setBackground(new Color(200, 200, 200));
+            }
+        });
+
+    }
+
+    private void toggleMenus() {
+        if (isToggleMenus) {
+            remove(controlsTitleLabel);
+            remove(controlsbackButton);
+
+            add(titleLabel);
+            add(resLabel);
+            add(resComboBox);
+            add(musicVolumeLabel);
+            add(musicVolumeSlider);
+            add(soundEffectsVolumeLabel);
+            add(soundEffectsVolumeSlider);
+            add(controlsButton);
+            add(backButton);
+        } else {
+            add(controlsTitleLabel);
+            add(controlsbackButton);
+
+            remove(titleLabel);
+            remove(resLabel);
+            remove(resComboBox);
+            remove(musicVolumeLabel);
+            remove(musicVolumeSlider);
+            remove(soundEffectsVolumeLabel);
+            remove(soundEffectsVolumeSlider);
+            remove(controlsButton);
+            remove(backButton);
+        }
+        isToggleMenus = !isToggleMenus;
+        revalidate();
+        repaint();
     }
 }
