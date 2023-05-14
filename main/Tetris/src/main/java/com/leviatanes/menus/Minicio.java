@@ -131,7 +131,7 @@ public class Minicio extends javax.swing.JPanel {//El panel de inicio
         configBtn.setOpaque(true);
         configBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                /* ======================= [PENDIENTE] ======================= */
+                main.settingsMenu();
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 mouseEntry(configBtn);
