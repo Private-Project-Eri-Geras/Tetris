@@ -146,8 +146,6 @@ public class Main extends javax.swing.JFrame {
             public void run() {
                 menuIni = new Minicio(width, height, multiplier, Main.this);
                 Main.this.add(menuIni);
-                Main.this.revalidate();
-                Main.this.repaint();
                 if(!SoundsPlayer.isMenuMusicPlaying()){
                     SoundsPlayer.stopMusic();
                     SoundsPlayer.playMenuMusic();
@@ -155,6 +153,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
         loadMenu.start();
+        //Remueve los demas paneles
         if (tetrisPanel != null) {
             this.removeKeyListener(tetrisPanel.getGameControls());
             this.remove(tetrisPanel);
@@ -164,13 +163,19 @@ public class Main extends javax.swing.JFrame {
             this.remove(menuScores);
             menuScores = null;
         }
-        if(loadMenu.isAlive()){
+        if(settingsMenu != null){
+            this.remove(settingsMenu);
+            settingsMenu = null;
+        }
+        if(loadMenu.isAlive()){//espera a que termine de cargar el menu
             try {
                 loadMenu.join();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        Main.this.revalidate();
+        Main.this.repaint();
     }
 
     public void menuScore() {
@@ -213,6 +218,7 @@ public class Main extends javax.swing.JFrame {
             this.remove(settingsMenu);
             settingsMenu = null;
         }
+        
         settingsMenu = new SettingsMenu(width, height, resolution, multiplier, this);
         this.add(settingsMenu);
         this.revalidate();
