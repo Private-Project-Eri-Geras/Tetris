@@ -7,10 +7,14 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import com.leviatanes.tetris.Main;
 
 import com.leviatanes.tetris.SoundsPlayer;
 
-public class SettingsMenu extends JFrame {
+public class SettingsMenu extends JPanel {
+    // Main
+    private Main main;
+
     // Background
 
     // Title
@@ -50,11 +54,7 @@ public class SettingsMenu extends JFrame {
         this.multiplier = multiplier;
 
         // Window
-        setUndecorated(true);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Settings");
         setSize(90 * multiplier, 80 * multiplier);
-        setLocationRelativeTo(null);
 
         // ========[PANELES]========//
         // MainPanel
@@ -111,7 +111,6 @@ public class SettingsMenu extends JFrame {
                 int index = resolutionComboBox.getSelectedIndex();
                 // ===============PENDIENTE DE IMPLEMENTAR================ //
                 setSize(resolution[index][0], resolution[index][1]);
-                setLocationRelativeTo(null);
             }
         });
 
@@ -194,6 +193,11 @@ public class SettingsMenu extends JFrame {
     }
 
     public SettingsMenu(int[][] resolution, int multiplier) {
+        initComponents(resolution, multiplier);
+    }
+
+    public SettingsMenu(int[][] resolution, int multiplier, Main main) {
+        this.main = main;
         initComponents(resolution, multiplier);
     }
 
