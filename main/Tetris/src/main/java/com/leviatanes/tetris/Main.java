@@ -25,6 +25,7 @@ public class Main extends javax.swing.JFrame {
     private TetrisPanel tetrisPanel;
     private Minicio menuIni;
     private Mscores menuScores;
+    private SettingsMenu settingsMenu;
 
     // Constants screen res
     final int BASE_WIDTH = 90;
@@ -42,7 +43,7 @@ public class Main extends javax.swing.JFrame {
     private int screenHeight = (int) screenSize.getHeight();
 
     // Create matrix with 28 different resolutions
-    private int[][] resolution;
+    public int[][] resolution;
 
     /**
      * Creates new form Test
@@ -125,6 +126,10 @@ public class Main extends javax.swing.JFrame {
             this.remove(menuScores);
             menuScores = null;
         }
+        if (settingsMenu != null) {
+            this.remove(settingsMenu);
+            settingsMenu = null;
+        }
         // inicializar el juego
         this.tetrisPanel = new TetrisPanel(width, height, multiplier, this);
         this.add(tetrisPanel);
@@ -179,8 +184,37 @@ public class Main extends javax.swing.JFrame {
             this.remove(menuIni);
             menuIni = null;
         }
+        if (menuScores != null) {
+            this.remove(menuScores);
+            menuScores = null;
+        }
         menuScores = new Mscores(width, height, multiplier, this);
         this.add(menuScores);
+        this.revalidate();
+        this.repaint();
+    }
+
+    public void settingsMenu() {
+        if (tetrisPanel != null) {
+            this.removeKeyListener(tetrisPanel.getGameControls());
+            this.remove(tetrisPanel);
+            tetrisPanel = null;
+        }
+        ;    
+        if (menuIni != null) {
+            this.remove(menuIni);
+            menuIni = null;
+        }
+        if (menuScores != null) {
+            this.remove(menuScores);
+            menuScores = null;
+        }
+        if (settingsMenu != null) {
+            this.remove(settingsMenu);
+            settingsMenu = null;
+        }
+        settingsMenu = new SettingsMenu(width, height, resolution, multiplier, this);
+        this.add(settingsMenu);
         this.revalidate();
         this.repaint();
     }

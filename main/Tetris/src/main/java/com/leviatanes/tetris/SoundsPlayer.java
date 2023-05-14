@@ -32,6 +32,7 @@ import java.io.BufferedInputStream;
 public class SoundsPlayer {
 
     private static Map<String, Clip> clips = new HashMap<>();
+    private static Map<String, FloatControl> sfxControls = new HashMap<>();
 
     private static List<Clip> playingClips = new ArrayList<>();
 
@@ -124,6 +125,7 @@ public class SoundsPlayer {
             sfx.setFramePosition(0);
             // Agregar el objeto AudioClip al mapa de clips
             clips.put(sound, sfx);
+            sfxControls.put(sound, sfxControl);
 
         } catch (Exception e) {
             throw new RuntimeException("No se pudo cargar el archivo de sonido: " + sound, e);
@@ -204,10 +206,18 @@ public class SoundsPlayer {
      * @pparam vloment 0f - 1f
      */
     public static void setSfxVol(float volume) {
-        // se asegura que este dentro de los valores deseados
         volume = Math.max(0, Math.min(1, volume));
+        // float minGain = mainControl.getMinimum();
+        // float maxGain = mainControl.getMaximum();
+        // float range = maxGain - minGain;
+        // float mainGain = minGain + range * musicVol;
+
+        for (Clip clip : clips.values()) {
+            FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            control.setValue(volume);
+        }
+
         // se hace la conversion
-        sfxVol = sfxControl.getMinimum() + (sfxControl.getMaximum() - sfxControl.getMinimum()) * volume;
         // se reproduce un sonido para probar el volumen
         playOk();
     }
@@ -259,12 +269,11 @@ public class SoundsPlayer {
     public static void playGameMusic() {
         gain = 0;
         mainMusic.setFramePosition(0);
+        setMusicVol(1f);
         try {
             // configura el loop del clip de audio
             mainMusic.setLoopPoints(0, -1); // -1 indica que se repita indefinidamente
             mainMusic.loop(Clip.LOOP_CONTINUOUSLY);
-            FloatControl gainControl = (FloatControl) mainMusic.getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(gain);
             // inicia la reproducción del clip de audio
             mainMusic.start();
 
@@ -311,9 +320,15 @@ public class SoundsPlayer {
      * 
      * @param gain
      */
-    public static void setMusicVol(float gain) {
-        musicVol = Math.max(0, Math.min(1, gain));
-        musicVol = mainControl.getMinimum() + (mainControl.getMaximum() - mainControl.getMinimum()) * musicVol;
+    public static void setMusicVol(float vol) {
+        // Aplicar función logarítmica inversa a vol
+        float adjustedVol = (float) Math.log10(3 + 9 * vol);
+
+        float minGain = mainControl.getMinimum();
+        float maxGain = mainControl.getMaximum();
+        float range = maxGain - minGain;
+        float gain = (musicVol - minGain) / range;
+        musicVol = Math.max(0, Math.min(1, gain * adjustedVol));
         setMusicGain();
     }
 
@@ -321,12 +336,20 @@ public class SoundsPlayer {
      * set de la ganancia de la musica
      */
     public static void setMusicGain() {
+        float minGain = mainControl.getMinimum();
+        float maxGain = mainControl.getMaximum();
+        float range = maxGain - minGain;
+        float mainGain = minGain + range * musicVol;
         if (mainControl != null) {
-            // asegurarse de que la ganancia no sea menor que 0 o mayor que 1
-            mainControl.setValue(musicVol);
+            mainControl.setValue(mainGain);
         }
+
+        minGain = menuControl.getMinimum();
+        maxGain = menuControl.getMaximum();
+        range = maxGain - minGain;
+        float menuGain = minGain + range * musicVol;
         if (menuControl != null) {
-            menuControl.setValue(musicVol);
+            menuControl.setValue(menuGain);
         }
     }
 
