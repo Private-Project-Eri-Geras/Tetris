@@ -136,6 +136,20 @@ public class Main extends javax.swing.JFrame {
 
     public void MenuInicio() {
         // Se inicializa el menu de inicio
+        Thread loadMenu = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                menuIni = new Minicio(width, height, multiplier, Main.this);
+                Main.this.add(menuIni);
+                Main.this.revalidate();
+                Main.this.repaint();
+                if(!SoundsPlayer.isMenuMusicPlaying()){
+                    SoundsPlayer.stopMusic();
+                    SoundsPlayer.playMenuMusic();
+                }
+            }
+        });
+        loadMenu.start();
         if (tetrisPanel != null) {
             this.removeKeyListener(tetrisPanel.getGameControls());
             this.remove(tetrisPanel);
@@ -145,12 +159,13 @@ public class Main extends javax.swing.JFrame {
             this.remove(menuScores);
             menuScores = null;
         }
-        menuIni = new Minicio(width, height, multiplier, this);
-        SoundsPlayer.stopMusic();
-        this.add(menuIni);
-        this.revalidate();
-        this.repaint();
-        SoundsPlayer.playMenuMusic();
+        if(loadMenu.isAlive()){
+            try {
+                loadMenu.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void menuScore() {
