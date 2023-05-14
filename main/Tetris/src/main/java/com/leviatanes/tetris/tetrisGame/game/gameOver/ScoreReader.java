@@ -185,6 +185,9 @@ public class ScoreReader {
 
     // gett de scores
     public Score[] getScores() {
+        if (scores == null) {
+            scores = readScores();
+        }
         return scores;
     }
 }
