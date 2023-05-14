@@ -269,12 +269,11 @@ public class SoundsPlayer {
     public static void playGameMusic() {
         gain = 0;
         mainMusic.setFramePosition(0);
+        setMusicVol(1f);
         try {
             // configura el loop del clip de audio
             mainMusic.setLoopPoints(0, -1); // -1 indica que se repita indefinidamente
             mainMusic.loop(Clip.LOOP_CONTINUOUSLY);
-            FloatControl gainControl = (FloatControl) mainMusic.getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(gain);
             // inicia la reproducción del clip de audio
             mainMusic.start();
 
@@ -315,7 +314,7 @@ public class SoundsPlayer {
      */
     public static void setMusicVol(float vol) {
         // Aplicar función logarítmica inversa a vol
-        float adjustedVol = (float) Math.log10(1 + 9 * vol);
+        float adjustedVol = (float) Math.log10(3 + 9 * vol);
 
         float minGain = mainControl.getMinimum();
         float maxGain = mainControl.getMaximum();
