@@ -8,7 +8,6 @@ import javax.swing.*;
 
 public class SettingsMenu extends JFrame {
     // Background
-    // TODO: Add background
 
     // Title
     private JLabel titleLabel;
@@ -76,7 +75,7 @@ public class SettingsMenu extends JFrame {
 
         // ========[COMPONENTES]========//
         // Title
-        titleLabel = initLabel(mainPanel, "Settings" ,6, 6, 78, 6, 5, true);
+        titleLabel = initLabel(mainPanel, "Settings", 6, 6, 78, 6, 5, true);
 
         // Resolution
         resolutionLabel = initLabel(panelResolution, "Resolution:", 0, 0, 36, 6, 3, false);
@@ -89,7 +88,7 @@ public class SettingsMenu extends JFrame {
 
         // Music volume
         musicVolumeLabel = initLabel(panelMusic, "Music volume:", 0, 0, 36, 6, 3, false);
-        musicVolumeSlider = initSlider(panelMusic, 42, 0, 36, 6 );
+        musicVolumeSlider = initSlider(panelMusic, 42, 0, 36, 6);
 
         // Sound effects volume
         soundEffectsVolumeLabel = initLabel(panelSoundEffects, "Sound effects volume:", 0, 0, 36, 6, 3, false);
@@ -117,7 +116,8 @@ public class SettingsMenu extends JFrame {
         JLabel label = new JLabel(text);
         label.setBounds(x * multiplier, y * multiplier, w * multiplier, h * multiplier);
         label.setFont(new Font("Arial", Font.BOLD, fontSize * multiplier));
-        if(isCenter) label.setHorizontalAlignment(SwingConstants.CENTER);
+        if (isCenter)
+            label.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(label);
         return label;
     }

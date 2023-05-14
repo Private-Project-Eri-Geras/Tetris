@@ -131,6 +131,7 @@ public class Main extends javax.swing.JFrame {
         this.addKeyListener(tetrisPanel.getGameControls());
         this.revalidate();
         this.repaint();
+        SoundsPlayer.stopMusic();
     }
 
     public void MenuInicio() {
@@ -145,9 +146,11 @@ public class Main extends javax.swing.JFrame {
             menuScores = null;
         }
         menuIni = new Minicio(width, height, multiplier, this);
+        SoundsPlayer.stopMusic();
         this.add(menuIni);
         this.revalidate();
         this.repaint();
+        SoundsPlayer.playMenuMusic();
     }
 
     public void menuScore() {

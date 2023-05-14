@@ -260,35 +260,41 @@ public class SoundsPlayer {
 
     public static void playGameMusic() {
         gain = 0;
-        Clip clip = mainMusic;
-        clip.stop();
-        FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        control.setValue(musicVol);
-        clip.setFramePosition(0);
+        mainMusic.setFramePosition(0);
         try {
             // configura el loop del clip de audio
-            clip.setLoopPoints(0, -1); // -1 indica que se repita indefinidamente
-            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            mainMusic.setLoopPoints(0, -1); // -1 indica que se repita indefinidamente
+            mainMusic.loop(Clip.LOOP_CONTINUOUSLY);
+            FloatControl gainControl = (FloatControl) mainMusic.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(gain);
             // inicia la reproducción del clip de audio
-            clip.start();
+            mainMusic.start();
+
         } catch (Exception e) {
             System.out.println("Error al reproducir el archivo de audio: " + e.getMessage());
         }
     }
 
     public static void playMenuMusic() {
-        mainMusic.stop();
-        menuMusic.stop();
+        gain = 0;
         menuMusic.setFramePosition(0);
         try {
             // configura el loop del clip de audio
             menuMusic.setLoopPoints(0, -1); // -1 indica que se repita indefinidamente
             menuMusic.loop(Clip.LOOP_CONTINUOUSLY);
+            FloatControl gainControl = (FloatControl) menuMusic.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(gain);
             // inicia la reproducción del clip de audio
             menuMusic.start();
+
         } catch (Exception e) {
             System.out.println("Error al reproducir el archivo de audio: " + e.getMessage());
         }
+    }
+
+    public static void stopMusic() {
+        mainMusic.stop();
+        menuMusic.stop();
     }
 
     /**
