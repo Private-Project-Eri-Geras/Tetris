@@ -67,7 +67,7 @@ public class HighScore extends JPanel {
     private final static int scorePanelW = 70;
     private final static int scorePanelH = 50;
 
-    private final String folderPath = "/com/leviatanes/tetris/tetrisGame/game/sidePanels/images/";
+    private final String folderPath = "/com/leviatanes/images/";
 
     // boton de EXIT
     private final static int exitX = 15;
@@ -94,8 +94,10 @@ public class HighScore extends JPanel {
     private Color menuColor;
     private Color baseColor = new Color(255, 255, 255, 100);
     private Color hoverColor = new Color(255, 255, 255, 255);
+    private Main main;
 
-    public HighScore(int multiplier, int score) {
+    public HighScore(int multiplier, int score,Main main) {
+        this.main=main;
         this.setLayout(null);
         this.multiplier = multiplier;
         this.setBounds(0, 0, scorePanelW * multiplier, scorePanelH * multiplier);
@@ -259,8 +261,7 @@ public class HighScore extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 GameOver.highScoreEnd();
-                // ========================== MENU ===========================//
-                System.exit(0);
+                main.MenuInicio();
             }
         });
         // Listener para iluminar el label cuando el mouse entra

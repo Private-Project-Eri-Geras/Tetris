@@ -24,6 +24,7 @@ import com.leviatanes.menus.*;
 public class Main extends javax.swing.JFrame {
     private TetrisPanel tetrisPanel;
     private Minicio menuIni;
+    private Mscores menuScores;
 
     // Constants screen res
     final int BASE_WIDTH = 90;
@@ -117,20 +118,54 @@ public class Main extends javax.swing.JFrame {
 
     /** Inicializa el juego y eliminqa el menu de inicio*/
     public void initGame() {
-        this.remove(menuIni);
+        if(menuIni != null){
+            this.remove(menuIni);
+            menuIni = null;
+        }
+        if(menuScores != null){
+            this.remove(menuScores);
+            menuScores = null;
+        }
         // inicializar el juego
-        this.tetrisPanel = new TetrisPanel(width, height, multiplier);
+        this.tetrisPanel = new TetrisPanel(width, height, multiplier,this);
         this.add(tetrisPanel);
+
         this.addKeyListener(tetrisPanel.getGameControls());
         this.revalidate();
         this.repaint();
     }
 
-    private void MenuInicio(){
+    public void MenuInicio(){
         //Se inicializa el menu de inicio
+        if(tetrisPanel != null){
+            this.removeKeyListener(tetrisPanel.getGameControls());
+            this.remove(tetrisPanel);
+            tetrisPanel = null;
+        }
+        if(menuScores != null){
+            this.remove(menuScores);
+            menuScores = null;
+        }
         menuIni = new Minicio(width, height, multiplier, this);
         this.add(menuIni);
-        System.out.println("MenuInicio fin");
+        this.revalidate();
+        this.repaint();
+    }
+
+    public void menuScore(){
+        if(tetrisPanel != null){
+            this.removeKeyListener(tetrisPanel.getGameControls());
+            this.remove(tetrisPanel);
+            tetrisPanel = null;
+        };
+        if(menuIni != null){
+            this.remove(menuIni);
+            menuIni = null;    
+        }
+        menuScores= new Mscores(width, height, multiplier, this);
+        this.add(menuScores);
+        this.revalidate();
+        this.repaint();
     }
 
     //Setters de higth, whidth y multiplier (variables que definen el tamaño de la ventana)

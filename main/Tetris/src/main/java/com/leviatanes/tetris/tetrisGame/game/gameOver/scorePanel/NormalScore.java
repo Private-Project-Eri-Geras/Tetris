@@ -85,12 +85,16 @@ public class NormalScore extends JPanel {
     private JLabel menu;
     private Color menuColor;
     /** ruta de las imagenes */
-    private final String folderPath = "/com/leviatanes/tetris/tetrisGame/game/sidePanels/images/";
+    private final String folderPath = "/com/leviatanes/images/";
 
     private Color baseColor = new Color(255, 255, 255, 200);
     private Color hoverColor = new Color(255, 255, 255, 255);
 
-    public NormalScore(int multiplier, int score2, int lines2) {
+    private Main main;
+
+
+    public NormalScore(int multiplier, int score2, int lines2, Main main) {
+        this.main = main;
         this.setLayout(null);
         this.multiplier = multiplier;
         this.setBounds(0, 0, scorePanelW * multiplier, scorePanelH * multiplier);
@@ -190,8 +194,7 @@ public class NormalScore extends JPanel {
         menu.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // ========================== MENU ===========================//
-                System.exit(0);
+                main.MenuInicio();
             }
         });
         // iluminar el boton cuando el mouse esta encima

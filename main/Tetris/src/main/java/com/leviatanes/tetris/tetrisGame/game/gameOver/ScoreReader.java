@@ -22,63 +22,68 @@ public class ScoreReader {
     private Score[] scores;
 
     public ScoreReader() {
-        String fileName = "main/Tetris/src/main/java/com/leviatanes/tetris/tetrisGame/game/gameOver/highScores.txt";
-        String currentDir = System.getProperty("user.dir");
-        String filePath = currentDir + File.separator + fileName;
-        File file = new File(filePath);
+        String fileName = "/com/leviatanes/tetris/tetrisGame/game/gameOver/highScores.txt";
+        File file = new File(ScoreReader.class.getResource(fileName).getFile());
         try {
             file.createNewFile();
         } catch (IOException e) {
             System.out.println("Error al crear el archivo: " + e.getMessage());
         }
-
-        try {
-            Scanner in = new Scanner(file);
-            FileWriter writer = new FileWriter(file, true);
-            in.close();
-            writer.close();
-        } catch (IOException e) {
-            System.out.println("Error al abrir el archivo writer");
-        }
-
     }
 
+    /**
+    * Lee los puntajes almacenados en el archivo de puntajes y los devuelve como un array de objetos Score.
+    * @return Un array de objetos Score con los puntajes leídos del archivo, o null si no se encontraron puntajes.
+    */
     public Score[] readScores() {
-        String fileName = "main/Tetris/src/main/java/com/leviatanes/tetris/tetrisGame/game/gameOver/highScores.txt";
-        String currentDir = System.getProperty("user.dir");
-        for (int i = 0; i < currentDir.length(); i++) {
-            if (currentDir.charAt(i) == 92) {
-                currentDir = currentDir.substring(0, i) + "/" + currentDir.substring(i + 1);
-            }
-        }
-        String filePath = currentDir + "/" + fileName;
-        File file = new File(filePath);
+        // Se especifica la ruta del archivo de puntajes.
+        String fileName = "/com/leviatanes/tetris/tetrisGame/game/gameOver/highScores.txt";
+        // Se crea un objeto File para el archivo de puntajes.
+        File file = new File(ScoreReader.class.getResource(fileName).getFile());
+        // Se crea un objeto Scanner para leer el archivo de puntajes.
         Scanner in = null;
+        boolean foundScores = false;
         try {
-            file.createNewFile();
             in = new Scanner(file);
+            // Se crea un array de Strings para almacenar las líneas del archivo.
             String[] line = new String[MAX_SCORES];
             for (int i = 0; i < MAX_SCORES; i++) {
                 line[i] = "";
             }
+            // Se lee el archivo línea por línea y se almacena cada línea en el array.
             int i = 0;
             for (i = 0; i < MAX_SCORES && in.hasNext(); i++) {
                 line[i] = in.nextLine();
             }
+            // Se busca la primera línea vacía en el array para determinar cuántos puntajes hay almacenados.
             for (i = 0; i < MAX_SCORES; i++) {
                 if (line[i].equals("")) {
                     break;
+                } else {
+                    foundScores = true;
                 }
             }
+            // Si no se encontraron puntajes, se devuelve un objeto nulo.
+            if (!foundScores) {
+                return null;
+            }
+            // Se crea un nuevo array de objetos Score con el tamaño determinado en el paso anterior.
             scores = new Score[i];
+            // Se convierte cada línea del archivo en un objeto Score y se almacena en el array de puntajes.
             for (i = 0; i < scores.length; i++) {
-                String[] parts = line[i].split(" ");
-                scores[i] = new Score(parts[0], Integer.parseInt(parts[1]));
+                String[] parts = line[i].split(" ");//El separador de campos es " "
+                scores[i] = new Score(parts[0], Integer.parseInt(parts[1]));// parts= (nombre, score)
             }
         } catch (IOException e) {
+            // Se maneja cualquier error de IO que pueda ocurrir al leer el archivo de puntajes.
             System.out.println("Error al crear el archivo: " + e.getMessage());
+        } finally {
+            // Se cierra el objeto Scanner.
+            if (in != null) {
+                in.close();
+            }
         }
-        in.close();
+        // Se devuelve el array de objetos Score con los puntajes leídos del archivo.
         return scores;
     }
 
@@ -127,16 +132,9 @@ public class ScoreReader {
     }
 
     private void writeScore(String[][] scores) {
-        String fileName = "main/Tetris/src/main/java/com/leviatanes/tetris/tetrisGame/game/gameOver/highScores.txt";
-        String currentDir = System.getProperty("user.dir");
-        for (int i = 0; i < currentDir.length(); i++) {
-            if (currentDir.charAt(i) == 92) {
-                currentDir = currentDir.substring(0, i) + "/" + currentDir.substring(i + 1);
-            }
-        }
-        String filePath = currentDir + "/" + fileName;
+        String fileName = "/com/leviatanes/tetris/tetrisGame/game/gameOver/highScores.txt";
         try {
-            FileWriter writer = new FileWriter(filePath);
+            FileWriter writer = new FileWriter(ScoreReader.class.getResource(fileName).getFile());
             BufferedWriter bw = new BufferedWriter(writer);
             String linea = scores[0][0] + " " + scores[0][1];
             bw.write(linea);
@@ -167,6 +165,11 @@ public class ScoreReader {
         } catch (NullPointerException | NumberFormatException e) {
 
         }
+        return scores;
+    }
+
+    //gett de scores
+    public Score[] getScores() {
         return scores;
     }
 }

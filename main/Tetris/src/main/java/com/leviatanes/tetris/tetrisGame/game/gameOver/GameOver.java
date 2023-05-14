@@ -133,16 +133,20 @@ public class GameOver extends JPanel {
     public void endGame() {
         SoundsPlayer.fadeOutMain();
         boolean isHighScore = false;
-        if (scores.length < 10) {// inicio iff
-            isHighScore = true;
-        } else {
-            // busca si el puntaje es mayor a alguno de los 10
-            for (int i = 0; i < scores.length; i++) {
-                if (actualScore > scores[i].getScore()) {
-                    isHighScore = true;
-                    break;
+        if(scores != null){
+            if  (scores.length < 10) {// inicio iff
+                isHighScore = true;
+            } else {
+                // busca si el puntaje es mayor a alguno de los 10
+                for (int i = 0; i < scores.length; i++) {
+                    if (actualScore > scores[i].getScore()) {
+                        isHighScore = true;
+                        break;
+                    }
                 }
             }
+        }else{
+            isHighScore = true;
         }
         // fin if
         // si el score es 0 o no es highscore se pierde
@@ -177,20 +181,21 @@ public class GameOver extends JPanel {
         this.lblGameOver.setText("YOU ARE THE GOAT");
         // busca descartar la idea de que es el mejor puntaje
         // si no lo es se busca en que posicion quedo
-        for (int i = scores.length - 1; i >= 0; i--) {
-            if (actualScore <= scores[i].getScore()) {
-                this.lblGameOver.setText("YOU ARE THE NUMBER " + (i + 2) + "!");
-                isGoat = false;
-                break;
+        if(scores!=null)
+            for (int i = scores.length - 1; i >= 0; i--) {
+                if (actualScore <= scores[i].getScore()) {
+                    this.lblGameOver.setText("YOU ARE THE NUMBER " + (i + 2) + "!");
+                    isGoat = false;
+                    break;
+                }
             }
-        }
         // reproduce un sonido
         if (isGoat)
             SoundsPlayer.playHighestScore();
         else
             SoundsPlayer.playHighScore();
         setLabelText(lblGameOver);
-        highScore = new HighScore(multiplier, actualScore,main);
+        highScore = new HighScore(multiplier, actualScore, main);
         this.scorePanel.add(highScore, BorderLayout.CENTER);
         this.scorePanel.revalidate();
         this.scorePanel.repaint();
