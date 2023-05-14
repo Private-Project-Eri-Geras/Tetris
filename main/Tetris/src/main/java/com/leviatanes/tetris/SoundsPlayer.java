@@ -290,6 +290,14 @@ public class SoundsPlayer {
         }
     }
 
+    public static boolean isMainMusicPlaying() {
+        return mainMusic.isRunning();
+    }
+
+    public static boolean isMenuMusicPlaying() {
+        return menuMusic.isRunning();
+    }
+
     public static void stopMusic() {
         mainMusic.stop();
         menuMusic.stop();
