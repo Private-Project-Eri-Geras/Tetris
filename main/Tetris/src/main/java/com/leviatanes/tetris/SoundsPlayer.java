@@ -80,25 +80,29 @@ public class SoundsPlayer {
 
         try {
             InputStream audioSrc = SoundsPlayer.class.getResourceAsStream(soundPath + "mainTheme.wav");
-			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioSrc);
-			// crea el clip de audio
-			mainMusic = AudioSystem.getClip();
-			mainMusic.open(audioInputStream);
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioSrc);
+            // crea el clip de audio
+            mainMusic = AudioSystem.getClip();
+            mainMusic.open(audioInputStream);
+            mainMusic.setLoopPoints(0, -1); // -1 indica que se repita indefinidamente
             mainMusic.loop(Clip.LOOP_CONTINUOUSLY);
             mainControl = (FloatControl) mainMusic.getControl(FloatControl.Type.MASTER_GAIN);
             mainMusic.setFramePosition(0);
+            mainMusic.stop();
 
             audioSrc = SoundsPlayer.class.getResourceAsStream(soundPath + "menu.wav");
             audioInputStream = AudioSystem.getAudioInputStream(audioSrc);
             // crea el clip de audio
             menuMusic = AudioSystem.getClip();
             menuMusic.open(audioInputStream);
+            menuMusic.setLoopPoints(0, -1); // -1 indica que se repita indefinidamente
             menuMusic.loop(Clip.LOOP_CONTINUOUSLY);
             menuControl = (FloatControl) menuMusic.getControl(FloatControl.Type.MASTER_GAIN);
             menuMusic.setFramePosition(0);
-		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-			e.printStackTrace();
-		}
+            menuMusic.stop();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -196,20 +200,21 @@ public class SoundsPlayer {
 
     /**
      * Asigna el volumen de la musica principal.
+     * 
      * @pparam vloment 0f - 1f
      */
-    public static void setSfxVol(float volume){
+    public static void setSfxVol(float volume) {
         // se asegura que este dentro de los valores deseados
         volume = Math.max(0, Math.min(1, volume));
         // se hace la conversion
         sfxVol = sfxControl.getMinimum() + (sfxControl.getMaximum() - sfxControl.getMinimum()) * volume;
-        for(Clip clip : clips.values()){
+        for (Clip clip : clips.values()) {
             FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
             control.setValue(sfxVol);
         }
         // se reproduce un sonido para probar el volumen
         playOk();
-    }   
+    }
 
     private static void playSound(String clipName) {
         Clip audioClip = clips.get(clipName);
@@ -254,21 +259,24 @@ public class SoundsPlayer {
     }
 
     public static void playGameMusic() {
-        menuMusic.stop();
-        mainMusic.stop();
-        mainMusic.setFramePosition(0);
+        gain = 0;
+        Clip clip = mainMusic;
+        clip.stop();
+        FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        control.setValue(musicVol);
+        clip.setFramePosition(0);
         try {
             // configura el loop del clip de audio
-            mainMusic.setLoopPoints(0, -1); // -1 indica que se repita indefinidamente
-            mainMusic.loop(Clip.LOOP_CONTINUOUSLY);
+            clip.setLoopPoints(0, -1); // -1 indica que se repita indefinidamente
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
             // inicia la reproducción del clip de audio
-            mainMusic.start();
+            clip.start();
         } catch (Exception e) {
             System.out.println("Error al reproducir el archivo de audio: " + e.getMessage());
         }
     }
 
-    public static void playMenuMusic(){
+    public static void playMenuMusic() {
         mainMusic.stop();
         menuMusic.stop();
         menuMusic.setFramePosition(0);
@@ -294,18 +302,18 @@ public class SoundsPlayer {
     public static void setMusicVol(float gain) {
         musicVol = Math.max(0, Math.min(1, gain));
         musicVol = mainControl.getMinimum() + (mainControl.getMaximum() - mainControl.getMinimum()) * musicVol;
-        setMusicGain();        
+        setMusicGain();
     }
 
     /**
      * set de la ganancia de la musica
      */
-    public  static void setMusicGain() {
+    public static void setMusicGain() {
         if (mainControl != null) {
             // asegurarse de que la ganancia no sea menor que 0 o mayor que 1
             mainControl.setValue(musicVol);
         }
-        if(menuControl != null){
+        if (menuControl != null) {
             menuControl.setValue(musicVol);
         }
     }
@@ -382,7 +390,8 @@ public class SoundsPlayer {
                 gain = getGain();
                 while (gain > 0.2) {
                     gain -= 0.01f;
-                    mainControl.setValue((mainControl.getMinimum() + (mainControl.getMaximum() - mainControl.getMinimum()) * gain));
+                    mainControl.setValue(
+                            (mainControl.getMinimum() + (mainControl.getMaximum() - mainControl.getMinimum()) * gain));
                     try {
                         Thread.sleep(30);
                     } catch (InterruptedException e) {
