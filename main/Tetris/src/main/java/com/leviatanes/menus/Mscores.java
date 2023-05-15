@@ -3,6 +3,10 @@ package com.leviatanes.menus;
 import java.util.List;//Para poder usar clases genericas
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.nio.Buffer;
 import java.util.ArrayList;
 
 import javax.swing.JLabel;
@@ -52,7 +56,7 @@ public class Mscores extends JPanel {
     // Offset btnBack
     private final int btnBackXoffset = 28;
     private final int btnBackYoffset = 66;
-   private final int btnBackWidht = 11;
+   private final int btnBackWidht = 10;
    private final int btnBackHeight = 10;
    //Offset btnReset
    private final int btnResetXoffset = 50;
@@ -89,13 +93,14 @@ public class Mscores extends JPanel {
     public void initPanel(int width, int height, int multiplier) {
         this.setLayout(null);
         this.setBounds(0, 0, width, height);
-        setBackground(new Color(45, 85, 194));
+        setBackground(new Color(0, 0, 164).darker());
         int x, y, w, h;
 
         // Agregando los componentes
             // Titulo //
         titulo = new JLabel("SCORES");
-        titulo.setForeground(Color.ORANGE);
+        titulo.setHorizontalAlignment(SwingConstants.CENTER);
+        titulo.setForeground(new Color(200, 63, 49));
         x = tituloXoffset * multiplier;
         y = tituloYoffset * multiplier;
         w = tituloWidht * multiplier;
@@ -120,10 +125,7 @@ public class Mscores extends JPanel {
         h = tituloColHeight * multiplier;
 
         if (scores == null) {// Imprime un mensaje si no hay scores
-            mensaje = new JLabel("\t Empty Scores");
-            mensaje.setBounds(x, y, w, h);
-            this.adjustFontSize(mensaje, "Impact", w, h);
-            fondoPanel.add(mensaje);
+            emptyMessage(x,y,w,h);
         } else {//Si hay Scores registrados
             cadena= String.format("%s %7s %11s","Rank"," Name","Score");
             tituloCol = new JLabel(cadena);
@@ -152,34 +154,52 @@ public class Mscores extends JPanel {
                 fondoPanel.add(filas.get(i));
                 y += 5 * multiplier;
             }
-        }
+        }//Fin else scores existentes
 
         this.add(fondoPanel);//agrega el fondo
-            //Boton Back to Menu//
-            btnbBack = new JLabel();
-            x= btnBackXoffset * multiplier;
-            y = btnBackYoffset * multiplier;
-            w = btnBackWidht * multiplier;
-            h = btnBackHeight * multiplier;
-            btnbBack.setBounds(x, y, w, h);
-            escal.escalarLabel(btnbBack, "/com/leviatanes/images/FondoT.png", multiplier);
-            btnbBack.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(java.awt.event.MouseEvent evt) {
-                    main.MenuInicio();
-                }
+        //Boton Back to Menu//
+        btnbBack = new JLabel();
+        x= btnBackXoffset * multiplier;
+        y = btnBackYoffset * multiplier;
+        w = btnBackWidht * multiplier;
+        h = btnBackHeight * multiplier;
+        btnbBack.setBounds(x, y, w, h);
+        escal.escalarLabel(btnbBack, "/com/leviatanes/images/home.png", multiplier);
+        btnbBack.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                main.MenuInicio();
+            }
     
-            });
-            this.add(btnbBack);
+        });
+        this.add(btnbBack);
                 //Boton Reset//
             btnReset = new JLabel();
             x= btnResetXoffset * multiplier;
             btnReset.setBounds(x, y, w, h);
-            escal.escalarLabel(btnReset, "/com/leviatanes/images/FondoT.png", multiplier);
+            escal.escalarLabel(btnReset, "/com/leviatanes/images/return.png", multiplier);//escala la imagen del JLabel
             btnReset.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
-                   
+                   try{
+                     // Se especifica la ruta del archivo de puntajes.
+                    String fileName = "/com/leviatanes/tetris/tetrisGame/game/gameOver/highScores.txt";
+                    // Se crea un objeto File para el archivo de puntajes. Usando la ruta completa del archivo
+                    File file = new File(ScoreReader.class.getResource(fileName).getFile());
+                    FileWriter writer = new FileWriter(file);
+                    BufferedWriter bw = new BufferedWriter(writer);
+                    bw.write("");//Se borra el contenido del archivo
+                    bw.close();//Se cierra el buffer de escritura
+                    writer.close();//Se cerrra el archivo de escritura
+                   }catch(Exception e){
+                       System.out.println("Error al resetear los scores");
+                   }
+                   fondoPanel.removeAll();//Remueven todos los scores del panel
+                   //Escribiendo el mensaje de scores vacios
+                   emptyMessage(tituloColXoffset * multiplier,tituloColYoffset * multiplier,
+                   tituloColWidht * multiplier,tituloColHeight * multiplier);
+                   revalidate();//se revalida los componentes del panel
+                    repaint();//lo repinta
                 }
     
             });
@@ -189,6 +209,16 @@ public class Mscores extends JPanel {
         this.repaint();
         this.setVisible(true);
     }
+
+    public void emptyMessage(int x, int y, int w, int h){
+        mensaje = new JLabel("\t Empty Scores");
+        mensaje.setBounds(x, y, w, h);
+        mensaje.setForeground(Color.white);
+        mensaje.setOpaque(true);
+        mensaje.setBackground (new Color(20, 20, 20));
+        this.adjustFontSize(mensaje, "Impact", w, h);
+        fondoPanel.add(mensaje);
+    } 
 
     /** Ajusta la fuetne del JLabel */
     private void adjustFontSize(JLabel label, String font, int w, int h) {
