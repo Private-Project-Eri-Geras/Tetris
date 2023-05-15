@@ -1,5 +1,7 @@
 package com.leviatanes.menus;
 
+import java.awt.Color;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -101,6 +103,7 @@ public class Minicio extends javax.swing.JPanel {//El panel de inicio
         h = btnPHolderHeight * multiplier;
         playBtn.setBounds(x, y, w, h);
         setText(playBtn, "PLAY");
+        playBtn.setForeground(new Color(20, 20, 20));
         this.adjustFontSize(playBtn, playBtn.getFont().getFontName(), w, h);
         this.add(playBtn);
         // =====================[SCORE]=======================
@@ -121,6 +124,7 @@ public class Minicio extends javax.swing.JPanel {//El panel de inicio
         y= scorePHolderYoffset * multiplier;
         scoreBtn.setBounds(x, y, w, h);
         setText(scoreBtn, "SCORE");
+        scoreBtn.setForeground(new Color(20, 20, 20));
         this.adjustFontSize(scoreBtn, scoreBtn.getFont().getFontName(), w, h);
         this.add(scoreBtn);
         scoreBtn.setVisible(true);
@@ -143,6 +147,7 @@ public class Minicio extends javax.swing.JPanel {//El panel de inicio
         y= configPHolderYoffset * multiplier;
         configBtn.setBounds(x, y, w, h);
         setText(configBtn, "CONFIG");
+        configBtn.setForeground(new Color(20, 20, 20));
         this.adjustFontSize(configBtn, configBtn.getFont().getFontName(), w, h);
         this.add(configBtn);
         configBtn.setVisible(true);
@@ -166,6 +171,7 @@ public class Minicio extends javax.swing.JPanel {//El panel de inicio
         y= exitPHolderYoffset * multiplier;
         exitBtn.setBounds(x, y, w, h);
         setText(exitBtn, "EXIT");
+        exitBtn.setForeground(new Color(20, 20, 20));
         this.adjustFontSize(exitBtn, exitBtn.getFont().getFontName(), w, h);
         this.add(exitBtn);
         exitP.setVisible(true);
