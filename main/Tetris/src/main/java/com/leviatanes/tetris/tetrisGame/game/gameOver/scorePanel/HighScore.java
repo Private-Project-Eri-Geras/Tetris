@@ -96,8 +96,8 @@ public class HighScore extends JPanel {
     private Color hoverColor = new Color(255, 255, 255, 255);
     private Main main;
 
-    public HighScore(int multiplier, int score,Main main) {
-        this.main=main;
+    public HighScore(int multiplier, int score, Main main) {
+        this.main = main;
         this.setLayout(null);
         this.multiplier = multiplier;
         this.setBounds(0, 0, scorePanelW * multiplier, scorePanelH * multiplier);
@@ -116,9 +116,12 @@ public class HighScore extends JPanel {
         this.add(scoreLabel);
 
         letter1 = new JLabel();
-        letter1Color = new Color(48, 48, 48, 255);
+        letter1.setOpaque(true);
+        letter1.setBackground(baseColor);
+        initLabel(letter1, letterX, letterY, letterW, letterH, "A");
         // Listener para registrar clicks del mouse
         letter1.addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseClicked(MouseEvent evt) {
                 // Button1 = click izquierdo
                 // Button3 = click derecho
@@ -128,95 +131,88 @@ public class HighScore extends JPanel {
                     mouseClickR(letter1);
                 }
             }
-        });
-        // Listener para registrar cuando el mouse entra al label
-        // iluminar el label
-        letter1.addMouseListener(new MouseAdapter() {
+
+            @Override
             public void mouseEntered(MouseEvent evt) {
-                letter1Color = hoverColor;
+                letter1.setBackground(hoverColor);
                 repaint();
             }
-        });
-        // Listener para registrar cuando el mouse sale del label
-        // oscurecer el label
-        letter1.addMouseListener(new MouseAdapter() {
+
+            @Override
             public void mouseExited(MouseEvent evt) {
-                letter1Color = baseColor;
+                letter1.setBackground(baseColor);
                 repaint();
             }
         });
-        initLabel(letter1, letterX, letterY, letterW, letterH, "A");
         this.add(letter1);
 
         letter2 = new JLabel();
-        letter2Color = new Color(48, 48, 48, 255);
+        letter2.setOpaque(true);
+        letter2.setBackground(baseColor);
+        initLabel(letter2, letterX + lXoffset, letterY, letterW, letterH, "A");
         // Listener para registrar clicks del mouse
-        // Button1 = click izquierdo
-        // Button3 = click derecho
         letter2.addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseClicked(MouseEvent evt) {
+                // Button1 = click izquierdo
+                // Button3 = click derecho
                 if (evt.getButton() == MouseEvent.BUTTON1) {
                     mouseClick(letter2);
                 } else if (evt.getButton() == MouseEvent.BUTTON3) {
                     mouseClickR(letter2);
                 }
             }
-        });
-        // Listener para registrar cuando el mouse entra al label
-        // iluminar el label
-        letter2.addMouseListener(new MouseAdapter() {
+
+            @Override
             public void mouseEntered(MouseEvent evt) {
-                letter2Color = hoverColor;
+                letter2.setBackground(hoverColor);
                 repaint();
             }
-        });
-        // Listener para registrar cuando el mouse sale del label
-        // oscurecer el label
-        letter2.addMouseListener(new MouseAdapter() {
+
+            @Override
             public void mouseExited(MouseEvent evt) {
-                letter2Color = baseColor;
+                letter2.setBackground(baseColor);
                 repaint();
             }
         });
-        initLabel(letter2, letterX + lXoffset, letterY, letterW, letterH, "A");
         this.add(letter2);
 
         letter3 = new JLabel();
-        letter3Color = new Color(48, 48, 48, 255);
+        letter3.setOpaque(true);
+        letter3.setBackground(baseColor);
+        initLabel(letter3, letterX + lXoffset * 2, letterY, letterW, letterH, "A");
         // Listener para registrar clicks del mouse
-        // Button1 = click izquierdo
-        // Button3 = click derecho
         letter3.addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseClicked(MouseEvent evt) {
+                // Button1 = click izquierdo
+                // Button3 = click derecho
                 if (evt.getButton() == MouseEvent.BUTTON1) {
                     mouseClick(letter3);
                 } else if (evt.getButton() == MouseEvent.BUTTON3) {
                     mouseClickR(letter3);
                 }
             }
-        });
-        // Listener para registrar cuando el mouse entra al label
-        // iluminar el label
-        letter3.addMouseListener(new MouseAdapter() {
+
+            @Override
             public void mouseEntered(MouseEvent evt) {
-                letter3Color = hoverColor;
+                letter3.setBackground(hoverColor);
                 repaint();
             }
-        });
-        // Listener para registrar cuando el mouse sale del label
-        // oscurecer el label
-        letter3.addMouseListener(new MouseAdapter() {
+
+            @Override
             public void mouseExited(MouseEvent evt) {
-                letter3Color = baseColor;
+                letter3.setBackground(baseColor);
                 repaint();
             }
         });
-        initLabel(letter3, letterX + lXoffset * 2, letterY, letterW, letterH, "A");
         this.add(letter3);
 
         // Label para mostrar guia de que hacer
         caption = new JLabel();
-        initLabel(caption, capX, capY, capW, capH, "CLICK TO SET NAME");
+        caption.setOpaque(true);
+        caption.setBackground(hoverColor.darker());
+        initLabel(caption, capX, capY, capW, capH, "  CLICK TO CHANGE LETTER  ");
         this.add(caption);
     }
 
@@ -225,9 +221,9 @@ public class HighScore extends JPanel {
      */
     private void initButtons() {
         exit = new JLabel();
-        this.add(exit);
+        exit.setOpaque(true);
+        exit.setBackground(baseColor);
         this.initLabel(exit, exitX, exitY, exitW, exitH, "EXIT");
-        exitColor = baseColor;
         // Listener para registrar clicks del mouse
         exit.addMouseListener(new MouseAdapter() {
             @Override
@@ -235,27 +231,25 @@ public class HighScore extends JPanel {
                 GameOver.highScoreEnd();
                 System.exit(0);
             }
-        });
-        // Listener para iluminar el label cuando el mouse entra
-        exit.addMouseListener(new MouseAdapter() {
+
             @Override
             public void mouseEntered(MouseEvent e) {
-                exitColor = hoverColor;
+                exit.setBackground(hoverColor);
                 repaint();
             }
-        });
-        // Listener para oscurecer el label cuando el mouse sale
-        exit.addMouseListener(new MouseAdapter() {
+
             @Override
             public void mouseExited(MouseEvent e) {
-                exitColor = baseColor;
+                exit.setBackground(baseColor);
                 repaint();
             }
         });
+        this.add(exit);
+
         menu = new JLabel();
-        this.add(menu);
+        menu.setOpaque(true);
+        menu.setBackground(baseColor);
         this.initLabel(menu, menuX, menuY, menuW, menuH, "MENU");
-        menuColor = baseColor;
         // Listener para registrar clicks del mouse
         menu.addMouseListener(new MouseAdapter() {
             @Override
@@ -263,23 +257,20 @@ public class HighScore extends JPanel {
                 GameOver.highScoreEnd();
                 main.MenuInicio();
             }
-        });
-        // Listener para iluminar el label cuando el mouse entra
-        menu.addMouseListener(new MouseAdapter() {
+
             @Override
             public void mouseEntered(MouseEvent e) {
-                menuColor = hoverColor;
+                menu.setBackground(hoverColor);
                 repaint();
             }
-        });
-        // Listener para oscurecer el label cuando el mouse sale
-        menu.addMouseListener(new MouseAdapter() {
+
             @Override
             public void mouseExited(MouseEvent e) {
-                menuColor = baseColor;
+                menu.setBackground(baseColor);
                 repaint();
             }
         });
+        this.add(menu);
     }
 
     /** Inicializa un label asignandole la imagen correspondiente */
@@ -347,38 +338,6 @@ public class HighScore extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        paintLetter(g, letter1, letter1Color);
-        paintLetter(g, letter2, letter2Color);
-        paintLetter(g, letter3, letter3Color);
-        int x = exitX * multiplier;
-        int y = exitY * multiplier;
-        int width = exitW * multiplier;
-        int height = exitH * multiplier;
-        g.setColor(exitColor);
-        g.fillRect(x, y, width, height);
 
-        x = menuX * multiplier;
-        y = menuY * multiplier;
-        width = menuW * multiplier;
-        height = menuH * multiplier;
-        g.setColor(menuColor);
-        g.fillRect(x, y, width, height);
-
-        x = capX * multiplier;
-        y = capY * multiplier;
-        width = capW * multiplier;
-        height = capH * multiplier;
-        g.setColor(new Color(255, 255, 255, 200));
-        g.fillRect(x, y, width, height);
-    }
-
-    /** pita los labels */
-    private void paintLetter(Graphics g, JLabel label, Color color) {
-        g.setColor(color);
-        int x = label.getBounds().x;
-        int y = label.getBounds().y;
-        int width = label.getBounds().width;
-        int height = label.getBounds().height;
-        g.fillRect(x, y, width, height);
     }
 }
