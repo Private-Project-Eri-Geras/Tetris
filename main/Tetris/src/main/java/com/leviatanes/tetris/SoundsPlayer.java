@@ -242,7 +242,6 @@ public class SoundsPlayer {
         musicVol = (float) Math.log10(1 + 9 * musicVol);
         clips.get("mainTheme.wav").setVolume(musicVol);
         clips.get("menu.wav").setVolume(musicVol);
-        System.out.println("meno volume adjusted");
     }
 
     /** retorna el volumen */
