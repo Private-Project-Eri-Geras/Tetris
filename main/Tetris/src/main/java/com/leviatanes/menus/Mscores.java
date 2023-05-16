@@ -84,7 +84,6 @@ public class Mscores extends JPanel {
                 }
             }
         } catch (Exception e) {
-            // System.out.println("Error al leer los scores");
             mensaje = new JLabel("Empty Scores");
         }
 
@@ -192,7 +191,7 @@ public class Mscores extends JPanel {
                     bw.close();// Se cierra el buffer de escritura
                     writer.close();// Se cerrra el archivo de escritura
                 } catch (Exception e) {
-                    System.out.println("Error al resetear los scores");
+                    e.printStackTrace();
                 }
                 fondoPanel.removeAll();// Remueven todos los scores del panel
                 // Escribiendo el mensaje de scores vacios

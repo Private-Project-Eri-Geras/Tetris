@@ -142,7 +142,6 @@ public class ScoreLabel extends JPanel {
     }
 
     public int getScore() {
-        System.out.println("Score: " + this.score);
         return this.score;
     }
 
@@ -224,7 +223,6 @@ public class ScoreLabel extends JPanel {
         String imageName;
         imageName = scoreValue.charAt(0) + ".png";
 
-        System.out.println(scoreValue);
         setIcon(scoreLbl5, folderPath + imageName, scoreW, scoreH);
     }
 
@@ -234,7 +232,6 @@ public class ScoreLabel extends JPanel {
         imageName = scoreValue.charAt(0) + ".png";
         setIcon(scoreLbl4, folderPath + imageName, scoreW, scoreH);
 
-        System.out.println(scoreValue);
         updateLbl1(scoreValue.charAt(1) + "");
     }
 
@@ -244,7 +241,6 @@ public class ScoreLabel extends JPanel {
         imageName = scoreValue.charAt(0) + ".png";
         setIcon(scoreLbl3, folderPath + imageName, scoreW, scoreH);
 
-        System.out.println(scoreValue);
         updateLbl2(scoreValue.substring(1, scoreValue.length()));
     }
 
@@ -254,7 +250,6 @@ public class ScoreLabel extends JPanel {
         imageName = scoreValue.charAt(0) + ".png";
         setIcon(scoreLbl2, folderPath + imageName, scoreW, scoreH);
 
-        System.out.println(scoreValue);
         updateLbl3(scoreValue.substring(1, scoreValue.length()));
     }
 
@@ -264,7 +259,6 @@ public class ScoreLabel extends JPanel {
         imageName = scoreValue.charAt(0) + ".png";
         setIcon(scoreLbl1, folderPath + imageName, scoreW, scoreH);
 
-        System.out.println(scoreValue);
         updateLbl4(scoreValue.substring(1, scoreValue.length()));
     }
 
