@@ -160,7 +160,6 @@ public class StatsPanel extends javax.swing.JPanel {
     /** Actualiza los labels de lineas */
     private void updateLinesLbl() {
         String linesStr = String.valueOf(lines);
-        System.out.println(linesStr);
         int linesLength = linesStr.length();
         switch (linesLength) {
             case 1:
@@ -214,35 +213,6 @@ public class StatsPanel extends javax.swing.JPanel {
         scoreLabel = new ScoreLabel(stxtX, stxtY, stxtW, stxtH, scX, scY, scW, scH, scXpad, 0, multiplier, scPX, scPY,
                 scPW, scPH, false);
         add(scoreLabel);
-        // // etiqueta con el label de score
-        // this.scoreTextLbl = new JLabel();
-        // initLabel(scoreTextLbl, stxtX, stxtY, stxtW, stxtH, "Score.png");
-        // // etiquetas con los numeros del score
-        // String scoreStr;
-        // JLabel scoreLbl = null;
-        // int scoreLblrealX = 20;
-        // for (int i = 1; i < 6; i++) {
-        // scoreStr = "scoreLbl" + i;
-        // // obtener el nombre de la variable segun scoreStr
-        // try {
-        // scoreLbl = new JLabel();
-        // initLabel(scoreLbl, scoreLblrealX, scY, scW, scH, "0.png");
-        // // conseguir el scoreLbl con el nombre de scoreStr
-        // java.lang.reflect.Field field = this.getClass().getDeclaredField(scoreStr);
-        // field.setAccessible(true);
-        // field.set(this, scoreLbl); // se le asigna el objeto JLabel a la variable
-        // } catch (IllegalArgumentException | IllegalAccessException |
-        // NoSuchFieldException | SecurityException e) {
-        // e.printStackTrace();
-        // }
-        // scoreLblrealX -= 5;
-        // }
-        // this.add(scoreTextLbl);
-        // this.add(scoreLbl1);
-        // this.add(scoreLbl2);
-        // this.add(scoreLbl3);
-        // this.add(scoreLbl4);
-        // this.add(scoreLbl5);
     }
 
     /** Inicia los labels que demuestran el nivle */

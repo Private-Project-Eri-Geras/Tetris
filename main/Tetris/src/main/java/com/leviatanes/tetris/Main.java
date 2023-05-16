@@ -81,7 +81,6 @@ public class Main extends javax.swing.JFrame {
             height = resolution[multiplier - 1][1];
         }
         multiplier--;
-        System.out.println("width: " + width + " height: " + height + " multiplier: " + multiplier);
     }
 
     private void generateCenter() {
@@ -101,16 +100,11 @@ public class Main extends javax.swing.JFrame {
                 break;
             }
         }
-        if (foundFont) {
-            System.out.println("La fuente " + fontName + " está instalada.");
-        } else {
-            System.out.println("La fuente " + fontName + " no está instalada en el sistema.");
+        if (!foundFont) {
             try (InputStream inputStream = Main.class.getResourceAsStream("/com/leviatanes/tetris/Impact.ttf")) {
                 Font impactFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
                 GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(impactFont);
-                System.out.println("La fuente " + fontName + " se ha instalado correctamente en el sistema.");
             } catch (Exception ex) {
-                System.err.println("No se pudo instalar la fuente " + fontName + ".");
                 ex.printStackTrace();
             }
         }
@@ -250,6 +244,5 @@ public class Main extends javax.swing.JFrame {
 
     public static void main(String args[]) {
         new Main().setVisible(true);
-        System.out.println("Main fin");
     }
 }

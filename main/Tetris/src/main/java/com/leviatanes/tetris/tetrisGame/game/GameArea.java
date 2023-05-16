@@ -839,7 +839,7 @@ public class GameArea extends JPanel {
                     else
                         Thread.sleep(150);
                 } catch (InterruptedException e) {
-                    System.out.println("Error en la espera de la actualizacion de nivel");
+                    e.printStackTrace();
                 }
                 SoundsPlayer.playLevelUp();
             }).start();

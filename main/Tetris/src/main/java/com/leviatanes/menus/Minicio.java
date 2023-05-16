@@ -45,7 +45,6 @@ public class Minicio extends javax.swing.JPanel {// El panel de inicio
 
     private void initPanel(int width, int height, int multiplier) {
         this.setLayout(null);
-        System.out.println("Panel Inicio: ancho: " + width + ", alto: " + height);
         this.setBounds(0, 0, width, height);
         setBackground(new java.awt.Color(142, 76, 236));
 
@@ -57,8 +56,6 @@ public class Minicio extends javax.swing.JPanel {// El panel de inicio
         w = tituloHolderWidth * multiplier;
         h = tituloHolderHeight * multiplier;
         titulo.setBounds(x, y, w, h);
-        System.out.println("\nTITULO: w:" + titulo.getWidth() + ", h" + titulo.getHeight() + ", x:" + titulo.getX()
-                + ", y:" + titulo.getY());
 
         escal.escalarLabel(titulo, "/com/leviatanes/images/Tetris.png", multiplier);
         this.add(titulo);
@@ -69,16 +66,12 @@ public class Minicio extends javax.swing.JPanel {// El panel de inicio
         w = fondoHolderWidth * multiplier;
         h = fondoHolderHeight * multiplier;
         fondo1.setBounds(x, y, w, h);
-        System.out.println("\nFONDO1: w:" + fondo1.getWidth() + ", h" + fondo1.getHeight() + ", x:" + fondo1.getX()
-                + ", y:" + fondo1.getY());
         escal.escalarLabel(fondo1, "/com/leviatanes/images/FondoT.png", multiplier);
         this.add(fondo1);
 
         fondo2 = new JLabel();
         x = fondo2HolderXoffset * multiplier;
         fondo2.setBounds(x, y, w, h);
-        System.out.println("\nFondo2: w: " + fondo2.getWidth() + ", h: " + fondo2.getHeight() + ", x:" + fondo2.getX()
-                + ", y:" + fondo2.getY());
         escal.escalarLabel(fondo2, "/com/leviatanes/images/FondoT.png", multiplier);
         this.add(fondo2);
         // =====================[BOTONES]=======================
@@ -132,7 +125,6 @@ public class Minicio extends javax.swing.JPanel {// El panel de inicio
         this.adjustFontSize(scoreBtn, scoreBtn.getFont().getFontName(), w, h);
         this.add(scoreBtn);
         scoreBtn.setVisible(true);
-        System.out.println("\nSCORE: w:" + w + ", h" + h + ", x:" + x + ", y:" + y);
         // =====================[CONFIG]=======================
         configBtn = new JLabel();
         configBtn.setBackground(new java.awt.Color(38, 185, 193));
@@ -157,8 +149,6 @@ public class Minicio extends javax.swing.JPanel {// El panel de inicio
         this.adjustFontSize(configBtn, configBtn.getFont().getFontName(), w, h);
         this.add(configBtn);
         configBtn.setVisible(true);
-        System.out.println("\nCONFIG: w:" + configP.getWidth() + ", h" + configP.getHeight() + ", x:" + configP.getX()
-                + ", y:" + configP.getY());
         // =====================[EXIT]=======================
         exitBtn = new JLabel();
         exitBtn.setBackground(new java.awt.Color(38, 185, 193));
@@ -184,8 +174,6 @@ public class Minicio extends javax.swing.JPanel {// El panel de inicio
         this.adjustFontSize(exitBtn, exitBtn.getFont().getFontName(), w, h);
         this.add(exitBtn);
         exitP.setVisible(true);
-        System.out.println("\nEXIT: w:" + exitP.getWidth() + ", h" + exitP.getHeight() + ", x:" + exitP.getX() + ", y:"
-                + exitP.getY());
 
         this.revalidate();
         this.repaint();

@@ -68,8 +68,6 @@ public class ShapeHolder extends javax.swing.JPanel {
         this.drawOffset2 = -(2 * drawOffset) + 1;
         this.setVisible(true);
         this.holdAllowed = true;
-
-        System.out.println("ShapeHolder creado");
     }
 
     public boolean isHoldAllowed() {

@@ -27,7 +27,7 @@ public class ScoreReader {
         try {
             file.createNewFile();
         } catch (IOException e) {
-            System.out.println("Error al crear el archivo: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -83,7 +83,7 @@ public class ScoreReader {
         } catch (IOException e) {
             // Se maneja cualquier error de IO que pueda ocurrir al leer el archivo de
             // puntajes.
-            System.out.println("Error al crear el archivo: " + e.getMessage());
+            e.printStackTrace();
         } finally {
             // Se cierra el objeto Scanner.
             if (in != null) {
@@ -147,7 +147,6 @@ public class ScoreReader {
 
     private void writeScore(String[][] scores) {
         String fileName = "highScores.txt";
-        System.out.println(ScoreReader.class.getResource(fileName).getFile());
         try {
             FileWriter writer = new FileWriter(ScoreReader.class.getResource(fileName).getFile());
             BufferedWriter bw = new BufferedWriter(writer);
@@ -178,7 +177,7 @@ public class ScoreReader {
                 }
             }
         } catch (NullPointerException | NumberFormatException e) {
-
+            e.printStackTrace();
         }
         return scores;
     }
@@ -187,11 +186,11 @@ public class ScoreReader {
     public Score[] getScores() {
         if (scores == null) {
             scores = readScores();
-            if(scores != null){
-                String[][] scoresString = new String[scores.length][2]; 
+            if (scores != null) {
+                String[][] scoresString = new String[scores.length][2];
                 for (int i = 0; i < scores.length; i++) {
                     scoresString[i][0] = scores[i].getName();
-                    scoresString[i][1] = Integer.toString(scores[i].getScore()); 
+                    scoresString[i][1] = Integer.toString(scores[i].getScore());
                 }
                 scoresString = sort(scoresString);
                 scores = new Score[scoresString.length];
