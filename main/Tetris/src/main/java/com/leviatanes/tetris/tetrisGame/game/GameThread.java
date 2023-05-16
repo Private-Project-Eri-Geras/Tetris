@@ -47,10 +47,7 @@ public class GameThread extends Thread {
     }
 
     public void run() {
-        do {
-            SoundsPlayer.playGameMusic();
-        } while (SoundsPlayer.isMainMusicPlaying() == false);
-
+        SoundsPlayer.playGameMusic();
         while (true) {
             actualSpeed = waitingTime;
             if (this.spawn())

@@ -105,6 +105,7 @@ public class SfxHandeler {
     }
 
     public void loop() {
+        clip.setLoopPoints(0, -1);
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 

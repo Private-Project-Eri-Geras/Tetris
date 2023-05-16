@@ -66,7 +66,7 @@ public class SoundsPlayer {
         stopMusic();
 
         // pendiente
-        setMysfxVol(1);
+        setMysfxVol(0.5f);
         setMymusicVol(0.3f);
         stopMusic();
         construido = true;
@@ -171,7 +171,6 @@ public class SoundsPlayer {
         mysfxVol = volume;
         sfxVol = (float) Math.log10(1 + 9 * volume);
         sfxVol = (float) Math.log10(1 + 9 * sfxVol);
-        System.out.println("setVOLUME " + sfxVol);
         String name = "";
         for (int i = 0; i < clips.size(); i++) {
             name = clips.keySet().toArray()[i].toString();
@@ -192,7 +191,6 @@ public class SoundsPlayer {
 
     /** retorna el volumen */
     public static int getISfcVolume() {
-        System.out.println("getVOLUME " + (int) (mysfxVol * 100));
         return (int) (mysfxVol * 100);
     }
 
@@ -201,12 +199,17 @@ public class SoundsPlayer {
     }
 
     public static void playGameMusic() {
-        gain = 0;
-        clips.get("mainTheme.wav").play();
+        toggleMuteMain();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if (clips.get("mainTheme.wav").isRunning() == false)
+            toggleMuteMain();
     }
 
     public static void playMenuMusic() {
-        gain = 0;
         if (clips.get("menu.wav").isRunning())
             return;
         clips.get("menu.wav").play();
@@ -239,6 +242,7 @@ public class SoundsPlayer {
         musicVol = (float) Math.log10(1 + 9 * musicVol);
         clips.get("mainTheme.wav").setVolume(musicVol);
         clips.get("menu.wav").setVolume(musicVol);
+        System.out.println("meno volume adjusted");
     }
 
     /** retorna el volumen */
@@ -264,8 +268,6 @@ public class SoundsPlayer {
         mainMuted = !mainMuted;
     }
 
-    private static float gain;
-
     /** Detiene la musica */
     public static void stopMain() {
         clips.get("mainTheme.wav").stop();
@@ -286,8 +288,8 @@ public class SoundsPlayer {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                gain = clips.get("mainTheme.wav").getVolume();
-                while (gain > -0.5f) {
+                float gain = clips.get("mainTheme.wav").getVolume();
+                while (gain > 0.3f) {
                     gain -= 0.01f;
                     clips.get("mainTheme.wav").setVolume(gain);
                     try {
