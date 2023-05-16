@@ -95,6 +95,7 @@ public class SettingsMenu extends JPanel {
             public void stateChanged(ChangeEvent e) {
                 if (!musicVolumeSlider.getValueIsAdjusting()) {
                     SoundsPlayer.setMymusicVol(((float) musicVolumeSlider.getValue()) / 100f);
+                    SettingsReader.setMusicv(musicVolumeSlider.getValue());
                 }
             }
         });
@@ -120,6 +121,7 @@ public class SettingsMenu extends JPanel {
             public void stateChanged(ChangeEvent e) {
                 if (!soundEffectsVolumeSlider.getValueIsAdjusting()) {
                     SoundsPlayer.setMysfxVol(((float) soundEffectsVolumeSlider.getValue()) / 100f);
+                    SettingsReader.setSfxv(soundEffectsVolumeSlider.getValue());
                 }
             }
         });

@@ -10,6 +10,8 @@ import javax.sound.sampled.Clip;
 
 import java.io.BufferedInputStream;
 
+import com.leviatanes.menus.SettingsReader;
+
 /**
  * Clase que se encarga de reproducir los sonidos del juego.
  * Busca la optimizacion en tiempo de ejecucion, por lo que
@@ -82,8 +84,8 @@ public class SoundsPlayer {
         stopMusic();
 
         // pendiente
-        setMysfxVol(0.5f);
-        setMymusicVol(0.3f);
+        setMysfxVol(SettingsReader.getSfxv());
+        setMymusicVol(SettingsReader.getMusicv());
         stopMusic();
         construido = true;
         garbageThread.start();

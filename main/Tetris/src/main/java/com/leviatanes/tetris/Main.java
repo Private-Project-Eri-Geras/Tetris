@@ -51,7 +51,6 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         // initComponents();
         initFont();
-
         this.setLayout(null);
         // obtener resolucion maxima
         this.getMaxResolution();
