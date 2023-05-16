@@ -1,6 +1,8 @@
 package com.leviatanes.tetris;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -22,6 +24,7 @@ public class SfxHandeler {
     private long duration;
     private static ExecutorService executor = Executors.newSingleThreadExecutor();
     private boolean looping;
+    private static List<Clip> clips = new ArrayList<>();
 
     public SfxHandeler(Clip clip, float vol, AudioInputStream audioInputStream) {
         this.clip = clip;
@@ -50,13 +53,13 @@ public class SfxHandeler {
         clip.start();
     }
 
-    /* play por copia (simultaneo) */
     public void play(String path) {
         executor.submit(new Runnable() {
             @Override
             public void run() {
+                Clip clip = null;
                 try {
-                    Clip clip = AudioSystem.getClip();
+                    clip = AudioSystem.getClip();
                     clip.open(AudioSystem.getAudioInputStream(getClass().getResource(path)));
                     FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
                     control.setValue(gain);
@@ -64,19 +67,26 @@ public class SfxHandeler {
                         clip.setLoopPoints(0, -1);
                         clip.loop(Clip.LOOP_CONTINUOUSLY);
                     }
-                    clip.addLineListener(new LineListener() {
-                        @Override
-                        public void update(javax.sound.sampled.LineEvent event) {
-                            if (event.getType() == javax.sound.sampled.LineEvent.Type.STOP) {
-                                clip.close();
-                            }
-                        }
-                    });
                     clip.start();
-
+                    try {
+                        Thread.sleep(duration);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    clip.close();
+                    clip = null;
                 } catch (IOException | javax.sound.sampled.UnsupportedAudioFileException
                         | javax.sound.sampled.LineUnavailableException e) {
                     e.printStackTrace();
+                    if (clip != null) {
+                        clip.close(); // Si ocurre una excepción, asegúrate de cerrar el clip
+                        clip = null;
+                    }
+                } finally {
+                    if (clip != null) {
+                        clip.close();
+                        clip = null;
+                    }
                 }
             }
         });

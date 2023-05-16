@@ -38,6 +38,22 @@ public class SoundsPlayer {
     /** constructor */
     private static boolean construido = false;
 
+    private static int garbageCount = 0;
+
+    private static Thread garbageThread = new Thread(() -> {
+        while (true) {
+            try {
+                Thread.sleep(20000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (garbageCount > 30) {
+                System.gc(); // Solicitar ejecución del recolector de basura
+                garbageCount = 0;
+            }
+        }
+    });
+
     static {
         loadClip("allClear.wav");
         loadClip("fall.wav");
@@ -70,6 +86,7 @@ public class SoundsPlayer {
         setMymusicVol(0.3f);
         stopMusic();
         construido = true;
+        garbageThread.start();
     }
 
     private static void loadClip(String sound) {
@@ -196,6 +213,7 @@ public class SoundsPlayer {
 
     private static void playSound(String clipName) {
         clips.get(clipName).play(soundPath + clipName);
+        garbageCount++;
     }
 
     public static void playGameMusic() {

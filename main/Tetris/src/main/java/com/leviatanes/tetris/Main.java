@@ -135,6 +135,7 @@ public class Main extends javax.swing.JFrame {
     }
 
     public void MenuInicio() {
+        System.gc(); // Solicitar ejecución del recolector de basura
         // Se inicializa el menu de inicio
         Thread loadMenu = new Thread(new Runnable() {
             @Override
