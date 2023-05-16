@@ -24,7 +24,6 @@ public class SfxHandeler {
     private long duration;
     private static ExecutorService executor = Executors.newSingleThreadExecutor();
     private boolean looping;
-    private static List<Clip> clips = new ArrayList<>();
 
     public SfxHandeler(Clip clip, float vol, AudioInputStream audioInputStream) {
         this.clip = clip;
