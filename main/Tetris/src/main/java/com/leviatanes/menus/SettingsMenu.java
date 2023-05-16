@@ -88,13 +88,13 @@ public class SettingsMenu extends JPanel {
         musicVolumeSlider.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         musicVolumeSlider.setMaximum(100);
         musicVolumeSlider.setMinimum(0);
-        musicVolumeSlider.setValue(100); // ============= [ PENDIENTE ] ============= //
+        musicVolumeSlider.setValue(SoundsPlayer.getIMusicVolume());
 
         musicVolumeSlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
                 if (!musicVolumeSlider.getValueIsAdjusting()) {
-                    SoundsPlayer.setMusicVol(((float) musicVolumeSlider.getValue()) / 100f);
+                    SoundsPlayer.setMymusicVol(((float) musicVolumeSlider.getValue()) / 100f);
                 }
             }
         });
@@ -113,13 +113,13 @@ public class SettingsMenu extends JPanel {
         soundEffectsVolumeSlider.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         soundEffectsVolumeSlider.setMaximum(100);
         soundEffectsVolumeSlider.setMinimum(0);
-        soundEffectsVolumeSlider.setValue(100); // ============= [ PENDIENTE ] ============= //
+        soundEffectsVolumeSlider.setValue(SoundsPlayer.getISfcVolume());
 
         soundEffectsVolumeSlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
                 if (!soundEffectsVolumeSlider.getValueIsAdjusting()) {
-                    SoundsPlayer.setSfxVol(((float) soundEffectsVolumeSlider.getValue()) / 100f);
+                    SoundsPlayer.setMysfxVol(((float) soundEffectsVolumeSlider.getValue()) / 100f);
                 }
             }
         });
