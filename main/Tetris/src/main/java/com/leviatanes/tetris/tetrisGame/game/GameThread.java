@@ -52,25 +52,20 @@ public class GameThread extends Thread {
         } while (SoundsPlayer.isMainMusicPlaying() == false);
 
         while (true) {
-            System.out.println("    run");
             actualSpeed = waitingTime;
             if (this.spawn())
                 break;
 
             waiting();
             // si se pulsa la tecla pausa se pausa el juego
-            System.out.println("    bef while moveDown");
             while (gameArea.moveDown()) {
                 if (waiting())
                     break;
             }
 
-            System.out.println("    aft while moveDown");
             if (settleBlock())
                 gameArea.clearLines();
-            System.out.println("    reset run");
         }
-        System.out.println("    end run");
     }
 
     /**
@@ -82,7 +77,6 @@ public class GameThread extends Thread {
     public boolean waiting() {
         if (gameArea.isHardDrop() || gameArea.getBlock() == null)
             return true;
-        System.out.println("    waiting");
         startTime = System.currentTimeMillis();
         while (getElapsedTime() < actualSpeed) {
             if (this.paused)
@@ -123,7 +117,6 @@ public class GameThread extends Thread {
             gameArea.moveBlockToBackGround();
             return true;
         }
-        System.out.println("    settleBlock");
         startSettleTime = System.currentTimeMillis();
         rotationCount = 0;
         while (getSettleTime() < 500) {
@@ -139,9 +132,7 @@ public class GameThread extends Thread {
                 startTime = System.currentTimeMillis() - elapsedTime;
             }
         }
-        System.out.println("    bef checkToDrop");
         if (gameArea.checkToDrop() == true) {
-            System.out.println("    aft checkToDrop en settleBlock");
             while (gameArea.moveDown())
                 ;
             gameArea.moveBlockToBackGround();
