@@ -105,7 +105,7 @@ public class TetrisPanel extends javax.swing.JPanel {
                 this.gameThread = new GameThread(this.gameArea);
 
                 this.gameControls = new GameControls(this.gameArea, this.gameThread, this.holdShape);
-
+                this.addKeyListener(gameControls);
                 this.statsPanel.setVisible(true);
                 this.setVisible(true);
                 this.gameThread.start();
