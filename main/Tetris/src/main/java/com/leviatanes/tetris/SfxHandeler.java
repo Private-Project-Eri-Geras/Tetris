@@ -9,7 +9,6 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineListener;
-import javax.sound.sampled.LineUnavailableException;
 
 public class SfxHandeler {
     private FloatControl gainControl;
@@ -22,33 +21,7 @@ public class SfxHandeler {
     private AudioInputStream audioInputStream;
     private long duration;
     private static ExecutorService executor = Executors.newSingleThreadExecutor();
-
-    public SfxHandeler(SfxHandeler other) {
-        this.audioInputStream = new AudioInputStream(other.getAudioInputStream(),
-                other.getAudioInputStream().getFormat(),
-                other.getAudioInputStream().getFrameLength());
-        try {
-            this.clip = cloneClip();
-        } catch (LineUnavailableException | IOException e) {
-            e.printStackTrace();
-        }
-        this.minimum = other.getMinimum();
-        this.maximum = other.getMaximum();
-        this.range = other.getRange();
-        this.gain = other.getGain();
-        this.volume = other.getVolume();
-        this.duration = other.getDuration();
-        this.gainControl = (FloatControl) this.clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(gain);
-    }
-
-    private Clip cloneClip() throws IOException, LineUnavailableException {
-        Clip clone = AudioSystem.getClip();
-        if (audioInputStream == null)
-            throw new IOException("AudioInputStream is null");
-        clone.open(audioInputStream);
-        return clone;
-    }
+    private boolean looping;
 
     public SfxHandeler(Clip clip, float vol, AudioInputStream audioInputStream) {
         this.clip = clip;
@@ -64,11 +37,16 @@ public class SfxHandeler {
                 * 1000);
 
         gainControl.setValue(gain); // Mover esta línea aquí
+        looping = false;
     }
 
     /** play absoluto (musica) */
     public void play() {
         clip.setFramePosition(0);
+        if (looping) {
+            clip.setLoopPoints(0, -1);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        }
         clip.start();
     }
 
@@ -82,6 +60,10 @@ public class SfxHandeler {
                     clip.open(AudioSystem.getAudioInputStream(getClass().getResource(path)));
                     FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
                     control.setValue(gain);
+                    if (looping) {
+                        clip.setLoopPoints(0, -1);
+                        clip.loop(Clip.LOOP_CONTINUOUSLY);
+                    }
                     clip.addLineListener(new LineListener() {
                         @Override
                         public void update(javax.sound.sampled.LineEvent event) {
@@ -105,8 +87,7 @@ public class SfxHandeler {
     }
 
     public void loop() {
-        clip.setLoopPoints(0, -1);
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
+        looping = true;
     }
 
     public void loop(int times) {
