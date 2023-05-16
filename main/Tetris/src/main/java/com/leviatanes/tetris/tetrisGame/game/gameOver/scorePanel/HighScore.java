@@ -48,11 +48,8 @@ public class HighScore extends JPanel {
 
     // Labels de seleccion de letras
     private JLabel letter1;
-    private Color letter1Color;
     private JLabel letter2;
-    private Color letter2Color;
     private JLabel letter3;
-    private Color letter3Color;
 
     // letter size
     private final static int letterX = 10;
@@ -89,9 +86,7 @@ public class HighScore extends JPanel {
     private final static int capH = 8;
 
     private JLabel exit;
-    private Color exitColor;
     private JLabel menu;
-    private Color menuColor;
     private Color baseColor = new Color(255, 255, 255, 100);
     private Color hoverColor = new Color(255, 255, 255, 255);
     private Main main;
