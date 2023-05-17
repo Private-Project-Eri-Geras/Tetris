@@ -26,16 +26,12 @@ public class SettingsReader {
     private static int rotate = 0;
     private static int counterRotate = 0;
     private static int left = 0;
-    private static int left2 = 0;
     private static int rigth = 0;
-    private static int rigth2 = 0;
     private static int down = 0;
-    private static int down2 = 0;
     private static int softDrop = 0;
     private static int hardDrop = 0;
     private static int pause = 0;
     private static int hold = 0;
-    private static int hold2 = 0;
     private static int mute = 0;
 
     static {
@@ -49,6 +45,7 @@ public class SettingsReader {
             FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String line;
+            int i = 0;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split(" ");
                 switch (parts[0]) {
@@ -70,20 +67,11 @@ public class SettingsReader {
                     case "left":
                         left = Integer.parseInt(parts[1]);
                         break;
-                    case "left2":
-                        left2 = Integer.parseInt(parts[1]);
-                        break;
                     case "rigth":
                         rigth = Integer.parseInt(parts[1]);
                         break;
-                    case "rigth2":
-                        rigth2 = Integer.parseInt(parts[1]);
-                        break;
                     case "down":
                         down = Integer.parseInt(parts[1]);
-                        break;
-                    case "down2":
-                        down2 = Integer.parseInt(parts[1]);
                         break;
                     case "softDrop":
                         softDrop = Integer.parseInt(parts[1]);
@@ -97,15 +85,17 @@ public class SettingsReader {
                     case "hold":
                         hold = Integer.parseInt(parts[1]);
                         break;
-                    case "hold2":
-                        hold2 = Integer.parseInt(parts[1]);
-                        break;
                     case "mute":
                         mute = Integer.parseInt(parts[1]);
                         break;
                 }
+                i++;
             }
             bufferedReader.close();
+            fileReader.close();
+            if (i == 0) {
+                defaultSettings();
+            }
         } catch (IOException e) {
             System.out.println("Error al leer el archivo de configuracion");
             e.printStackTrace();
@@ -137,26 +127,18 @@ public class SettingsReader {
                 counterRotate = 69;
                 bufferedWriter.write("left 65\n");
                 left = 65;
-                bufferedWriter.write("left2 37\n");
-                left2 = 37;
                 bufferedWriter.write("rigth 68\n");
                 rigth = 68;
-                bufferedWriter.write("rigth2 39\n");
-                rigth2 = 39;
                 bufferedWriter.write("down 83\n");
                 down = 83;
-                bufferedWriter.write("down2 40\n");
-                down2 = 40;
                 bufferedWriter.write("softDrop 16\n");
                 softDrop = 16;
                 bufferedWriter.write("hardDrop 32\n");
                 hardDrop = 32;
                 bufferedWriter.write("pause 80\n");
                 pause = 80;
-                bufferedWriter.write("hold 82\n");
-                hold = 82;
-                bufferedWriter.write("hold2 17\n");
-                hold2 = 17;
+                bufferedWriter.write("hold 17\n");
+                hold = 17;
                 bufferedWriter.write("mute 77\n");
                 mute = 77;
                 // mandatorio
@@ -178,7 +160,7 @@ public class SettingsReader {
             resolution[multiplier][0] = resolution[0][0] * (multiplier + 1);
             resolution[multiplier][1] = resolution[0][1] * (multiplier + 1);
         }
-        multiplier--;
+        multiplier -= 2;
     }
 
     public static int getMultiplier() {
@@ -205,24 +187,12 @@ public class SettingsReader {
         return left;
     }
 
-    public static int getLeft2() {
-        return left2;
-    }
-
     public static int getRigth() {
         return rigth;
     }
 
-    public static int getRigth2() {
-        return rigth2;
-    }
-
     public static int getDown() {
         return down;
-    }
-
-    public static int getDown2() {
-        return down2;
     }
 
     public static int getSoftDrop() {
@@ -239,10 +209,6 @@ public class SettingsReader {
 
     public static int getHold() {
         return hold;
-    }
-
-    public static int getHold2() {
-        return hold2;
     }
 
     public static int getMute() {
@@ -279,29 +245,14 @@ public class SettingsReader {
         searchReplace("left", left);
     }
 
-    public static void setLeft2(int left2) {
-        SettingsReader.left2 = left2;
-        searchReplace("left2", left2);
-    }
-
     public static void setRigth(int rigth) {
         SettingsReader.rigth = rigth;
         searchReplace("rigth", rigth);
     }
 
-    public static void setRigth2(int rigth2) {
-        SettingsReader.rigth2 = rigth2;
-        searchReplace("rigth2", rigth2);
-    }
-
     public static void setDown(int down) {
         SettingsReader.down = down;
         searchReplace("down", down);
-    }
-
-    public static void setDown2(int down2) {
-        SettingsReader.down2 = down2;
-        searchReplace("down2", down2);
     }
 
     public static void setSoftDrop(int softDrop) {
@@ -322,11 +273,6 @@ public class SettingsReader {
     public static void setHold(int hold) {
         SettingsReader.hold = hold;
         searchReplace("hold", hold);
-    }
-
-    public static void setHold2(int hold2) {
-        SettingsReader.hold2 = hold2;
-        searchReplace("hold2", hold2);
     }
 
     public static void setMute(int mute) {
