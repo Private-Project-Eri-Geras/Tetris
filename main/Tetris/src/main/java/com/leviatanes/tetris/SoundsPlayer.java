@@ -22,8 +22,6 @@ public class SoundsPlayer {
 
     private static Map<String, SfxHandeler> clips = new HashMap<>();
 
-    /** True si esta ensordecido */
-    private static boolean mainMuted = true;
     /** slider de la musica */
     private static float mymusicVol = 0f;
     /** volumen de la musica */
@@ -37,6 +35,12 @@ public class SoundsPlayer {
 
     /** constructor */
     private static boolean construido = false;
+    /* Mute */
+    private static boolean muted = false;
+    /* Is main playing */
+    private static boolean mainPlaying = false;
+    /* Is menu playing */
+    private static boolean menuPlaying = true;
 
     /** garbage colector */
     private static Thread garbage = new Thread(new Runnable() {
@@ -211,24 +215,29 @@ public class SoundsPlayer {
     }
 
     private static void playSound(String clipName) {
+        if (muted)
+            return;
         clips.get(clipName).play(soundPath + clipName);
     }
 
     public static void playGameMusic() {
-        toggleMuteMain();
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        if (clips.get("mainTheme.wav").isRunning() == false)
-            toggleMuteMain();
+        if (muted)
+            return;
+        if (clips.get("mainTheme.wav").isRunning())
+            return;
+        clips.get("mainTheme.wav").play();
+        mainPlaying = true;
+        menuPlaying = false;
     }
 
     public static void playMenuMusic() {
+        if (muted)
+            return;
         if (clips.get("menu.wav").isRunning())
             return;
         clips.get("menu.wav").play();
+        menuPlaying = true;
+        mainPlaying = false;
     }
 
     public static boolean isMainMusicPlaying() {
@@ -270,29 +279,31 @@ public class SoundsPlayer {
         return (int) (mymusicVol * 100);
     }
 
-    /**
-     * Activa o desactiva la musica
-     */
-    public static void toggleMuteMain() {
-        mainMuted = isMainMusicPlaying();
-        if (mainMuted) {
-            clips.get("mainTheme.wav").stop();
-        } else {
-            clips.get("mainTheme.wav").play();
-        }
-        mainMuted = !mainMuted;
-    }
-
     /** Detiene la musica */
     public static void stopMain() {
         clips.get("mainTheme.wav").stop();
-        mainMuted = true;
     }
 
     /** reproduce la musica de nuevo */
     public static void resumeMain() {
         clips.get("mainTheme.wav").play();
-        mainMuted = false;
+    }
+
+    /* activa o desactiva TODOS los sonidos */
+    public static void toggleMute() {
+        if (muted)
+            reumeMusic();
+        else
+            stopMusic();
+        muted = !muted;
+    }
+
+    /* resumir la cancion que se estaba tocando */
+    private static void reumeMusic() {
+        if (mainPlaying)
+            playGameMusic();
+        else if (menuPlaying)
+            playMenuMusic();
     }
 
     /**

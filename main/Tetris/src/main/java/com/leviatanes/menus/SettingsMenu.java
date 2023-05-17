@@ -300,7 +300,7 @@ public class SettingsMenu extends JPanel {
         left.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         left.setHorizontalAlignment(SwingConstants.LEFT);
 
-        leftBtn = new JButton((char) SettingsReader.getLeft() + "");
+        leftBtn = new JButton(KeyEvent.getKeyText(SettingsReader.getLeft()));
         leftBtn.setBounds(52 * multiplier, 17 * multiplier, 30 * multiplier, 4 * multiplier);
         leftBtn.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         leftBtn.setHorizontalAlignment(SwingConstants.CENTER);
@@ -336,7 +336,7 @@ public class SettingsMenu extends JPanel {
         right.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         right.setHorizontalAlignment(SwingConstants.LEFT);
 
-        rightBtn = new JButton((char) SettingsReader.getRigth() + "");
+        rightBtn = new JButton(KeyEvent.getKeyText(SettingsReader.getRigth()));
         rightBtn.setBounds(52 * multiplier, 22 * multiplier, 30 * multiplier, 4 * multiplier);
         rightBtn.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         rightBtn.setHorizontalAlignment(SwingConstants.CENTER);
@@ -358,11 +358,12 @@ public class SettingsMenu extends JPanel {
             public void keyPressed(KeyEvent e) {
                 System.out.println("Key Pressed: " + e.getKeyChar() + " " + e.getKeyCode());
                 int keyCode = e.getKeyCode();
-                int option = JOptionPane.showConfirmDialog(null, "Do you want to change the key to " + keyCode + " ?", "Change key",
+                int option = JOptionPane.showConfirmDialog(null,
+                        "Do you want to change the key to " + KeyEvent.getKeyText(keyCode) + " ?", "Change key",
                         JOptionPane.YES_NO_OPTION);
-                if(option == JOptionPane.YES_OPTION){
+                if (option == JOptionPane.YES_OPTION) {
                     SettingsReader.setRigth(keyCode);
-                    rightBtn.setText((char) keyCode + "");
+                    rightBtn.setText(KeyEvent.getKeyText(keyCode));
                 }
                 rightBtn.setFocusable(false);
             }
@@ -394,7 +395,7 @@ public class SettingsMenu extends JPanel {
         down.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         down.setHorizontalAlignment(SwingConstants.LEFT);
 
-        downBtn = new JButton((char) SettingsReader.getDown() + "");
+        downBtn = new JButton(KeyEvent.getKeyText(SettingsReader.getDown()));
         downBtn.setBounds(52 * multiplier, 27 * multiplier, 30 * multiplier, 4 * multiplier);
         downBtn.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         downBtn.setHorizontalAlignment(SwingConstants.CENTER);
@@ -429,7 +430,7 @@ public class SettingsMenu extends JPanel {
         hold.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         hold.setHorizontalAlignment(SwingConstants.LEFT);
 
-        holdBtn = new JButton((char) SettingsReader.getHold() + "");
+        holdBtn = new JButton(KeyEvent.getKeyText(SettingsReader.getHold()) + "");
         holdBtn.setBounds(52 * multiplier, 32 * multiplier, 30 * multiplier, 4 * multiplier);
         holdBtn.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         holdBtn.setHorizontalAlignment(SwingConstants.CENTER);
@@ -464,7 +465,7 @@ public class SettingsMenu extends JPanel {
         softDrop.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         softDrop.setHorizontalAlignment(SwingConstants.LEFT);
 
-        softDropBtn = new JButton((char) SettingsReader.getSoftDrop() + "");
+        softDropBtn = new JButton(KeyEvent.getKeyText(SettingsReader.getSoftDrop()));
         softDropBtn.setBounds(52 * multiplier, 37 * multiplier, 30 * multiplier, 4 * multiplier);
         softDropBtn.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         softDropBtn.setHorizontalAlignment(SwingConstants.CENTER);
@@ -499,7 +500,7 @@ public class SettingsMenu extends JPanel {
         hardDrop.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         hardDrop.setHorizontalAlignment(SwingConstants.LEFT);
 
-        hardDropBtn = new JButton((char) SettingsReader.getHardDrop() + "");
+        hardDropBtn = new JButton(KeyEvent.getKeyText(SettingsReader.getHardDrop()));
         hardDropBtn.setBounds(52 * multiplier, 42 * multiplier, 30 * multiplier, 4 * multiplier);
         hardDropBtn.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         hardDropBtn.setHorizontalAlignment(SwingConstants.CENTER);
@@ -534,7 +535,7 @@ public class SettingsMenu extends JPanel {
         rotate.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         rotate.setHorizontalAlignment(SwingConstants.LEFT);
 
-        rotateBtn = new JButton((char) SettingsReader.getRotate() + "");
+        rotateBtn = new JButton(KeyEvent.getKeyText(SettingsReader.getRotate()));
         rotateBtn.setBounds(52 * multiplier, 47 * multiplier, 30 * multiplier, 4 * multiplier);
         rotateBtn.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         rotateBtn.setHorizontalAlignment(SwingConstants.CENTER);
@@ -569,7 +570,7 @@ public class SettingsMenu extends JPanel {
         rotateLeft.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         rotateLeft.setHorizontalAlignment(SwingConstants.LEFT);
 
-        rotateLeftBtn = new JButton((char) SettingsReader.getCounterRotate() + "");
+        rotateLeftBtn = new JButton(KeyEvent.getKeyText(SettingsReader.getCounterRotate()));
         rotateLeftBtn.setBounds(52 * multiplier, 52 * multiplier, 30 * multiplier, 4 * multiplier);
         rotateLeftBtn.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         rotateLeftBtn.setHorizontalAlignment(SwingConstants.CENTER);
@@ -604,7 +605,7 @@ public class SettingsMenu extends JPanel {
         pause.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         pause.setHorizontalAlignment(SwingConstants.LEFT);
 
-        pauseBtn = new JButton((char) SettingsReader.getPause() + "");
+        pauseBtn = new JButton(KeyEvent.getKeyText(SettingsReader.getPause()));
         pauseBtn.setBounds(52 * multiplier, 57 * multiplier, 30 * multiplier, 4 * multiplier);
         pauseBtn.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         pauseBtn.setHorizontalAlignment(SwingConstants.CENTER);
@@ -639,7 +640,7 @@ public class SettingsMenu extends JPanel {
         mute.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         mute.setHorizontalAlignment(SwingConstants.LEFT);
 
-        muteBtn = new JButton((char) SettingsReader.getMute() + "");
+        muteBtn = new JButton(KeyEvent.getKeyText(SettingsReader.getMute()));
         muteBtn.setBounds(52 * multiplier, 62 * multiplier, 30 * multiplier, 4 * multiplier);
         muteBtn.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         muteBtn.setHorizontalAlignment(SwingConstants.CENTER);
