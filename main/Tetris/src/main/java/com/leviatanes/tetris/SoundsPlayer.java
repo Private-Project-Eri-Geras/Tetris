@@ -41,7 +41,8 @@ public class SoundsPlayer {
     private static boolean mainPlaying = false;
     /* Is menu playing */
     private static boolean menuPlaying = true;
-
+    /* ganancia fadeOut */
+    private static float gain = 0f;
     /** garbage colector */
     private static Thread garbage = new Thread(new Runnable() {
         @Override
@@ -221,10 +222,12 @@ public class SoundsPlayer {
     }
 
     public static void playGameMusic() {
+        gain = 0f;
         if (muted)
             return;
         if (clips.get("mainTheme.wav").isRunning())
             return;
+        clips.get("mainTheme.wav").setVolume(musicVol);
         clips.get("mainTheme.wav").play();
         mainPlaying = true;
         menuPlaying = false;
@@ -286,16 +289,27 @@ public class SoundsPlayer {
 
     /** reproduce la musica de nuevo */
     public static void resumeMain() {
-        clips.get("mainTheme.wav").play();
+        while (true) {
+            playGameMusic();
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (isMainMusicPlaying())
+                break;
+        }
     }
 
     /* activa o desactiva TODOS los sonidos */
     public static void toggleMute() {
-        if (muted)
+        if (muted) {
+            muted = !muted;
             reumeMusic();
-        else
+        } else {
+            muted = !muted;
             stopMusic();
-        muted = !muted;
+        }
     }
 
     /* resumir la cancion que se estaba tocando */
@@ -314,16 +328,17 @@ public class SoundsPlayer {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                float gain = clips.get("mainTheme.wav").getVolume();
-                while (gain > 0.3f) {
-                    gain -= 0.01f;
+                gain = clips.get("mainTheme.wav").getVolume();
+                while (gain > 0.43f) {
+                    gain -= 0.005f;
                     clips.get("mainTheme.wav").setVolume(gain);
                     try {
-                        Thread.sleep(10);
+                        Thread.sleep(50);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
+                clips.get("mainTheme.wav").stop();
             }
         }).start();
     }
