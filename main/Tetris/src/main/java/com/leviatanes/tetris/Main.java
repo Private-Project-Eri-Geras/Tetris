@@ -218,25 +218,27 @@ public class Main extends javax.swing.JFrame {
         this.repaint();
     }
 
-    public void setResize(){
-        if(settingsMenu != null){
+    public void setResize(boolean menu) {
+        if (settingsMenu != null) {
             this.remove(settingsMenu);
             settingsMenu = null;
         }
-        //setteo la nueva resolucion
-        multiplier = SettingsReader.getMultiplier(); //obtenemos la nueva resolucion
+        // setteo la nueva resolucion
+        multiplier = SettingsReader.getMultiplier(); // obtenemos la nueva resolucion
         width = multiplier * BASE_WIDTH;
         height = multiplier * BASE_HEIGHT;
         Thread initSettings = new Thread(() -> {
             settingsMenu = new SettingsMenu(width, height, resolution, multiplier, this);
             this.add(settingsMenu);
+            if (menu)
+                settingsMenu.toggleMenus();
             this.revalidate();
             this.repaint();
         });
         initSettings.start();
         this.setSize(width, height);
         this.generateCenter();
-        if(initSettings.isAlive()){
+        if (initSettings.isAlive()) {
             try {
                 initSettings.join(); // espera a que el hilo acabe la ejecucion
             } catch (InterruptedException e) {
@@ -244,7 +246,6 @@ public class Main extends javax.swing.JFrame {
             }
         }
     }
-
 
     // Setters de higth, whidth y multiplier (variables que definen el tamaño de la
     // ventana)

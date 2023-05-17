@@ -80,7 +80,7 @@ public class SettingsMenu extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SettingsReader.defaultSettings();
-                main.setResize();
+                main.setResize(isToggleMenus);
             }
         });
         this.add(resetButton);
@@ -118,7 +118,7 @@ public class SettingsMenu extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SettingsReader.setMultiplier(resComboBox.getSelectedIndex() + 1);
-                main.setResize();
+                main.setResize(false);
             }
         });
 
@@ -473,7 +473,7 @@ public class SettingsMenu extends JPanel {
 
     }
 
-    private void toggleMenus() {
+    public void toggleMenus() {
         if (isToggleMenus) {
             remove(controlsTitleLabel);
             remove(controlsbackButton);
