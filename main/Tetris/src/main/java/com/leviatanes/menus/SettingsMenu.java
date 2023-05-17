@@ -143,7 +143,7 @@ public class SettingsMenu extends JPanel {
 
         // ============ [CONTROLS BUTTON] ============ //
         controlsButton = new JButton("CONTROLS");
-        controlsButton.setBounds(27 * multiplier, 52 * multiplier, 36 * multiplier, 6 * multiplier);
+        controlsButton.setBounds(27 * multiplier, 56 * multiplier, 36 * multiplier, 6 * multiplier);
         controlsButton.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         controlsButton.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -173,7 +173,7 @@ public class SettingsMenu extends JPanel {
 
         // ============ [BACK BUTTON] ============ //
         backButton = new JButton("BACK");
-        backButton.setBounds(27 * multiplier, 64 * multiplier, 36 * multiplier, 6 * multiplier);
+        backButton.setBounds(27 * multiplier, 68 * multiplier, 36 * multiplier, 6 * multiplier);
         backButton.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         backButton.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -211,7 +211,7 @@ public class SettingsMenu extends JPanel {
 
         // ============ [CONTROLS BACK BUTTON] ============ //
         controlsbackButton = new JButton("BACK TO SETTINGS");
-        controlsbackButton.setBounds(27 * multiplier, 64 * multiplier, 36 * multiplier, 6 * multiplier);
+        controlsbackButton.setBounds(27 * multiplier, 68 * multiplier, 36 * multiplier, 6 * multiplier);
         controlsbackButton.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         controlsbackButton.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -236,6 +236,16 @@ public class SettingsMenu extends JPanel {
                 controlsbackButton.setBackground(new Color(200, 200, 200));
             }
         });
+
+        /*
+        leftLbl(x = 20, y = 17, w = 20, h = 4, text = "LEFT: ", font = ?, align = left)    leftBtn(x = 52, y = 17, w = 30, h = 4, text = setingsReader.getLeft(), font = ?, align = center)
+        rightLbl(x = 20, y = 22, w = 20, h = 4, text = "RIGHT: ", font = ?, align = left)  rightBtn(x = 52, y = 22, w = 30, h = 4, text = setingsReader.getRight(), font = ?, align = center)
+        downLbl(x = 20, y = 32, w = 20, h = 4, text = "DOWN: ", font = ?, align = left)    downBtn(x = 52, y = 32, w = 30, h = 4, text = setingsReader.getDown(), font = ?, align = center)
+        holdLbl(x = 20, y = 37, w = 20, h = 4, text = "HOLD: ", font = ?, align = left)    holdBtn(x = 52, y = 37, w = 30, h = 4, text = setingsReader.getHold(), font = ?, align = center)
+        softDrop(x = 20, y = 42, w = 20, h = 4, text = "SOFT DROP: ", font = ?, align = left)    softDropBtn(x = 52, y = 42, w = 30, h = 4, text = setingsReader.getSoftDrop(), font = ?, align = center)
+        hardDrop(x = 20, y = 47, w = 20, h = 4, text = "HARD DROP: ", font = ?, align = left)    hardDropBtn(x = 52, y = 47, w = 30, h = 4, text = setingsReader.getHardDrop(), font = ?, align = center)
+        
+        */
 
     }
 

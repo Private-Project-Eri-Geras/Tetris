@@ -20,14 +20,16 @@ public class GameControls implements KeyListener {
     private HoldPanel stashShape;
     private static boolean keyTyped[] = new boolean[256];
 
-    private int rotate;
-    private int counterRotate;
     private int left;
     private int left2;
     private int rigth;
     private int rigth2;
+    private int rotate;
     private int down;
     private int down2;
+    private int counterRotate;
+    
+    
     private int softDrop;
     private int hardDrop;
     private int pause;
