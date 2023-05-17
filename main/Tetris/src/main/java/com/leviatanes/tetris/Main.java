@@ -73,13 +73,16 @@ public class Main extends javax.swing.JFrame {
         resolution = new int[MATRIX_ROWS][MATRIX_COLUMNS];
         resolution[0][0] = BASE_WIDTH;
         resolution[0][1] = BASE_HEIGHT;
-        for (multiplier = 1; multiplier < MATRIX_ROWS && resolution[multiplier - 1][1] < screenHeight; multiplier++) {
+        for (multiplier = 1; multiplier < MATRIX_ROWS
+                && resolution[multiplier - 1][1] < screenHeight - 80; multiplier++) {
+            if (resolution[multiplier - 1][0] >= screenHeight) // XXX: pantalla vertical
+                break; // XXX:
             resolution[multiplier][0] = resolution[0][0] * (multiplier + 1);
             resolution[multiplier][1] = resolution[0][1] * (multiplier + 1);
-            width = resolution[multiplier - 1][0];
-            height = resolution[multiplier - 1][1];
         }
-        multiplier--;
+        multiplier = SettingsReader.getMultiplier();
+        width = multiplier * BASE_WIDTH;
+        height = multiplier * BASE_HEIGHT;
     }
 
     private void generateCenter() {
@@ -214,6 +217,34 @@ public class Main extends javax.swing.JFrame {
         this.revalidate();
         this.repaint();
     }
+
+    public void setResize(){
+        if(settingsMenu != null){
+            this.remove(settingsMenu);
+            settingsMenu = null;
+        }
+        //setteo la nueva resolucion
+        multiplier = SettingsReader.getMultiplier(); //obtenemos la nueva resolucion
+        width = multiplier * BASE_WIDTH;
+        height = multiplier * BASE_HEIGHT;
+        Thread initSettings = new Thread(() -> {
+            settingsMenu = new SettingsMenu(width, height, resolution, multiplier, this);
+            this.add(settingsMenu);
+            this.revalidate();
+            this.repaint();
+        });
+        initSettings.start();
+        this.setSize(width, height);
+        this.generateCenter();
+        if(initSettings.isAlive()){
+            try {
+                initSettings.join(); // espera a que el hilo acabe la ejecucion
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     // Setters de higth, whidth y multiplier (variables que definen el tamaño de la
     // ventana)

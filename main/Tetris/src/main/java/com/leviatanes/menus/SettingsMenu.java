@@ -73,8 +73,21 @@ public class SettingsMenu extends JPanel {
         this.add(resComboBox);
 
         for (int i = 0; i < resolution.length; i++) {
+            if(resolution[i][0] == 0)
+                break;
             resComboBox.addItem(resolution[i][0] + "x" + resolution[i][1]);
         }
+
+        resComboBox.setSelectedIndex(SettingsReader.getMultiplier() - 1);
+
+        resComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SettingsReader.setMultiplier(resComboBox.getSelectedIndex() + 1);
+                // TODO: cambiar la resolucion
+                main.setResize();
+            }
+        });
 
         // ============ [MUSIC VOLUME] ============ //
         musicVolumeLabel = new JLabel("MUSIC VOLUME:");
