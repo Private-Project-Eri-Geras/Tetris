@@ -3,6 +3,8 @@ package com.leviatanes.menus;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 
@@ -69,6 +71,12 @@ public class SettingsMenu extends JPanel {
 
     }
 
+    public int keyPressed(KeyEvent e) {
+        int keyCode = e.getKeyCode();
+        System.out.println("Key Pressed: " + KeyEvent.getKeyText(keyCode));
+        return keyCode;
+    }
+
     public void initComponents(int[][] resolution) {
         initSettings(resolution);
         initControls();
@@ -104,6 +112,10 @@ public class SettingsMenu extends JPanel {
         resComboBox = new JComboBox<String>();
         resComboBox.setBounds(42 * multiplier, 18 * multiplier, 36 * multiplier, 6 * multiplier);
         resComboBox.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
+        resComboBox.setFocusable(false);
+        resComboBox.setFocusTraversalKeysEnabled(false);
+        resComboBox.setFocusCycleRoot(false);
+        resComboBox.setRequestFocusEnabled(false);
         this.add(resComboBox);
 
         for (int i = 0; i < resolution.length; i++) {
@@ -179,6 +191,10 @@ public class SettingsMenu extends JPanel {
         controlsButton.setBounds(27 * multiplier, 56 * multiplier, 36 * multiplier, 6 * multiplier);
         controlsButton.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         controlsButton.setHorizontalAlignment(SwingConstants.CENTER);
+        controlsButton.setFocusable(false);
+        controlsButton.setFocusPainted(false);
+        controlsButton.setRequestFocusEnabled(false);
+        controlsButton.setRolloverEnabled(false);
 
         controlsButton.addActionListener(new ActionListener() {
             @Override
@@ -209,6 +225,10 @@ public class SettingsMenu extends JPanel {
         backButton.setBounds(27 * multiplier, 68 * multiplier, 36 * multiplier, 6 * multiplier);
         backButton.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         backButton.setHorizontalAlignment(SwingConstants.CENTER);
+        backButton.setFocusable(false);
+        backButton.setFocusPainted(false);
+        backButton.setRequestFocusEnabled(false);
+        backButton.setRolloverEnabled(false);
 
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -247,6 +267,10 @@ public class SettingsMenu extends JPanel {
         controlsbackButton.setBounds(27 * multiplier, 68 * multiplier, 36 * multiplier, 6 * multiplier);
         controlsbackButton.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         controlsbackButton.setHorizontalAlignment(SwingConstants.CENTER);
+        controlsbackButton.setFocusable(false);
+        controlsbackButton.setFocusPainted(false);
+        controlsbackButton.setRequestFocusEnabled(false);
+        controlsbackButton.setRolloverEnabled(false);
 
         controlsbackButton.addActionListener(new ActionListener() {
             @Override
@@ -280,11 +304,29 @@ public class SettingsMenu extends JPanel {
         leftBtn.setBounds(52 * multiplier, 17 * multiplier, 30 * multiplier, 4 * multiplier);
         leftBtn.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         leftBtn.setHorizontalAlignment(SwingConstants.CENTER);
+        leftBtn.setFocusable(false);
+        leftBtn.setFocusPainted(false);
+        leftBtn.setRequestFocusEnabled(false);
+        leftBtn.setRolloverEnabled(false);
+        leftBtn.setBackground(new Color(200, 200, 200));
 
         leftBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Change key left
+                keyPressed(null);
+
+            }
+        });
+
+        leftBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                leftBtn.setBackground(Color.WHITE);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                leftBtn.setBackground(new Color(200, 200, 200));
             }
         });
 
@@ -298,11 +340,51 @@ public class SettingsMenu extends JPanel {
         rightBtn.setBounds(52 * multiplier, 22 * multiplier, 30 * multiplier, 4 * multiplier);
         rightBtn.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         rightBtn.setHorizontalAlignment(SwingConstants.CENTER);
+        rightBtn.setFocusPainted(false);
+        rightBtn.setRequestFocusEnabled(false);
+        rightBtn.setRolloverEnabled(false);
+        rightBtn.setBackground(new Color(200, 200, 200));
+
+        rightBtn.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                System.out.println("Key Pressed: " + e.getKeyChar() + " " + e.getKeyCode());
+                int keyCode = e.getKeyCode();
+                int option = JOptionPane.showConfirmDialog(null, "Do you want to change the key to " + keyCode + " ?", "Change key",
+                        JOptionPane.YES_NO_OPTION);
+                if(option == JOptionPane.YES_OPTION){
+                    SettingsReader.setRigth(keyCode);
+                    rightBtn.setText((char) keyCode + "");
+                }
+                rightBtn.setFocusable(false);
+            }
+        });
 
         rightBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Change key rigth
+                rightBtn.setFocusable(true);
+                rightBtn.requestFocus();
+            }
+        });
+
+        rightBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                rightBtn.setBackground(Color.WHITE);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                rightBtn.setBackground(new Color(200, 200, 200));
             }
         });
 
@@ -316,11 +398,28 @@ public class SettingsMenu extends JPanel {
         downBtn.setBounds(52 * multiplier, 27 * multiplier, 30 * multiplier, 4 * multiplier);
         downBtn.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         downBtn.setHorizontalAlignment(SwingConstants.CENTER);
+        downBtn.setFocusable(false);
+        downBtn.setFocusPainted(false);
+        downBtn.setRequestFocusEnabled(false);
+        downBtn.setRolloverEnabled(false);
+        downBtn.setBackground(new Color(200, 200, 200));
 
         downBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO: Change key down
+            }
+        });
+
+        downBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                downBtn.setBackground(Color.WHITE);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                downBtn.setBackground(new Color(200, 200, 200));
             }
         });
 
@@ -334,11 +433,28 @@ public class SettingsMenu extends JPanel {
         holdBtn.setBounds(52 * multiplier, 32 * multiplier, 30 * multiplier, 4 * multiplier);
         holdBtn.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         holdBtn.setHorizontalAlignment(SwingConstants.CENTER);
+        holdBtn.setFocusable(false);
+        holdBtn.setFocusPainted(false);
+        holdBtn.setRequestFocusEnabled(false);
+        holdBtn.setRolloverEnabled(false);
+        holdBtn.setBackground(new Color(200, 200, 200));
 
         holdBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO: Change key hold
+            }
+        });
+
+        holdBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                holdBtn.setBackground(Color.WHITE);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                holdBtn.setBackground(new Color(200, 200, 200));
             }
         });
 
@@ -352,11 +468,28 @@ public class SettingsMenu extends JPanel {
         softDropBtn.setBounds(52 * multiplier, 37 * multiplier, 30 * multiplier, 4 * multiplier);
         softDropBtn.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         softDropBtn.setHorizontalAlignment(SwingConstants.CENTER);
+        softDropBtn.setFocusable(false);
+        softDropBtn.setFocusPainted(false);
+        softDropBtn.setRequestFocusEnabled(false);
+        softDropBtn.setRolloverEnabled(false);
+        softDropBtn.setBackground(new Color(200, 200, 200));
 
         softDropBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO: Change key soft drop
+            }
+        });
+
+        softDropBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                softDropBtn.setBackground(Color.WHITE);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                softDropBtn.setBackground(new Color(200, 200, 200));
             }
         });
 
@@ -370,11 +503,28 @@ public class SettingsMenu extends JPanel {
         hardDropBtn.setBounds(52 * multiplier, 42 * multiplier, 30 * multiplier, 4 * multiplier);
         hardDropBtn.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         hardDropBtn.setHorizontalAlignment(SwingConstants.CENTER);
+        hardDropBtn.setFocusable(false);
+        hardDropBtn.setFocusPainted(false);
+        hardDropBtn.setRequestFocusEnabled(false);
+        hardDropBtn.setRolloverEnabled(false);
+        hardDropBtn.setBackground(new Color(200, 200, 200));
 
         hardDropBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO: Change key hard drop
+            }
+        });
+
+        hardDropBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                hardDropBtn.setBackground(Color.WHITE);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                hardDropBtn.setBackground(new Color(200, 200, 200));
             }
         });
 
@@ -388,11 +538,28 @@ public class SettingsMenu extends JPanel {
         rotateBtn.setBounds(52 * multiplier, 47 * multiplier, 30 * multiplier, 4 * multiplier);
         rotateBtn.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         rotateBtn.setHorizontalAlignment(SwingConstants.CENTER);
+        rotateBtn.setFocusable(false);
+        rotateBtn.setFocusPainted(false);
+        rotateBtn.setRequestFocusEnabled(false);
+        rotateBtn.setRolloverEnabled(false);
+        rotateBtn.setBackground(new Color(200, 200, 200));
 
         rotateBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO: Change key rotate
+            }
+        });
+
+        rotateBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                rotateBtn.setBackground(Color.WHITE);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                rotateBtn.setBackground(new Color(200, 200, 200));
             }
         });
 
@@ -406,11 +573,28 @@ public class SettingsMenu extends JPanel {
         rotateLeftBtn.setBounds(52 * multiplier, 52 * multiplier, 30 * multiplier, 4 * multiplier);
         rotateLeftBtn.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         rotateLeftBtn.setHorizontalAlignment(SwingConstants.CENTER);
+        rotateLeftBtn.setFocusable(false);
+        rotateLeftBtn.setFocusPainted(false);
+        rotateLeftBtn.setRequestFocusEnabled(false);
+        rotateLeftBtn.setRolloverEnabled(false);
+        rotateLeftBtn.setBackground(new Color(200, 200, 200));
 
         rotateLeftBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO: Change key rotate left
+            }
+        });
+
+        rotateLeftBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                rotateLeftBtn.setBackground(Color.WHITE);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                rotateLeftBtn.setBackground(new Color(200, 200, 200));
             }
         });
 
@@ -424,11 +608,28 @@ public class SettingsMenu extends JPanel {
         pauseBtn.setBounds(52 * multiplier, 57 * multiplier, 30 * multiplier, 4 * multiplier);
         pauseBtn.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         pauseBtn.setHorizontalAlignment(SwingConstants.CENTER);
+        pauseBtn.setFocusable(false);
+        pauseBtn.setFocusPainted(false);
+        pauseBtn.setRequestFocusEnabled(false);
+        pauseBtn.setRolloverEnabled(false);
+        pauseBtn.setBackground(new Color(200, 200, 200));
 
         pauseBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO: Change key pause
+            }
+        });
+
+        pauseBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                pauseBtn.setBackground(Color.WHITE);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                pauseBtn.setBackground(new Color(200, 200, 200));
             }
         });
 
@@ -442,6 +643,11 @@ public class SettingsMenu extends JPanel {
         muteBtn.setBounds(52 * multiplier, 62 * multiplier, 30 * multiplier, 4 * multiplier);
         muteBtn.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         muteBtn.setHorizontalAlignment(SwingConstants.CENTER);
+        muteBtn.setFocusable(false);
+        muteBtn.setFocusPainted(false);
+        muteBtn.setRequestFocusEnabled(false);
+        muteBtn.setRolloverEnabled(false);
+        muteBtn.setBackground(new Color(200, 200, 200));
 
         muteBtn.addActionListener(new ActionListener() {
             @Override
@@ -449,27 +655,18 @@ public class SettingsMenu extends JPanel {
                 // TODO: Change key mute
             }
         });
-        /*
-         * leftLbl(x = 20, y = 17, w = 20, h = 4, text = "LEFT: ", font = ?, align =
-         * left) leftBtn(x = 52, y = 17, w = 30, h = 4, text = setingsReader.getLeft(),
-         * font = ?, align = center)
-         * rightLbl(x = 20, y = 22, w = 20, h = 4, text = "RIGHT: ", font = ?, align =
-         * left) rightBtn(x = 52, y = 22, w = 30, h = 4, text =
-         * setingsReader.getRight(), font = ?, align = center)
-         * downLbl(x = 20, y = 32, w = 20, h = 4, text = "DOWN: ", font = ?, align =
-         * left) downBtn(x = 52, y = 32, w = 30, h = 4, text = setingsReader.getDown(),
-         * font = ?, align = center)
-         * holdLbl(x = 20, y = 37, w = 20, h = 4, text = "HOLD: ", font = ?, align =
-         * left) holdBtn(x = 52, y = 37, w = 30, h = 4, text = setingsReader.getHold(),
-         * font = ?, align = center)
-         * softDrop(x = 20, y = 42, w = 20, h = 4, text = "SOFT DROP: ", font = ?, align
-         * = left) softDropBtn(x = 52, y = 42, w = 30, h = 4, text =
-         * setingsReader.getSoftDrop(), font = ?, align = center)
-         * hardDrop(x = 20, y = 47, w = 20, h = 4, text = "HARD DROP: ", font = ?, align
-         * = left) hardDropBtn(x = 52, y = 47, w = 30, h = 4, text =
-         * setingsReader.getHardDrop(), font = ?, align = center)
-         * 
-         */
+
+        muteBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                muteBtn.setBackground(Color.WHITE);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                muteBtn.setBackground(new Color(200, 200, 200));
+            }
+        });
 
     }
 
