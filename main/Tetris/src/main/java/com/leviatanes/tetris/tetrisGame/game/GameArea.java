@@ -1033,11 +1033,12 @@ public class GameArea extends JPanel {
         Color darkColor = block.getDarkColor();
         Color brigthColor = block.getLightColor();
         Color olColor = block.getBorderColor();
+        int[][] shape = block.getBlock();
         int heigth = block.getHeight();
         int width = block.getWidth();
         for (int row = 0; row < heigth; row++) {
             for (int col = 0; col < width; col++) {
-                if (block.getBlock()[row][col] == 1) {
+                if (shape[row][col] == 1) {
                     yi = row + block.getY();
                     xi = col + block.getX();
                     this.drawGameSquare(g, yi, xi, darkColor, brigthColor, olColor);
