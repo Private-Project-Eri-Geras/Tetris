@@ -10,8 +10,6 @@ import javax.sound.sampled.Clip;
 
 import java.io.BufferedInputStream;
 
-import com.leviatanes.menus.SettingsReader;
-
 /**
  * Clase que se encarga de reproducir los sonidos del juego.
  * Busca la optimizacion en tiempo de ejecucion, por lo que
@@ -40,18 +38,17 @@ public class SoundsPlayer {
     /** constructor */
     private static boolean construido = false;
 
-    private static int garbageCount = 0;
-
-    private static Thread garbageThread = new Thread(() -> {
-        while (true) {
-            try {
-                Thread.sleep(20000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            if (garbageCount > 30) {
-                System.gc(); // Solicitar ejecución del recolector de basura
-                garbageCount = 0;
+    /** garbage colector */
+    private static Thread garbage = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    Thread.sleep(20000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.gc();
             }
         }
     });
@@ -84,11 +81,11 @@ public class SoundsPlayer {
         stopMusic();
 
         // pendiente
-        setMysfxVol(SettingsReader.getSfxv());
-        setMymusicVol(SettingsReader.getMusicv());
+        setMysfxVol(0.5f);
+        setMymusicVol(0.3f);
         stopMusic();
         construido = true;
-        garbageThread.start();
+        garbage.start();
     }
 
     private static void loadClip(String sound) {
@@ -215,7 +212,6 @@ public class SoundsPlayer {
 
     private static void playSound(String clipName) {
         clips.get(clipName).play(soundPath + clipName);
-        garbageCount++;
     }
 
     public static void playGameMusic() {

@@ -1,8 +1,7 @@
 package com.leviatanes.tetris;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.ref.WeakReference;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -11,6 +10,8 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineListener;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class SfxHandeler {
     private FloatControl gainControl;
@@ -52,40 +53,40 @@ public class SfxHandeler {
         clip.start();
     }
 
+    /* play por copia (simultaneo) */
     public void play(String path) {
         executor.submit(new Runnable() {
             @Override
             public void run() {
-                Clip clip = null;
                 try {
-                    clip = AudioSystem.getClip();
+                    Clip clip = AudioSystem.getClip();
                     clip.open(AudioSystem.getAudioInputStream(getClass().getResource(path)));
                     FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
                     control.setValue(gain);
+
+                    // Crear ligas débiles para el Clip y el FloatControl
+                    WeakReference<Clip> clipWeakRef = new WeakReference<>(clip);
+                    WeakReference<FloatControl> controlWeakRef = new WeakReference<>(control);
+
                     if (looping) {
                         clip.setLoopPoints(0, -1);
                         clip.loop(Clip.LOOP_CONTINUOUSLY);
                     }
+                    clip.addLineListener(new LineListener() {
+                        @Override
+                        public void update(javax.sound.sampled.LineEvent event) {
+                            if (event.getType() == javax.sound.sampled.LineEvent.Type.STOP) {
+                                Clip clip = clipWeakRef.get();
+                                if (clip != null) {
+                                    clip.close();
+                                }
+                            }
+                        }
+                    });
                     clip.start();
-                    try {
-                        Thread.sleep(duration);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    clip.close();
-                    clip = null;
-                } catch (IOException | javax.sound.sampled.UnsupportedAudioFileException
-                        | javax.sound.sampled.LineUnavailableException e) {
+
+                } catch (IOException | UnsupportedAudioFileException | LineUnavailableException e) {
                     e.printStackTrace();
-                    if (clip != null) {
-                        clip.close(); // Si ocurre una excepción, asegúrate de cerrar el clip
-                        clip = null;
-                    }
-                } finally {
-                    if (clip != null) {
-                        clip.close();
-                        clip = null;
-                    }
                 }
             }
         });
