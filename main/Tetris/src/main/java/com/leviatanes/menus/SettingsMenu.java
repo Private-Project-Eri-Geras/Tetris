@@ -310,11 +310,35 @@ public class SettingsMenu extends JPanel {
         leftBtn.setRolloverEnabled(false);
         leftBtn.setBackground(new Color(200, 200, 200));
 
+        leftBtn.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                System.out.println("Key Pressed: " + e.getKeyChar() + " " + e.getKeyCode());
+                int keyCode = e.getKeyCode();
+                int option = JOptionPane.showConfirmDialog(null,
+                        "Do you want to change the key to " + KeyEvent.getKeyText(keyCode) + " ?", "Change key",
+                        JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.YES_OPTION) {
+                    SettingsReader.setLeft(keyCode);
+                    leftBtn.setText(KeyEvent.getKeyText(keyCode));
+                }
+                leftBtn.setFocusable(false);
+            }
+        });
+
         leftBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                keyPressed(null);
-
+                leftBtn.setFocusable(true);
+                leftBtn.requestFocus();
             }
         });
 
@@ -340,6 +364,7 @@ public class SettingsMenu extends JPanel {
         rightBtn.setBounds(52 * multiplier, 22 * multiplier, 30 * multiplier, 4 * multiplier);
         rightBtn.setFont(new Font("Arial", Font.BOLD, 3 * multiplier));
         rightBtn.setHorizontalAlignment(SwingConstants.CENTER);
+        rightBtn.setFocusable(false);
         rightBtn.setFocusPainted(false);
         rightBtn.setRequestFocusEnabled(false);
         rightBtn.setRolloverEnabled(false);
@@ -405,10 +430,35 @@ public class SettingsMenu extends JPanel {
         downBtn.setRolloverEnabled(false);
         downBtn.setBackground(new Color(200, 200, 200));
 
+        downBtn.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                System.out.println("Key Pressed: " + e.getKeyChar() + " " + e.getKeyCode());
+                int keyCode = e.getKeyCode();
+                int option = JOptionPane.showConfirmDialog(null,
+                        "Do you want to change the key to " + KeyEvent.getKeyText(keyCode) + " ?", "Change key",
+                        JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.YES_OPTION) {
+                    SettingsReader.setDown(keyCode);
+                    downBtn.setText(KeyEvent.getKeyText(keyCode));
+                }
+                downBtn.setFocusable(false);
+            }
+        });
+
         downBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Change key down
+                downBtn.setFocusable(true);
+                downBtn.requestFocus();
             }
         });
 
@@ -440,10 +490,35 @@ public class SettingsMenu extends JPanel {
         holdBtn.setRolloverEnabled(false);
         holdBtn.setBackground(new Color(200, 200, 200));
 
+        holdBtn.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                System.out.println("Key Pressed: " + e.getKeyChar() + " " + e.getKeyCode());
+                int keyCode = e.getKeyCode();
+                int option = JOptionPane.showConfirmDialog(null,
+                        "Do you want to change the key to " + KeyEvent.getKeyText(keyCode) + " ?", "Change key",
+                        JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.YES_OPTION) {
+                    SettingsReader.setHold(keyCode);
+                    holdBtn.setText(KeyEvent.getKeyText(keyCode));
+                }
+                holdBtn.setFocusable(false);
+            }
+        });
+
         holdBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Change key hold
+                holdBtn.setFocusable(true);
+                holdBtn.requestFocus();
             }
         });
 
@@ -475,10 +550,35 @@ public class SettingsMenu extends JPanel {
         softDropBtn.setRolloverEnabled(false);
         softDropBtn.setBackground(new Color(200, 200, 200));
 
+        softDropBtn.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                System.out.println("Key Pressed: " + e.getKeyChar() + " " + e.getKeyCode());
+                int keyCode = e.getKeyCode();
+                int option = JOptionPane.showConfirmDialog(null,
+                        "Do you want to change the key to " + KeyEvent.getKeyText(keyCode) + " ?", "Change key",
+                        JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.YES_OPTION) {
+                    SettingsReader.setSoftDrop(keyCode);
+                    softDropBtn.setText(KeyEvent.getKeyText(keyCode));
+                }
+                softDropBtn.setFocusable(false);
+            }
+        });
+
         softDropBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Change key soft drop
+                softDropBtn.setFocusable(true);
+                softDropBtn.requestFocus();
             }
         });
 
@@ -510,10 +610,35 @@ public class SettingsMenu extends JPanel {
         hardDropBtn.setRolloverEnabled(false);
         hardDropBtn.setBackground(new Color(200, 200, 200));
 
+        hardDropBtn.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                System.out.println("Key Pressed: " + e.getKeyChar() + " " + e.getKeyCode());
+                int keyCode = e.getKeyCode();
+                int option = JOptionPane.showConfirmDialog(null,
+                        "Do you want to change the key to " + KeyEvent.getKeyText(keyCode) + " ?", "Change key",
+                        JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.YES_OPTION) {
+                    SettingsReader.setHardDrop(keyCode);
+                    hardDropBtn.setText(KeyEvent.getKeyText(keyCode));
+                }
+                hardDropBtn.setFocusable(false);
+            }
+        });
+
         hardDropBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Change key hard drop
+                hardDropBtn.setFocusable(true);
+                hardDropBtn.requestFocus();
             }
         });
 
@@ -545,10 +670,35 @@ public class SettingsMenu extends JPanel {
         rotateBtn.setRolloverEnabled(false);
         rotateBtn.setBackground(new Color(200, 200, 200));
 
+        rotateBtn.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                System.out.println("Key Pressed: " + e.getKeyChar() + " " + e.getKeyCode());
+                int keyCode = e.getKeyCode();
+                int option = JOptionPane.showConfirmDialog(null,
+                        "Do you want to change the key to " + KeyEvent.getKeyText(keyCode) + " ?", "Change key",
+                        JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.YES_OPTION) {
+                    SettingsReader.setRotate(keyCode);
+                    rotateBtn.setText(KeyEvent.getKeyText(keyCode));
+                }
+                rotateBtn.setFocusable(false);
+            }
+        });
+
         rotateBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Change key rotate
+                rotateBtn.setFocusable(true);
+                rotateBtn.requestFocus();
             }
         });
 
@@ -580,10 +730,35 @@ public class SettingsMenu extends JPanel {
         rotateLeftBtn.setRolloverEnabled(false);
         rotateLeftBtn.setBackground(new Color(200, 200, 200));
 
+        rotateLeftBtn.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                System.out.println("Key Pressed: " + e.getKeyChar() + " " + e.getKeyCode());
+                int keyCode = e.getKeyCode();
+                int option = JOptionPane.showConfirmDialog(null,
+                        "Do you want to change the key to " + KeyEvent.getKeyText(keyCode) + " ?", "Change key",
+                        JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.YES_OPTION) {
+                    SettingsReader.setCounterRotate(keyCode);
+                    rotateLeftBtn.setText(KeyEvent.getKeyText(keyCode));
+                }
+                rotateLeftBtn.setFocusable(false);
+            }
+        });
+
         rotateLeftBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Change key rotate left
+                rotateLeftBtn.setFocusable(true);
+                rotateLeftBtn.requestFocus();
             }
         });
 
@@ -615,10 +790,35 @@ public class SettingsMenu extends JPanel {
         pauseBtn.setRolloverEnabled(false);
         pauseBtn.setBackground(new Color(200, 200, 200));
 
+        pauseBtn.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                System.out.println("Key Pressed: " + e.getKeyChar() + " " + e.getKeyCode());
+                int keyCode = e.getKeyCode();
+                int option = JOptionPane.showConfirmDialog(null,
+                        "Do you want to change the key to " + KeyEvent.getKeyText(keyCode) + " ?", "Change key",
+                        JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.YES_OPTION) {
+                    SettingsReader.setPause(keyCode);
+                    pauseBtn.setText(KeyEvent.getKeyText(keyCode));
+                }
+                pauseBtn.setFocusable(false);
+            }
+        });
+
         pauseBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Change key pause
+                pauseBtn.setFocusable(true);
+                pauseBtn.requestFocus();
             }
         });
 
@@ -650,10 +850,35 @@ public class SettingsMenu extends JPanel {
         muteBtn.setRolloverEnabled(false);
         muteBtn.setBackground(new Color(200, 200, 200));
 
+        muteBtn.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                System.out.println("Key Pressed: " + e.getKeyChar() + " " + e.getKeyCode());
+                int keyCode = e.getKeyCode();
+                int option = JOptionPane.showConfirmDialog(null,
+                        "Do you want to change the key to " + KeyEvent.getKeyText(keyCode) + " ?", "Change key",
+                        JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.YES_OPTION) {
+                    SettingsReader.setMute(keyCode);
+                    muteBtn.setText(KeyEvent.getKeyText(keyCode));
+                }
+                muteBtn.setFocusable(false);
+            }
+        });
+
         muteBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Change key mute
+                muteBtn.setFocusable(true);
+                muteBtn.requestFocus();
             }
         });
 
