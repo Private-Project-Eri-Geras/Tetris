@@ -53,7 +53,8 @@ public class SfxHandeler {
         clip.start();
     }
 
-    /* play por copia (simultaneo) */
+    @SuppressWarnings("unused")
+    /** play por copia (simultaneo) */
     public void play(String path) {
         executor.submit(new Runnable() {
             @Override

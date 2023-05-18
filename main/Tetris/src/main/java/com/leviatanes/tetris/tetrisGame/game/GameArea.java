@@ -4,12 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.tetrinominos.*;
-import com.leviatanes.menus.SettingsReader;
 import com.leviatanes.tetris.SoundsPlayer;
 import com.leviatanes.tetris.tetrisGame.TetrisPanel;
 import com.leviatanes.tetris.tetrisGame.game.gameOver.GameOver;
