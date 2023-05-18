@@ -99,8 +99,10 @@ public class GameControls implements KeyListener {
         if (gameArea.getBlock() == null || gameThread.isPaused())
             return;
         final int key = keyPressed.getKeyCode();
-        if (key == down)
+        if (key == down) {
             gameArea.moveDown();
+            gameThread.resetTime();
+        }
         if (key == rotate)
             gameArea.rotate();
         if (key == left)

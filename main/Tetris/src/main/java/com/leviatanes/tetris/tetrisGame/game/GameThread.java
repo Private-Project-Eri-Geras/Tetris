@@ -47,16 +47,6 @@ public class GameThread extends Thread {
 
     public void run() {
         while (true) {
-            SoundsPlayer.playGameMusic();
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            if (SoundsPlayer.isMainMusicPlaying())
-                break;
-        }
-        while (true) {
             actualSpeed = waitingTime;
             if (this.spawn())
                 break;
@@ -132,6 +122,10 @@ public class GameThread extends Thread {
             if (this.paused) {
                 this.pause();
                 startTime = System.currentTimeMillis() - elapsedTime;
+            }
+            if (gameArea.isHardDrop()) {
+                gameArea.moveBlockToBackGround();
+                return true;
             }
         }
         if (gameArea.checkToDrop() == true) {
