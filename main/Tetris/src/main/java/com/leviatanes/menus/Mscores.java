@@ -127,7 +127,7 @@ public class Mscores extends JPanel {
         if (scores == null) {// Imprime un mensaje si no hay scores
             emptyMessage(x, y, w, h);
         } else {// Si hay Scores registrados
-            cadena = String.format("%s %7s %11s", "Rank", " Name", "Score");
+            cadena = String.format("%s %7s %11s", "Rank", " Name", "Score"); // FIXME: espaciado
             tituloCol = new JLabel(cadena);
             tituloCol.setForeground(Color.white);
             tituloCol.setHorizontalAlignment(SwingConstants.CENTER);
