@@ -228,7 +228,16 @@ public class SoundsPlayer {
         if (clips.get("mainTheme.wav").isRunning())
             return;
         clips.get("mainTheme.wav").setVolume(musicVol);
-        clips.get("mainTheme.wav").play();
+        while (true) {
+            clips.get("mainTheme.wav").play();
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (clips.get("mainTheme.wav").isRunning())
+                break;
+        }
         mainPlaying = true;
         menuPlaying = false;
     }
@@ -238,6 +247,7 @@ public class SoundsPlayer {
             return;
         if (clips.get("menu.wav").isRunning())
             return;
+        clips.get("mainTheme.wav").setVolume(musicVol);
         clips.get("menu.wav").play();
         menuPlaying = true;
         mainPlaying = false;
