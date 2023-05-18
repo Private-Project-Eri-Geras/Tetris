@@ -85,7 +85,7 @@ public class GameControls implements KeyListener {
      */
     private boolean isPause(KeyEvent key) {
         if (key.getKeyCode() == pause) {
-            gameThread.togglePause();
+            gameArea.togglePause();
             return true;
         }
         return false;

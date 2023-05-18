@@ -4,11 +4,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.tetrinominos.*;
+import com.leviatanes.menus.SettingsReader;
 import com.leviatanes.tetris.SoundsPlayer;
+import com.leviatanes.tetris.tetrisGame.TetrisPanel;
 import com.leviatanes.tetris.tetrisGame.game.gameOver.GameOver;
 import com.leviatanes.tetris.tetrisGame.game.sidePanels.*;
 
@@ -63,6 +66,8 @@ public class GameArea extends JPanel {
     private int tileSize;
     /** Bandera de HardDrop */
     private boolean hardDropFlag = false;
+    /** bandera de pausa */
+    private boolean pause = false;
 
     // ===========[ BANDERAS DE SECCIONES CRITICAS ]================//
     /** Bandera de rotacion */
@@ -99,6 +104,7 @@ public class GameArea extends JPanel {
     private static final Color lightColor = new Color(30, 30, 30);
     /** color brillante @apiNote rgb = (100,100,100) */
     private static final Color borderColor = new Color(100, 100, 100);
+    private static final Color olColor = new Color(42, 42, 42);
     /** Los 7 bloques diferentes que podemos utilizar */
     private static final TetrisBlock[] blocks = { new Ishape(), new Jshape(), new Lshape(), new Oshape(), new Sshape(),
             new Tshape(), new Zshape() };
@@ -111,6 +117,12 @@ public class GameArea extends JPanel {
     private StatsPanel stats;
     /** panel de fin de juego */
     private GameOver gameOver;
+    /** gameThread */
+    private GameThread gameThread;
+    /** panel de pausa */
+    private PausedGame pausePanel;
+    /** Tetris Panel */
+    private TetrisPanel tetrisPanel;
 
     /**
      * Constructor de la clase
@@ -124,7 +136,8 @@ public class GameArea extends JPanel {
      * @param colums      int columnas del tablero
      */
     public GameArea(int x, int y, int width, int height, NextPanel nextShape, HoldPanel holdShape, StatsPanel stas,
-            GameOver gameOver) {
+            GameOver gameOver, TetrisPanel tetrisPanel) {
+        this.setLayout(null);
         this.x = x;
         this.y = y;
         this.width = width;
@@ -134,7 +147,13 @@ public class GameArea extends JPanel {
         this.holdShape = holdShape;
         this.stats = stas;
         this.gameOver = gameOver;
+        this.tetrisPanel = tetrisPanel;
         this.initGame();
+    }
+
+    /** set del Game Thread */
+    public void setGameThread(GameThread gameThread) {
+        this.gameThread = gameThread;
     }
 
     /**
@@ -223,6 +242,34 @@ public class GameArea extends JPanel {
         return this.rotateFlag;
     }
 
+    /** activa o desactiva la pausa */
+    public void togglePause() {
+        if (pausePanel != null) {
+            this.remove(pausePanel);
+            pausePanel = null;
+
+            this.revalidate();
+            this.repaint();
+            pause = false;
+        } else {
+            pausePanel = new PausedGame(this);
+            this.add(pausePanel);
+            this.revalidate();
+            this.repaint();
+            pause = true;
+        }
+        gameThread.togglePause();
+    }
+
+    /* reinicia el juego */
+    public void restart() {
+        tetrisPanel.restart();
+    }
+
+    /* menu de inicio */
+    public void goToMainMenu() {
+        tetrisPanel.goToMainMenu();
+    }
     // private int blockCounter = 0;
     // private TetrisBlock[] testBlocks = { new Jshape(), new Lshape(), new
     // Ishape(), new Oshape(),
@@ -263,6 +310,8 @@ public class GameArea extends JPanel {
      * @return boolean true si el juego termino
      */
     public boolean isGameOver() {
+        if (this.pause)
+            return false;
         if (this.block == null)
             return false;
         int[][] shape = this.block.getBlock();
@@ -289,6 +338,8 @@ public class GameArea extends JPanel {
 
     /** Hace un cambio de piezas */
     public void swap() {
+        if (this.pause)
+            return;
         if (this.holdedBlock == null) {
             this.holdedBlock = this.block;
             this.spawnBlock();
@@ -309,7 +360,8 @@ public class GameArea extends JPanel {
      * @return boolean true si se pudo mover
      */
     public boolean moveDown() {
-        // espera a que se termine la seccion critica
+        if (this.pause)
+            return false;
         if (this.block == null) {
             return false;
         }
@@ -328,6 +380,8 @@ public class GameArea extends JPanel {
 
     /** Hace hardDrop */
     public void hardDrop() {
+        if (this.pause)
+            return;
         this.hardDropFlag = true;
         this.drop();
         SoundsPlayer.playHardDrop();
@@ -337,7 +391,8 @@ public class GameArea extends JPanel {
      * Suelta el bloque en la posicion mas baja posible
      */
     private void drop() {
-        // espera a que se termine la seccion critica
+        if (this.pause)
+            return;
         if (this.block == null) {
             return;
         }
@@ -355,7 +410,8 @@ public class GameArea extends JPanel {
      * @return boolean true si el bloque llego al fondo o toco otro bloque
      */
     public boolean checkBottom() throws ArrayIndexOutOfBoundsException {
-        // espera a que se termine la seccion critica
+        if (this.pause)
+            return true;
         if (this.block == null) {
             return true;
         }
@@ -404,7 +460,8 @@ public class GameArea extends JPanel {
      * @return true si se tiene que dropear
      */
     public boolean checkToDrop() {
-        // espera a que se termine la seccion critica
+        if (this.pause)
+            return false;
         if (this.block == null) {
             return false;
         }
@@ -458,7 +515,8 @@ public class GameArea extends JPanel {
      * @return boolean true si se pudo mover
      */
     public boolean moveLeft() {
-        // espera a que se termine la seccion critica
+        if (this.pause)
+            return false;
         if (this.block == null) {
             return false;
         }
@@ -479,6 +537,8 @@ public class GameArea extends JPanel {
      * @return boolean true si el bloque llego al borde o toco otro bloque
      */
     private boolean checkLeft() {
+        if (this.pause)
+            return true;
         if (this.block == null)
             return true;
         if (this.block.getLeftEdge() == 0)
@@ -518,7 +578,8 @@ public class GameArea extends JPanel {
      * @return boolean true si se pudo mover
      */
     public boolean moveRight() {
-        // espera a que se termine la seccion critica
+        if (this.pause)
+            return false;
         if (this.block == null) {
             return false;
         }
@@ -539,6 +600,8 @@ public class GameArea extends JPanel {
      * @return boolean true si el bloque llego al borde o toco otro bloque
      */
     private boolean checkRight() {
+        if (this.pause)
+            return true;
         if (this.block == null)
             return true;
         if (this.block.getRightEdge() == this.colums)
@@ -578,7 +641,8 @@ public class GameArea extends JPanel {
 
     /** Gira el bloque */
     public void rotate() {
-        // esperar a secciones criticas
+        if (this.pause)
+            return;
         if (this.block == null) {
             return;
         }
@@ -678,7 +742,8 @@ public class GameArea extends JPanel {
 
     /** Gira el bloque en contra de las manecillas del reloj */
     public void rotateBack() {
-        // esperar a secciones criticas
+        if (this.pause)
+            return;
         if (this.block == null) {
             return;
         }
@@ -777,7 +842,6 @@ public class GameArea extends JPanel {
      * @return lineas completadas
      */
     public int clearLines() {
-        // esperar a secciones criticas
         int linesCleared = 0;
         boolean fillLine = true;
         for (int row = this.rows - 1; row >= 0; row--) {
@@ -885,6 +949,8 @@ public class GameArea extends JPanel {
      * de donde caera el bloque activo
      */
     private void setGhostBlock() {
+        if (this.pause)
+            return;
         if (block == null) {
             this.ghostBlock = null;
             return;
@@ -908,6 +974,8 @@ public class GameArea extends JPanel {
      * @return boolean true si se pudo mover
      */
     public boolean moveDownGhost() {
+        if (this.pause)
+            return false;
         if (this.ghostBlock == null) {
             return false;
         }
@@ -960,7 +1028,8 @@ public class GameArea extends JPanel {
      * al fondo del tablero
      */
     public void moveBlockToBackGround() {
-        // esperar a secciones criticas
+        if (this.pause)
+            return;
         if (block == null) {
             return;
         }
@@ -971,7 +1040,6 @@ public class GameArea extends JPanel {
         int yPos = block.getY();
         Color darkColor = block.getDarkColor();
         Color brigthColor = block.getLightColor();
-        Color olColor = block.getBorderColor();
         for (int r = 0; r < h; r++) {
             for (int c = 0; c < w; c++) {
                 if (shape[r][c] == 1) {
@@ -1105,7 +1173,6 @@ public class GameArea extends JPanel {
      */
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         this.drawBackGround(g);
         this.drawGhostBlock(g);
         this.drawBlock(g);

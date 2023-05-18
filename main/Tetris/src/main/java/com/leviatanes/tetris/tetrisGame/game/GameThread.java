@@ -1,7 +1,6 @@
 package com.leviatanes.tetris.tetrisGame.game;
 
 import com.leviatanes.tetris.SoundsPlayer;
-import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
 
 /**
  * Clase que controla el hilo de ejecucion del juego
@@ -104,8 +103,6 @@ public class GameThread extends Thread {
     }
 
     public void pause() {
-        TetrisBlock block = gameArea.getBlock();
-        gameArea.setBlock(null);
         while (this.paused) {
             try {
                 Thread.sleep(100);
@@ -113,7 +110,6 @@ public class GameThread extends Thread {
                 e.printStackTrace();
             }
         }
-        gameArea.setBlock(block);
     }
 
     public boolean settleBlock() {
