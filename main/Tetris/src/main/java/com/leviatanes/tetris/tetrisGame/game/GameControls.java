@@ -54,6 +54,8 @@ public class GameControls implements KeyListener {
     @Override
 
     public void keyPressed(KeyEvent key) {
+        if (key.getKeyCode() > 255)
+            return;
         if (keyTyped[key.getKeyCode()] == true)
             return;
         if (this.isPause(key)) // si se pulsa la tecla pausa se pausa el juego
@@ -68,6 +70,8 @@ public class GameControls implements KeyListener {
      * Utilizaremos en caso de ser nesesario detectar una realese
      */
     public void keyReleased(KeyEvent key) {
+        if (key.getKeyCode() > 255)
+            return;
         if (key.getKeyCode() == softDrop)
             gameThread.restoreGameSpeed();
         keyTyped[key.getKeyCode()] = false;
