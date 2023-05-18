@@ -41,14 +41,14 @@ public class Mscores extends JPanel {
     private final int fondoHeight = 52;
 
     // Offset para el titulo de las columnas
-    private final int tituloColXoffset = 15;
-    private final int tituloColYoffset = 13;
+    private final int tituloColXoffset = 0;
+    private final int tituloColYoffset = 2;
     private final int tituloColWidht = 60;
     private final int tituloColHeight = 5;
 
     // Offset para las filas
-    private final int filaXoffset = 15;
-    private final int filaYoffset = 20;// Se va sumando 5 para cada fila
+    private final int filaXoffset = 0;
+    private final int filaYoffset = 8;// Se va sumando 5 para cada fila
     private final int filaWidht = 60;
     private final int filaHeight = 4;
 
@@ -110,6 +110,7 @@ public class Mscores extends JPanel {
 
         // Agregandole un fondo
         fondoPanel = new JPanel();
+        fondoPanel.setLayout(null);
         x = fondoXoffset * multiplier;
         y = fondoYoffset * multiplier;
         w = fondoWidht * multiplier;
