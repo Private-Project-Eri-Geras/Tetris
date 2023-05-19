@@ -119,7 +119,7 @@ public class StatsPanel extends javax.swing.JPanel {
     /** Actualiza los labels de nivel */
     public void updateLevel(int level) {
         this.level = level;
-        updateLevelLbl();
+        updateLevelLbl(); // XXX
     }
 
     /** Actualiza los labels de score */
