@@ -146,7 +146,7 @@ public class StatsPanel extends javax.swing.JPanel {
     /** Actualiza el label 2 y los anteriores */
     private void updateLevelLbl2(String levelValue) {
         String imageName;
-        imageName = levelValue.charAt(1) + ".png";
+        imageName = levelValue.charAt(0) + ".png";
         setIcon(levelLbl2, folderPath + imageName, levelW, levelH);
         updateLevelLbl1(levelValue.charAt(1) + "");
     }
