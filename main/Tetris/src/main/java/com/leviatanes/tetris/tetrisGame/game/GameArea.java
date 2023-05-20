@@ -297,6 +297,7 @@ public class GameArea extends JPanel {
         this.hardDropFlag = false;
         setGhostBlock();
         this.spawnFlag = false;
+        this.tspinFlag = false;
 
         repaint();
         return true;
