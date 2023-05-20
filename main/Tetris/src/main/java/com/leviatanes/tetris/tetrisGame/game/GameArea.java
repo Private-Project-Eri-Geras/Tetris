@@ -871,6 +871,12 @@ public class GameArea extends JPanel {
             block.addY(rotationTest[currentRotation][i][1]);
             if (this.wallKickTest()) {
                 SoundsPlayer.playRotate();
+                if (this.block.getType() == 'T') {
+                    if (this.tSpingTest()) {
+                        this.tspinFlag = true;
+                        SoundsPlayer.playTspin();
+                    }
+                }
                 return;
             }
         }
