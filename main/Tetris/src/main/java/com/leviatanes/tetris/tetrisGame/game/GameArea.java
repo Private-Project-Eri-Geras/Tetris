@@ -108,6 +108,11 @@ public class GameArea extends JPanel {
     /** Los 7 bloques diferentes que podemos utilizar */
     private static final TetrisBlock[] blocks = { new Ishape(), new Jshape(), new Lshape(), new Oshape(), new Sshape(),
             new Tshape(), new Zshape() };
+    /** lista de bloques para que queden repartidos equitativamente */
+    private TetrisBlock[] bockArray = new TetrisBlock[7];
+    /** contador del indice de la lista de bloques */
+    private int blockIndex = 0;
+
     // ===================[ OTHER PANELS ]===========================//
     /** panel de pieza siguiente */
     private NextPanel nextShape;
@@ -179,8 +184,9 @@ public class GameArea extends JPanel {
                 this.background[2][i][j] = borderColor;
             }
         }
-        Random random = new Random();
-        this.nextBlock = blocks[random.nextInt(blocks.length)];
+        fillBlockArray();
+        this.nextBlock = this.bockArray[this.blockIndex];
+        this.blockIndex++;
     }
 
     /** retorna el spawned Flag */
@@ -270,11 +276,21 @@ public class GameArea extends JPanel {
     public void goToMainMenu() {
         tetrisPanel.goToMainMenu();
     }
-    // private int blockCounter = 0;
-    // private TetrisBlock[] testBlocks = { new Jshape(), new Lshape(), new
-    // Ishape(), new Oshape(),
-    // new Sshape(),
-    // new Tshape(), new Zshape() };
+
+    /** llena la lista de bloques con 1 de cada bloque de manera aleatoria */
+    private void fillBlockArray() {
+        Random random = new Random();
+        for (int i = 0; i < bockArray.length; i++) {
+            bockArray[i] = blocks[i];
+        }
+        // hacer 7 swaps para que no esten en orden
+        for (int i = 0; i < bockArray.length; i++) {
+            int randomIndex = random.nextInt(bockArray.length);
+            TetrisBlock temp = bockArray[randomIndex];
+            bockArray[randomIndex] = bockArray[i];
+            bockArray[i] = temp;
+        }
+    }
 
     /**
      * Spawnea un bloque aleatorio entre I, J, L, O, S, T, Z
@@ -291,7 +307,12 @@ public class GameArea extends JPanel {
         if (isGameOver())
             return false;
 
-        this.nextBlock = blocks[random.nextInt(blocks.length)];
+        this.nextBlock = this.bockArray[this.blockIndex];
+        this.blockIndex++;
+        if (this.blockIndex >= this.bockArray.length) {
+            this.blockIndex = 0;
+            fillBlockArray();
+        }
         nextShape.setNextShape(this.nextBlock);
         holdShape.setHoldAllowed(true);
         this.hardDropFlag = false;
