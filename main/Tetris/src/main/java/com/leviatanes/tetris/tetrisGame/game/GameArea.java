@@ -300,7 +300,6 @@ public class GameArea extends JPanel {
     public boolean spawnBlock() {
         this.blockDropped = false;
         this.spawnFlag = true;
-        Random random = new Random();
         this.block = nextBlock;
         block.spawn(this.colums);
 
