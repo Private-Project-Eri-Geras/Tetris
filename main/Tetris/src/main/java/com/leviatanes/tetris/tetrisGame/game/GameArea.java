@@ -261,12 +261,12 @@ public class GameArea extends JPanel {
         gameThread.togglePause();
     }
 
-    /* reinicia el juego */
+    /** reinicia el juego */
     public void restart() {
         tetrisPanel.restart();
     }
 
-    /* menu de inicio */
+    /** menu de inicio */
     public void goToMainMenu() {
         tetrisPanel.goToMainMenu();
     }
