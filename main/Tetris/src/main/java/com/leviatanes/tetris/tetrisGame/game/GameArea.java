@@ -906,7 +906,7 @@ public class GameArea extends JPanel {
                 if (tspinFlag) {
                     score = 40 * level;
                 } else {
-                score = 10 * level;
+                    score = 10 * level;
                 }
                 SoundsPlayer.playSingle();
                 break;
@@ -914,7 +914,7 @@ public class GameArea extends JPanel {
                 if (tspinFlag) {
                     score = 80 * level;
                 } else {
-                score = 30 * level;
+                    score = 30 * level;
                 }
                 SoundsPlayer.playSingle();
                 break;
@@ -922,7 +922,7 @@ public class GameArea extends JPanel {
                 if (tspinFlag) {
                     score = 120 * level;
                 } else {
-                score = 50 * level;
+                    score = 50 * level;
                 }
                 SoundsPlayer.playTriple();
                 break;
@@ -930,7 +930,7 @@ public class GameArea extends JPanel {
                 if (tspinFlag) {
                     score = 160 * level;
                 } else {
-                score = 100 * level;
+                    score = 100 * level;
                 }
                 SoundsPlayer.playTetris();
                 break;
