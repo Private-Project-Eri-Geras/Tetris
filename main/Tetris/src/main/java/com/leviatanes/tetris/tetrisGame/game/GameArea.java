@@ -487,46 +487,8 @@ public class GameArea extends JPanel {
         if (this.block == null) {
             return false;
         }
-        if (block.getType() == 'I') {
-            if (this.block.getBottomEdge() + 2 >= this.rows) {
-                return true;
-            }
-        } else {
-            if (this.block.getBottomEdge() + 1 >= this.rows) {
-                return true;
-            }
-        }
-        int shape[][] = this.block.getBlock();
-        int w = this.block.getWidth();
-        int h = this.block.getHeight();
-        int x, y;// se utilizaran para sacar el offsetverdadero y comparar correctamente
         if (this.checkBottom()) {
             return true;
-        }
-        if (block.getType() != 'I') {
-            for (int col = 0; col < w; col++) {
-                for (int row = h - 1; row >= 0; row--) {
-                    if (shape[row][col] != 0) {
-                        x = col + block.getX();
-                        y = row + block.getY() + 1;
-                        if (background[0][y][x] != darkColor || background[0][y + 1][x] != darkColor) {
-                            return true;
-                        }
-                        break;
-                    }
-                }
-            }
-        } else {
-            for (int col = 0; col < w; col++) {
-                x = col + block.getX();
-                y = block.getY() + 1;
-                if (y < 0)
-                    break;
-                if (background[0][y][x] != darkColor || background[0][y + 1][x] != darkColor
-                        || background[0][y + 2][x] != darkColor) {
-                    return true;
-                }
-            }
         }
         return false;
     }
