@@ -66,6 +66,8 @@ public class GameArea extends JPanel {
     private boolean hardDropFlag = false;
     /** bandera de pausa */
     private boolean pause = false;
+    /** bandera de Tspin */
+    private boolean tspinFlag = false;
 
     // ===========[ BANDERAS DE SECCIONES CRITICAS ]================//
     /** Bandera de rotacion */
@@ -663,6 +665,17 @@ public class GameArea extends JPanel {
     };
 
     /**
+     * Arreglo de pruebas para la Tspin
+     * int[NumeroDeTest][cooredandas1][cooredandas2]
+     */
+    private int[][][] tSpinTest = {
+            { { 0, 0 }, { 2, 0 } },
+            { { 1, 0 }, { 1, 2 } },
+            { { 0, 1 }, { 2, 1 } },
+            { { 0, 0 }, { 0, 2 } }
+    };
+
+    /**
      * Arreglo de pruebas de rotacion I
      * int[TipoDeRotacion][NumeroDeTest][cooredandas]
      */
@@ -703,12 +716,44 @@ public class GameArea extends JPanel {
             block.addY(rotationTest[currentRotation][i][1]);
             if (this.wallKickTest()) {
                 SoundsPlayer.playRotate();
+                if (this.block.getType() == 'T') {
+                    if (this.tSpingTest()) {
+                        this.tspinFlag = true;
+                        SoundsPlayer.playTspin();
+                    }
+                }
                 return;
             }
         }
         this.block.setX(x);
         this.block.setY(y);
         this.block.rotateBack();
+    }
+
+    /**
+     * Verifica si se ha realizado un Tspin
+     * 
+     * @return true si se ha realizado un Tspin
+     */
+    private boolean tSpingTest() {
+        if (this.block.getType() != 'T')
+            return false;
+        int currentRotation = this.block.getCurrentRotation();
+        int x = this.block.getLeftEdge() + tSpinTest[currentRotation][0][0];
+        int y = this.block.getTopEdge() + tSpinTest[currentRotation][0][1];
+        int x2 = this.block.getLeftEdge() + tSpinTest[currentRotation][1][0];
+        int y2 = this.block.getTopEdge() + tSpinTest[currentRotation][1][1];
+        if (this.checkBackGround(x, y) && this.checkBackGround(x2, y2))
+            return true;
+        return false;
+    }
+
+    /** mini coords */
+    private boolean checkBackGround(int x, int y) {
+        if (background[0][y][x] != darkColor) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -869,19 +914,35 @@ public class GameArea extends JPanel {
         int score = 0;
         switch (linesClear) {
             case 1:
+                if (tspinFlag) {
+                    score = 40 * level;
+                } else {
                 score = 10 * level;
+                }
                 SoundsPlayer.playSingle();
                 break;
             case 2:
+                if (tspinFlag) {
+                    score = 80 * level;
+                } else {
                 score = 30 * level;
+                }
                 SoundsPlayer.playSingle();
                 break;
             case 3:
+                if (tspinFlag) {
+                    score = 120 * level;
+                } else {
                 score = 50 * level;
+                }
                 SoundsPlayer.playTriple();
                 break;
             case 4:
+                if (tspinFlag) {
+                    score = 160 * level;
+                } else {
                 score = 100 * level;
+                }
                 SoundsPlayer.playTetris();
                 break;
             default:
