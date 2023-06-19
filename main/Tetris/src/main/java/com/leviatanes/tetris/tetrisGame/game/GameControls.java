@@ -6,52 +6,56 @@ import java.awt.event.KeyListener;
 import com.leviatanes.tetris.SoundsPlayer;
 import com.leviatanes.tetris.tetrisGame.game.sidePanels.*;
 
+import com.leviatanes.menus.SettingsReader;
+
+/**
+ * Clase que lee las teclas presionadas por el usuario y
+ * ejecuta las acciones correspondientes
+ * 
+ * @author Gerardo
+ */
 public class GameControls implements KeyListener {
     private GameArea gameArea;
     private GameThread gameThread;
     private HoldPanel stashShape;
     private static boolean keyTyped[] = new boolean[256];
 
+    private int rotate;
+    private int counterRotate;
+    private int left;
+    private int rigth;
+    private int down;
+    private int softDrop;
+    private int hardDrop;
+    private int pause;
+    private int hold;
+    private int mute;
+
     public GameControls(GameArea gameArea, GameThread gameThread, HoldPanel stashShape) {
         this.gameArea = gameArea;
         this.gameThread = gameThread;
         this.stashShape = stashShape;
+        this.setKeys();
     }
 
-    /**
-     * w = rotar bloque (codigo 87)
-     * e = contra rotar bloque (codigo 69)
-     * a = mover bloque a la izquierda (codigo 65)
-     * flecha derecha = mover bloque a la derecha (codigo 39)
-     * d = mover bloque hacia abajo (codigo 68)
-     * flecha abajo = bajar bloque (codigo 40)
-     * s = mover bloque a la derecha (codigo 83)
-     * flecha izquierda = mover bloque a la izquierda (codigo 37)
-     * spacio = hardDrop (codigo 32)
-     * shitf = softDrop (codigo 16)
-     * p = pausar juego (codigo 80)
-     * r = hacer swap de piezas (codigo 82)
-     * control = hacer swap de piezas (codigo 17)
-     * m = mutear juego (codigo 77)
-     */
-    private static final int rotate = 87;
-    private static final int counterRotate = 69;
-    private static final int left = 65;
-    private static final int left2 = 37;
-    private static final int rigth = 68;
-    private static final int rigth2 = 39;
-    private static final int down = 83;
-    private static final int down2 = 40;
-    private static final int softDrop = 16;
-    private static final int hardDrop = 32;
-    private static final int pause = 80;
-    private static final int hold = 82;
-    private static final int hold2 = 17;
-    private static final int mute = 77;
+    private void setKeys() {
+        rotate = SettingsReader.getRotate();
+        counterRotate = SettingsReader.getCounterRotate();
+        left = SettingsReader.getLeft();
+        rigth = SettingsReader.getRigth();
+        down = SettingsReader.getDown();
+        softDrop = SettingsReader.getSoftDrop();
+        hardDrop = SettingsReader.getHardDrop();
+        pause = SettingsReader.getPause();
+        hold = SettingsReader.getHold();
+        mute = SettingsReader.getMute();
+    }
 
     @Override
 
     public void keyPressed(KeyEvent key) {
+        if (key.getKeyCode() > 255)
+            return;
         if (keyTyped[key.getKeyCode()] == true)
             return;
         if (this.isPause(key)) // si se pulsa la tecla pausa se pausa el juego
@@ -66,6 +70,8 @@ public class GameControls implements KeyListener {
      * Utilizaremos en caso de ser nesesario detectar una realese
      */
     public void keyReleased(KeyEvent key) {
+        if (key.getKeyCode() > 255)
+            return;
         if (key.getKeyCode() == softDrop)
             gameThread.restoreGameSpeed();
         keyTyped[key.getKeyCode()] = false;
@@ -83,7 +89,7 @@ public class GameControls implements KeyListener {
      */
     private boolean isPause(KeyEvent key) {
         if (key.getKeyCode() == pause) {
-            gameThread.togglePause();
+            gameArea.togglePause();
             return true;
         }
         return false;
@@ -93,50 +99,35 @@ public class GameControls implements KeyListener {
      * Controla el movimiento del juego
      * 
      */
-    private void controlGame(KeyEvent key) {
+    private void controlGame(KeyEvent keyPressed) {
         if (gameArea.getBlock() == null || gameThread.isPaused())
             return;
-
-        switch (key.getKeyCode()) {
-            case down2:
-            case down:
-                gameArea.moveDown();
-                break;
-            case rotate:
-                gameArea.rotate();
-                gameThread.resetSettleTime(); // se resetea el tiempo para bloquear el bloque en el fondo
-                break;
-            case left2:
-            case left:
-                gameArea.moveLeft();
-                break;
-            case rigth2:
-            case rigth:
-                gameArea.moveRight();
-                break;
-            case softDrop:
-                gameThread.softDrop();
-                break;
-            case hardDrop:
-                gameArea.hardDrop();
-                break;
-            case counterRotate:
-                gameArea.rotateBack();
-                gameThread.resetSettleTime(); // se resetea el tiempo para bloquear el bloque en el fondo
-                break;
-            case hold2:
-            case hold:
-                if (!stashShape.isHoldAllowed())
-                    return;
-                gameArea.swap();
-                stashShape.setHoldAllowed(false);
-                stashShape.setHoldedShape(gameArea.getHoldedBlock());
-                break;
-            case mute:
-                SoundsPlayer.toggleMuteMain();
-            default:
-                break;
+        final int key = keyPressed.getKeyCode();
+        if (key == down) {
+            gameArea.moveDown();
+            gameThread.resetTime();
         }
+        if (key == rotate)
+            gameArea.rotate();
+        if (key == left)
+            gameArea.moveLeft();
+        if (key == rigth)
+            gameArea.moveRight();
+        if (key == softDrop)
+            gameThread.softDrop();
+        if (key == hardDrop)
+            gameArea.hardDrop();
+        if (key == counterRotate)
+            gameArea.rotateBack();
+        if (key == hold) {
+            if (!stashShape.isHoldAllowed())
+                return;
+            gameArea.swap();
+            stashShape.setHoldAllowed(false);
+            stashShape.setHoldedShape(gameArea.getHoldedBlock());
+        }
+        if (key == mute)
+            SoundsPlayer.toggleMute();
     }
 
 }

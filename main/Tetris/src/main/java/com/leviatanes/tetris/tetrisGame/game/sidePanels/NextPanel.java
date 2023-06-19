@@ -7,6 +7,16 @@ import javax.swing.JLabel;
 
 import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
 
+/**
+ * [ PANEL DE LA PIEZA SIGUIENTE ]
+ * Se encarga de mostrar un panel con la pieza siguiente
+ * 
+ * @author Leonardo
+ * @author Eriarer (Abraham)
+ * 
+ * @see ShapeHolder
+ * @see TetrisBlock
+ */
 public class NextPanel extends javax.swing.JPanel {
     /** Label de la pieza siguiente */
     private JLabel nextShapeLabel;
@@ -15,7 +25,7 @@ public class NextPanel extends javax.swing.JPanel {
     /** Multiplicador */
     private int multiplier;
     /** Path de la carpeta de imagenes */
-    private final String folderPath = "/com/leviatanes/tetris/tetrisGame/game/sidePanels/images/";
+    private final String folderPath = "/com/leviatanes/images/";
     // offset para el label de la pieza siguiente
     private final int nextShapeLabelYoffset = 1;
     private final int nextShapeLabelXoffset = 1;

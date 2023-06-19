@@ -1,8 +1,16 @@
 package com.leviatanes.tetris.tetrisGame.game;
 
 import com.leviatanes.tetris.SoundsPlayer;
-import com.leviatanes.tetris.tetrisGame.tetrisBlocks.TetrisBlock;
 
+/**
+ * Clase que controla el hilo de ejecucion del juego
+ * haciendo que el bloque baje el bloque
+ * controla la velocidad del juego y el spawn de los bloques
+ * 
+ * @author Eriarer (Abraham)
+ * 
+ * @see GameArea
+ */
 public class GameThread extends Thread {
     /** bandera de juego pausado */
     private boolean paused;
@@ -40,25 +48,20 @@ public class GameThread extends Thread {
     public void run() {
         SoundsPlayer.playGameMusic();
         while (true) {
-            System.out.println("    run");
             actualSpeed = waitingTime;
             if (this.spawn())
                 break;
 
             waiting();
             // si se pulsa la tecla pausa se pausa el juego
-            System.out.println("    bef while moveDown");
             while (gameArea.moveDown()) {
                 if (waiting())
                     break;
             }
 
-            System.out.println("    aft while moveDown");
             if (settleBlock())
                 gameArea.clearLines();
-            System.out.println("    reset run");
         }
-        System.out.println("    end run");
     }
 
     /**
@@ -70,7 +73,6 @@ public class GameThread extends Thread {
     public boolean waiting() {
         if (gameArea.isHardDrop() || gameArea.getBlock() == null)
             return true;
-        System.out.println("    waiting");
         startTime = System.currentTimeMillis();
         while (getElapsedTime() < actualSpeed) {
             if (this.paused)
@@ -92,8 +94,6 @@ public class GameThread extends Thread {
     }
 
     public void pause() {
-        TetrisBlock block = gameArea.getBlock();
-        gameArea.setBlock(null);
         while (this.paused) {
             try {
                 Thread.sleep(100);
@@ -101,7 +101,6 @@ public class GameThread extends Thread {
                 e.printStackTrace();
             }
         }
-        gameArea.setBlock(block);
     }
 
     public boolean settleBlock() {
@@ -111,7 +110,6 @@ public class GameThread extends Thread {
             gameArea.moveBlockToBackGround();
             return true;
         }
-        System.out.println("    settleBlock");
         startSettleTime = System.currentTimeMillis();
         rotationCount = 0;
         while (getSettleTime() < 500) {
@@ -126,10 +124,12 @@ public class GameThread extends Thread {
                 this.pause();
                 startTime = System.currentTimeMillis() - elapsedTime;
             }
+            if (gameArea.isHardDrop()) {
+                gameArea.moveBlockToBackGround();
+                return true;
+            }
         }
-        System.out.println("    bef checkToDrop");
         if (gameArea.checkToDrop() == true) {
-            System.out.println("    aft checkToDrop en settleBlock");
             while (gameArea.moveDown())
                 ;
             gameArea.moveBlockToBackGround();
@@ -203,16 +203,12 @@ public class GameThread extends Thread {
     /**
      * Genera un bloque nuevo
      * y verifica que no sea game over
+     * si se pudo spawnear el bloque devuelve false
      */
     private boolean spawn() {
         if (gameArea.getBlock() == null) {
-            gameArea.spawnBlock();
-            while (gameArea.getSpawnedFlag())
-                ;
-            if (gameArea.isGameOver()) {
+            if (!gameArea.spawnBlock())
                 return true;
-            }
-            gameArea.repaint();
         }
         return false;
     }

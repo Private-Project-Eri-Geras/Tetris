@@ -1,41 +1,62 @@
 package com.leviatanes.tetris;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineListener;
-import java.io.BufferedInputStream;
-import com.leviatanes.tetris.soundPlayer.myAudioClip;
 
+import java.io.BufferedInputStream;
+
+/**
+ * Clase que se encarga de reproducir los sonidos del juego.
+ * Busca la optimizacion en tiempo de ejecucion, por lo que
+ * los sonidos se cargan en memoria al inicio del programa
+ * y se reproducen desde ahi.
+ * 
+ * @author Eriarer (Abraham)
+ */
 public class SoundsPlayer {
 
-    private static int clipIdCounter = 0;
+    private static Map<String, SfxHandeler> clips = new HashMap<>();
 
-    private static Map<String, myAudioClip> clips = new HashMap<>();
+    /** slider de la musica */
+    private static float mymusicVol = 0f;
+    /** volumen de la musica */
+    private static float musicVol = 0f;
+    /** slider del sfx */
+    private static float mysfxVol = 0f;
+    /** volumen del sfx */
+    private static float sfxVol = 0f;
+    /** constante de la ruta de los audios */
+    private static final String soundPath = "/com/leviatanes/music/";
 
-    private static List<myAudioClip> playingClips = new ArrayList<>();
-
-    private static ExecutorService executor = Executors.newSingleThreadExecutor();
-
-    private static float minimum = 0f;
-    private static float previousGain = 0f;
-    private static Clip mainMusic = null;
+    /** constructor */
+    private static boolean construido = false;
+    /* Mute */
     private static boolean muted = false;
-    private static FloatControl gainControl = null;
-
-    private static final String soundPath = "/com/leviatanes/tetris/tetrisGame/game/music/";
+    /* Is main playing */
+    private static boolean mainPlaying = false;
+    /* Is menu playing */
+    private static boolean menuPlaying = true;
+    /* ganancia fadeOut */
+    private static float gain = 0f;
+    /** garbage colector */
+    private static Thread garbage = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    Thread.sleep(20000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.gc();
+            }
+        }
+    });
 
     static {
         loadClip("allClear.wav");
@@ -55,28 +76,39 @@ public class SoundsPlayer {
         loadClip("tetris.wav");
         loadClip("triple.wav");
         loadClip("Tspin.wav");
+        loadClip("mainTheme.wav");
+        stopMain();
+        clips.get("mainTheme.wav").loop();
+        stopMain();
+        loadClip("menu.wav");
+        stopMusic();
+        clips.get("menu.wav").loop();
+        stopMusic();
+
+        // pendiente
+        setMysfxVol(0.5f);
+        setMymusicVol(0.3f);
+        stopMusic();
+        construido = true;
+        garbage.start();
     }
 
     private static void loadClip(String sound) {
         try {
+            SfxHandeler soundEffect = null;
             // Obtener el archivo de sonido
             URL soundURL = SoundsPlayer.class.getResource(soundPath + sound);
             if (soundURL == null) {
                 throw new RuntimeException("No se pudo encontrar el archivo de sonido: " + sound);
             }
-
             // Cargar el clip de sonido
             AudioInputStream audioInputStream = AudioSystem
                     .getAudioInputStream(new BufferedInputStream(soundURL.openStream()));
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
-
-            // Crear el objeto AudioClip
-            int id = clipIdCounter++;
-            myAudioClip audioClip = new myAudioClip(clip, id);
-
+            soundEffect = new SfxHandeler(clip, 1, audioInputStream);
             // Agregar el objeto AudioClip al mapa de clips
-            clips.put(sound, audioClip);
+            clips.put(sound, soundEffect);
 
         } catch (Exception e) {
             throw new RuntimeException("No se pudo cargar el archivo de sonido: " + sound, e);
@@ -151,73 +183,87 @@ public class SoundsPlayer {
         playSound("Tspin.wav");
     }
 
-    private static void playSound(String clipName) {
-        myAudioClip audioClip = clips.get(clipName);
-        if (audioClip == null) {
-            return;
+    /**
+     * Asigna el volumen de la musica principal.
+     * 
+     * @pparam vloment 0f - 1f
+     */
+    public static void setMysfxVol(float volume) {
+        mysfxVol = volume;
+        sfxVol = (float) Math.log10(1 + 9 * volume);
+        sfxVol = (float) Math.log10(1 + 9 * sfxVol);
+        String name = "";
+        for (int i = 0; i < clips.size(); i++) {
+            name = clips.keySet().toArray()[i].toString();
+            if (name == "mainTheme.wav" || name == "menu.wav")
+                continue;
+            clips.get(name).setVolume(sfxVol);
         }
-        // create new thread to play clip
+        // se hace la conversion
+        // se reproduce un sonido para probar el volumen
+        if (construido)
+            playOk();
+    }
 
-        executor.submit(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    String path = soundPath + clipName;
-                    Clip clip = AudioSystem.getClip();
-                    clip.open(AudioSystem
-                            .getAudioInputStream(SoundsPlayer.class.getResourceAsStream(path)));
-                    clip.start();
+    /** retorna el volumen */
+    public static float getFSfxVolume() {
+        return mysfxVol;
+    }
 
-                    // add clip to list of playing clips
-                    synchronized (playingClips) {
-                        playingClips.add(audioClip);
-                    }
+    /** retorna el volumen */
+    public static int getISfcVolume() {
+        return (int) (mysfxVol * 100);
+    }
 
-                    // add listener to remove clip from list when it finishes playing
-                    clip.addLineListener(new LineListener() {
-                        @Override
-                        public void update(LineEvent event) {
-                            if (event.getType() == LineEvent.Type.STOP) {
-                                clip.close();
-                                synchronized (playingClips) {
-                                    playingClips.remove(audioClip);
-                                }
-                            }
-                        }
-                    });
-
-                } catch (IOException | javax.sound.sampled.UnsupportedAudioFileException
-                        | javax.sound.sampled.LineUnavailableException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+    private static void playSound(String clipName) {
+        if (muted)
+            return;
+        clips.get(clipName).play(soundPath + clipName);
     }
 
     public static void playGameMusic() {
-        try {
-            // carga el archivo de audio
-            String path = soundPath + "mainTheme.wav";
-            InputStream audioSrc = SoundsPlayer.class.getResourceAsStream(path);
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioSrc);
-
-            // crea el clip de audio
-            mainMusic = AudioSystem.getClip();
-            mainMusic.open(audioInputStream);
-
-            // control de ganancia
-            gainControl = (FloatControl) mainMusic.getControl(FloatControl.Type.MASTER_GAIN);
-            minimum = gainControl.getMinimum();
-
-            // configura el loop del clip de audio
-            mainMusic.setLoopPoints(0, -1); // -1 indica que se repita indefinidamente
-            mainMusic.loop(Clip.LOOP_CONTINUOUSLY);
-            // establece el valor inicial de ganancia
-            // inicia la reproducción del clip de audio
-            mainMusic.start();
-        } catch (Exception e) {
-            System.out.println("Error al reproducir el archivo de audio: " + e.getMessage());
+        gain = 0f;
+        if (muted)
+            return;
+        if (clips.get("mainTheme.wav").isRunning())
+            return;
+        clips.get("mainTheme.wav").setVolume(musicVol);
+        while (true) {
+            clips.get("mainTheme.wav").play();
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (clips.get("mainTheme.wav").isRunning())
+                break;
         }
+        mainPlaying = true;
+        menuPlaying = false;
+    }
+
+    public static void playMenuMusic() {
+        if (muted)
+            return;
+        if (clips.get("menu.wav").isRunning())
+            return;
+        clips.get("mainTheme.wav").setVolume(musicVol);
+        clips.get("menu.wav").play();
+        menuPlaying = true;
+        mainPlaying = false;
+    }
+
+    public static boolean isMainMusicPlaying() {
+        return clips.get("mainTheme.wav").isRunning();
+    }
+
+    public static boolean isMenuMusicPlaying() {
+        return clips.get("menu.wav").isRunning();
+    }
+
+    public static void stopMusic() {
+        clips.get("mainTheme.wav").stop();
+        clips.get("menu.wav").stop();
     }
 
     /**
@@ -228,65 +274,60 @@ public class SoundsPlayer {
      * 
      * @param gain
      */
-    public static void setGain(float gain) {
-        if (gainControl != null) {
-            // asegurarse de que la ganancia no sea menor que 0 o mayor que 1
-            gain = Math.max(0, Math.min(1, gain));
-            float finalGain = gainControl.getMinimum() + (gainControl.getMaximum() - gainControl.getMinimum()) * gain;
-            gainControl.setValue(finalGain);
-        }
+    public static void setMymusicVol(float vol) {
+        mymusicVol = vol;
+        musicVol = (float) Math.log10(1 + 9 * vol);
+        musicVol = (float) Math.log10(1 + 9 * musicVol);
+        clips.get("mainTheme.wav").setVolume(musicVol);
+        clips.get("menu.wav").setVolume(musicVol);
     }
 
-    /**
-     * Retorna la ganancia actual
-     * entre 0 y 1
-     * 0 es silenciado
-     * 1 es el maximo
-     * 
-     * @return float
-     */
-    public static float getGain() {
-        if (gainControl != null) {
-            float maxGain = gainControl.getMaximum();
-            float minGain = gainControl.getMinimum();
-            float range = maxGain - minGain;
-            float currentGain = gainControl.getValue();
-            return (currentGain - minGain) / range;
-        } else {
-            return 0f;
-        }
+    /** retorna el volumen */
+    public static float getFMusicVolume() {
+        return mymusicVol;
     }
 
-    /**
-     * Activa o desactiva la musica
-     */
-    public static void toggleMuteMain() {
-
-        if (muted) {
-            // si el audio estaba muteado, restaura el valor de ganancia previo
-            gainControl.setValue(previousGain);
-        } else {
-            // si el audio estaba sonando, guarda el valor de ganancia actual y lo pone en
-            // mute
-            previousGain = gainControl.getValue();
-            gainControl.setValue(minimum);
-        }
-        muted = !muted;
+    /** retrona el volumen */
+    public static int getIMusicVolume() {
+        return (int) (mymusicVol * 100);
     }
 
     /** Detiene la musica */
     public static void stopMain() {
-        if (mainMusic == null)
-            return;
-        mainMusic.stop();
-        mainMusic = null;
+        clips.get("mainTheme.wav").stop();
     }
 
     /** reproduce la musica de nuevo */
     public static void resumeMain() {
-        if (mainMusic == null)
-            return;
-        mainMusic.start();
+        while (true) {
+            playGameMusic();
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (isMainMusicPlaying())
+                break;
+        }
+    }
+
+    /* activa o desactiva TODOS los sonidos */
+    public static void toggleMute() {
+        if (muted) {
+            muted = !muted;
+            reumeMusic();
+        } else {
+            muted = !muted;
+            stopMusic();
+        }
+    }
+
+    /* resumir la cancion que se estaba tocando */
+    private static void reumeMusic() {
+        if (mainPlaying)
+            playGameMusic();
+        else if (menuPlaying)
+            playMenuMusic();
     }
 
     /**
@@ -297,17 +338,17 @@ public class SoundsPlayer {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                float gain = getGain();
-                while (gain > 0) {
-                    gain -= 0.01f;
-                    setGain(gain);
+                gain = clips.get("mainTheme.wav").getVolume();
+                while (gain > 0.43f) {
+                    gain -= 0.005f;
+                    clips.get("mainTheme.wav").setVolume(gain);
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(50);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-                stopMain();
+                clips.get("mainTheme.wav").stop();
             }
         }).start();
     }

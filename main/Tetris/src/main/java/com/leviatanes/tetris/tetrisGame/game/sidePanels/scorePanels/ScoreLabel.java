@@ -9,6 +9,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+/**
+ * [ SCORE ]
+ * Se encarga de mostrar un panel con el puntaje
+ * ordenandolo segun las coordenadas que se le
+ * pasen
+ * 
+ * @author Leonardo
+ * @author Eriarer (Abraham)
+ */
 public class ScoreLabel extends JPanel {
 
     // label SCORE
@@ -38,7 +47,7 @@ public class ScoreLabel extends JPanel {
     private int h;
     private int multiplier;
 
-    private final String folderPath = "/com/leviatanes/tetris/tetrisGame/game/sidePanels/images/";
+    private final String folderPath = "/com/leviatanes/images/";
 
     private int score;
     boolean drawBG;
@@ -133,7 +142,6 @@ public class ScoreLabel extends JPanel {
     }
 
     public int getScore() {
-        System.out.println("Score: " + this.score);
         return this.score;
     }
 
@@ -215,7 +223,6 @@ public class ScoreLabel extends JPanel {
         String imageName;
         imageName = scoreValue.charAt(0) + ".png";
 
-        System.out.println(scoreValue);
         setIcon(scoreLbl5, folderPath + imageName, scoreW, scoreH);
     }
 
@@ -225,7 +232,6 @@ public class ScoreLabel extends JPanel {
         imageName = scoreValue.charAt(0) + ".png";
         setIcon(scoreLbl4, folderPath + imageName, scoreW, scoreH);
 
-        System.out.println(scoreValue);
         updateLbl1(scoreValue.charAt(1) + "");
     }
 
@@ -235,7 +241,6 @@ public class ScoreLabel extends JPanel {
         imageName = scoreValue.charAt(0) + ".png";
         setIcon(scoreLbl3, folderPath + imageName, scoreW, scoreH);
 
-        System.out.println(scoreValue);
         updateLbl2(scoreValue.substring(1, scoreValue.length()));
     }
 
@@ -245,7 +250,6 @@ public class ScoreLabel extends JPanel {
         imageName = scoreValue.charAt(0) + ".png";
         setIcon(scoreLbl2, folderPath + imageName, scoreW, scoreH);
 
-        System.out.println(scoreValue);
         updateLbl3(scoreValue.substring(1, scoreValue.length()));
     }
 
@@ -255,7 +259,6 @@ public class ScoreLabel extends JPanel {
         imageName = scoreValue.charAt(0) + ".png";
         setIcon(scoreLbl1, folderPath + imageName, scoreW, scoreH);
 
-        System.out.println(scoreValue);
         updateLbl4(scoreValue.substring(1, scoreValue.length()));
     }
 
