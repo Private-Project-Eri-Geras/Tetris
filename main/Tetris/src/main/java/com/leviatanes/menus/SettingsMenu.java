@@ -73,7 +73,6 @@ public class SettingsMenu extends JPanel {
 
     public int keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
-        System.out.println("Key Pressed: " + KeyEvent.getKeyText(keyCode));
         return keyCode;
     }
 
@@ -321,7 +320,6 @@ public class SettingsMenu extends JPanel {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                System.out.println("Key Pressed: " + e.getKeyChar() + " " + e.getKeyCode());
                 int keyCode = e.getKeyCode();
                 int option = JOptionPane.showConfirmDialog(null,
                         "Do you want to change the key to " + KeyEvent.getKeyText(keyCode) + " ?", "Change key",
@@ -381,7 +379,6 @@ public class SettingsMenu extends JPanel {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                System.out.println("Key Pressed: " + e.getKeyChar() + " " + e.getKeyCode());
                 int keyCode = e.getKeyCode();
                 int option = JOptionPane.showConfirmDialog(null,
                         "Do you want to change the key to " + KeyEvent.getKeyText(keyCode) + " ?", "Change key",
@@ -441,7 +438,6 @@ public class SettingsMenu extends JPanel {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                System.out.println("Key Pressed: " + e.getKeyChar() + " " + e.getKeyCode());
                 int keyCode = e.getKeyCode();
                 int option = JOptionPane.showConfirmDialog(null,
                         "Do you want to change the key to " + KeyEvent.getKeyText(keyCode) + " ?", "Change key",
@@ -501,7 +497,6 @@ public class SettingsMenu extends JPanel {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                System.out.println("Key Pressed: " + e.getKeyChar() + " " + e.getKeyCode());
                 int keyCode = e.getKeyCode();
                 int option = JOptionPane.showConfirmDialog(null,
                         "Do you want to change the key to " + KeyEvent.getKeyText(keyCode) + " ?", "Change key",
@@ -561,7 +556,6 @@ public class SettingsMenu extends JPanel {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                System.out.println("Key Pressed: " + e.getKeyChar() + " " + e.getKeyCode());
                 int keyCode = e.getKeyCode();
                 int option = JOptionPane.showConfirmDialog(null,
                         "Do you want to change the key to " + KeyEvent.getKeyText(keyCode) + " ?", "Change key",
@@ -621,7 +615,6 @@ public class SettingsMenu extends JPanel {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                System.out.println("Key Pressed: " + e.getKeyChar() + " " + e.getKeyCode());
                 int keyCode = e.getKeyCode();
                 int option = JOptionPane.showConfirmDialog(null,
                         "Do you want to change the key to " + KeyEvent.getKeyText(keyCode) + " ?", "Change key",
@@ -681,7 +674,6 @@ public class SettingsMenu extends JPanel {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                System.out.println("Key Pressed: " + e.getKeyChar() + " " + e.getKeyCode());
                 int keyCode = e.getKeyCode();
                 int option = JOptionPane.showConfirmDialog(null,
                         "Do you want to change the key to " + KeyEvent.getKeyText(keyCode) + " ?", "Change key",
@@ -741,7 +733,6 @@ public class SettingsMenu extends JPanel {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                System.out.println("Key Pressed: " + e.getKeyChar() + " " + e.getKeyCode());
                 int keyCode = e.getKeyCode();
                 int option = JOptionPane.showConfirmDialog(null,
                         "Do you want to change the key to " + KeyEvent.getKeyText(keyCode) + " ?", "Change key",
@@ -801,7 +792,6 @@ public class SettingsMenu extends JPanel {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                System.out.println("Key Pressed: " + e.getKeyChar() + " " + e.getKeyCode());
                 int keyCode = e.getKeyCode();
                 int option = JOptionPane.showConfirmDialog(null,
                         "Do you want to change the key to " + KeyEvent.getKeyText(keyCode) + " ?", "Change key",
@@ -861,7 +851,6 @@ public class SettingsMenu extends JPanel {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                System.out.println("Key Pressed: " + e.getKeyChar() + " " + e.getKeyCode());
                 int keyCode = e.getKeyCode();
                 int option = JOptionPane.showConfirmDialog(null,
                         "Do you want to change the key to " + KeyEvent.getKeyText(keyCode) + " ?", "Change key",

@@ -97,7 +97,6 @@ public class SettingsReader {
                 defaultSettings();
             }
         } catch (IOException e) {
-            System.out.println("Error al leer el archivo de configuracion");
             e.printStackTrace();
         }
     }
@@ -109,7 +108,6 @@ public class SettingsReader {
             file.delete();
             file.createNewFile();
         } catch (IOException e) {
-            System.out.println("Error al crear el archivo de configuracion");
             e.printStackTrace();
         } finally {
             try {
@@ -145,7 +143,6 @@ public class SettingsReader {
                 bufferedWriter.close();
                 fileWriter.close();
             } catch (IOException e) {
-                System.out.println("Error al escribir en el archivo de configuracion");
                 e.printStackTrace();
             }
         }
@@ -303,7 +300,6 @@ public class SettingsReader {
                 file.delete();
                 file.createNewFile();
             } catch (IOException e) {
-                System.out.println("Error al crear el archivo de configuracion");
                 e.printStackTrace();
             } finally {
                 FileWriter fileWriter = new FileWriter(file);
