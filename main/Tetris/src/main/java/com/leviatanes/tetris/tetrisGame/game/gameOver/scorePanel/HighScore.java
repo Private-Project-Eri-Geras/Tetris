@@ -11,8 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import com.leviatanes.Main;
 import com.leviatanes.tetris.tetrisGame.game.gameOver.GameOver;
-import com.leviatanes.tetris.Main;
 import com.leviatanes.tetris.tetrisGame.game.sidePanels.scorePanels.ScoreLabel;
 
 /**

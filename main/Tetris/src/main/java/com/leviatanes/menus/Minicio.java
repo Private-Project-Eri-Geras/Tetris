@@ -4,7 +4,7 @@ import java.awt.Color;
 
 import javax.swing.JLabel;
 
-import com.leviatanes.tetris.Main;
+import com.leviatanes.Main;
 
 /**
  *

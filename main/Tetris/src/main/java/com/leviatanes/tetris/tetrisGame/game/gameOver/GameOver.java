@@ -7,7 +7,7 @@ import java.awt.Graphics;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.leviatanes.tetris.Main;
+import com.leviatanes.Main;
 import com.leviatanes.tetris.SoundsPlayer;
 
 import com.leviatanes.tetris.tetrisGame.game.gameOver.scorePanel.*;
@@ -133,8 +133,8 @@ public class GameOver extends JPanel {
     public void endGame() {
         SoundsPlayer.fadeOutMain();
         boolean isHighScore = false;
-        if(scores != null){
-            if  (scores.length < 10) {// inicio iff
+        if (scores != null) {
+            if (scores.length < 10) {// inicio iff
                 isHighScore = true;
             } else {
                 // busca si el puntaje es mayor a alguno de los 10
@@ -145,7 +145,7 @@ public class GameOver extends JPanel {
                     }
                 }
             }
-        }else{
+        } else {
             isHighScore = true;
         }
         // fin if
@@ -164,7 +164,7 @@ public class GameOver extends JPanel {
      */
     private void loseGame() {
         this.lblGameOver.setText("GAME OVER");
-        NormalScore normalScore = new NormalScore(multiplier, actualScore, this.lines,this.main);
+        NormalScore normalScore = new NormalScore(multiplier, actualScore, this.lines, this.main);
         this.scorePanel.add(normalScore, BorderLayout.CENTER);
         this.scorePanel.revalidate();
         this.scorePanel.repaint();
@@ -181,7 +181,7 @@ public class GameOver extends JPanel {
         this.lblGameOver.setText("YOU ARE THE GOAT");
         // busca descartar la idea de que es el mejor puntaje
         // si no lo es se busca en que posicion quedo
-        if(scores!=null)
+        if (scores != null)
             for (int i = scores.length - 1; i >= 0; i--) {
                 if (actualScore <= scores[i].getScore()) {
                     this.lblGameOver.setText("YOU ARE THE NUMBER " + (i + 2) + "!");

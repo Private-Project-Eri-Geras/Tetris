@@ -11,8 +11,8 @@ import java.awt.event.MouseAdapter;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import com.leviatanes.tetris.Main;
 
+import com.leviatanes.Main;
 import com.leviatanes.tetris.SoundsPlayer;
 
 public class SettingsMenu extends JPanel {
