@@ -1,4 +1,4 @@
-package com.leviatanes.tetris;
+package com.leviatanes;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -8,6 +8,7 @@ import java.io.InputStream;
 
 import com.leviatanes.tetris.tetrisGame.TetrisPanel;
 import com.leviatanes.menus.*;
+import com.leviatanes.tetris.*;
 
 /**
  * Main class
